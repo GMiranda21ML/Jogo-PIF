@@ -2,14 +2,12 @@
     "sprite": "Player",
     "player_walk": {
         "right": [
-            "walk_right1.png",
-            "walk_right2.png",
-            "walk_right3.png" 
+            "assets/sprites/player/player_walk/player_walk1.png",
+            "assets/sprites/player/player_walk/player_walk2.png"
         ],
         "left": [
-            "walk_left1.png",
-            "walk_left2.png",
-            "walk_left3.png"
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted1.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted2.png"
         ]
     },
     "frame_change": 0.15

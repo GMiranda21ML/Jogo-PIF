@@ -1,0 +1,20 @@
+#ifndef SPRITES_H
+#define SPRITES_H
+
+#include "raylib.h"
+
+typedef struct {
+    Texture2D *frames;
+    int frame_count;
+} Animation;
+
+typedef struct {
+    Animation walk_right;
+    Animation walk_left;
+    float frame_change;
+} PlayerSprites;
+
+PlayerSprites LoadPlayerSprites(const char *jsonPath);
+void UnloadPlayerSprites(PlayerSprites sprites);
+
+#endif

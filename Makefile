@@ -1,40 +1,43 @@
-# Compilador
+# Compilador e flags
 CC = gcc
+CFLAGS = -Wall -Wextra -Iinclude -Isrc
 
 # Diretórios
 SRC_DIR = src
-INC_DIR = include
-BUILD_DIR = build
+OBJ_DIR = obj
+BIN_DIR = bin
+LIB_DIR = lib
+INCLUDE_DIR = include
 
-# Arquivos fonte
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
+# Arquivos fonte e objetos
+SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(LIB_DIR)/*.c)
+OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SRCS)))
 
 # Nome do executável
-TARGET = game
+TARGET = $(BIN_DIR)/game
 
-# Flags de compilação
-CFLAGS = -Wall -I$(INC_DIR) -O2
-LDFLAGS = -lraylib -lm -ldl -lpthread -lGL  # Ajuste se necessário (ex: no macOS -framework OpenGL -framework Cocoa)
+# Bibliotecas
+LIBS = -lraylib -lm -ldl -lGL -lpthread -lrt -lX11
 
-# Regra principal
-all: $(BUILD_DIR) $(TARGET)
+# Regras
+.PHONY: all clean run
 
-# Linkagem final
+all: $(TARGET)
+
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	@mkdir -p $(BIN_DIR)
+	$(CC) $^ -o $@ $(LIBS)
 
-# Compilação dos objetos
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Criar diretório build se não existir
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+$(OBJ_DIR)/%.o: $(LIB_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Limpeza dos arquivos gerados
+run: $(TARGET)
+	./$(TARGET)
+
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
-
-# Recompilar tudo
-rebuild: clean all
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
