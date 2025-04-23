@@ -1,0 +1,16 @@
+{
+    "sprite": "Player",
+    "player_walk": {
+        "right": [
+            "walk_right1.png",
+            "walk_right2.png",
+            "walk_right3.png" 
+        ],
+        "left": [
+            "walk_left1.png",
+            "walk_left2.png",
+            "walk_left3.png"
+        ]
+    },
+    "frame_change": 0.15
+}
