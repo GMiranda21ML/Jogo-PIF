@@ -82,6 +82,7 @@ PlayerSprites LoadPlayerSprites(const char *jsonPath) {
     cJSON *fc = cJSON_GetObjectItem(root, "frame_change");
     sprites.frame_change = fc ? (float)fc->valuedouble : 0.15f;
 
+    // redenrizar e inverter sprites idle
     cJSON *idle = cJSON_GetObjectItem(root, "player_idle");
     if (!idle) {
         fprintf(stderr, "Erro: player_idle não encontrado no JSON.\n");
@@ -97,6 +98,24 @@ PlayerSprites LoadPlayerSprites(const char *jsonPath) {
     sprites.idle_left.frames = malloc(sizeof(Texture2D) * sprites.idle_left.frame_count);
     for (int i = 0; i < sprites.idle_left.frame_count; i++) {
         sprites.idle_left.frames[i] = FlipTextureHorizontally(sprites.idle_right.frames[i]);
+    }
+
+    // renderizar e inverter attack
+    cJSON *attack = cJSON_GetObjectItem(root, "player_attack");
+    if (!attack) {
+        fprintf(stderr, "Erro: player_attack não encontrado no JSON.\n");
+        cJSON_Delete(root);
+        free(data);
+        return sprites;
+    }
+
+    sprites.attack_right = LoadAnimationFromArray(cJSON_GetObjectItem(attack, "right"));
+    
+    // Criar attack_left invertendo attack_right
+    sprites.attack_left.frame_count = sprites.attack_right.frame_count;
+    sprites.attack_left.frames = malloc(sizeof(Texture2D) * sprites.attack_left.frame_count);
+    for (int i = 0; i < sprites.attack_left.frame_count; i++) {
+        sprites.attack_left.frames[i] = FlipTextureHorizontally(sprites.attack_right.frames[i]);
     }
 
 
@@ -118,11 +137,19 @@ void UnloadPlayerSprites(PlayerSprites sprites) {
     for (int i = 0; i < sprites.idle_left.frame_count; i++) {
         UnloadTexture(sprites.idle_left.frames[i]);
     }
+    for (int i = 0; i < sprites.attack_right.frame_count; i++) {
+        UnloadTexture(sprites.attack_right.frames[i]);
+    }
+    for (int i = 0; i < sprites.attack_left.frame_count; i++) {
+        UnloadTexture(sprites.attack_right.frames[i]);
+    }
 
     free(sprites.walk_right.frames);
     free(sprites.walk_left.frames);
     free(sprites.idle_right.frames);
     free(sprites.idle_left.frames);
+    free(sprites.attack_right.frames);
+    free(sprites.attack_left.frames);
 }
 
 static Texture2D FlipTextureHorizontally(Texture2D original) {

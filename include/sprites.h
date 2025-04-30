@@ -13,6 +13,8 @@ typedef struct {
     Animation walk_left;
     Animation idle_right;
     Animation idle_left;
+    Animation attack_right;
+    Animation attack_left;
     float frame_change;
 } PlayerSprites;
 

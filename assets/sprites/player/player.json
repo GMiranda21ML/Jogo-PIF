@@ -31,5 +31,14 @@
             "assets/sprites/player/player_idle/player_idle5.png"
         ]
     },
+    "player_attack": {
+        "right": [
+            "assets/sprites/player/player_attack/player_attack1.png",
+            "assets/sprites/player/player_attack/player_attack2.png",
+            "assets/sprites/player/player_attack/player_attack3.png",
+            "assets/sprites/player/player_attack/player_attack4.png",
+            "assets/sprites/player/player_attack/player_attack5.png"
+        ]
+    },
     "frame_change": 0.15
 }
