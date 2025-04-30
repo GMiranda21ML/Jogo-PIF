@@ -11,10 +11,13 @@ typedef struct {
 typedef struct {
     Animation walk_right;
     Animation walk_left;
+    Animation idle_right;
+    Animation idle_left;
     float frame_change;
 } PlayerSprites;
 
 PlayerSprites LoadPlayerSprites(const char *jsonPath);
 void UnloadPlayerSprites(PlayerSprites sprites);
+static Texture2D FlipTextureHorizontally(Texture2D original);
 
 #endif

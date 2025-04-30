@@ -9,10 +9,10 @@ int main() {
 
     PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
 
-    Rectangle ground = { 0, 550, 800, 100 }; // chão visível
+    Rectangle ground = { 0, 550, 800, 100 };
 
     Rectangle platforms[PLATFORM_COUNT] = {
-        {200, 450, 150, 20},
+        {200, 450, 150, 20}, // {x, y, largura, altura} || x, y onde vai estar posicionado
         {450, 350, 150, 20},
         {300, 250, 100, 20}
     };
@@ -26,13 +26,13 @@ int main() {
     float speed = 200.0f;
     float timer = 0;
     int frame = 0;
-    int facing = 1; // 1 = direita, -1 = esquerda
+    int facing = 1;
 
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
         bool moving = false;
 
-        // Entrada horizontal
+        // Entrada de movimento
         if (IsKeyDown(KEY_D)) {
             position.x += speed * dt;
             facing = 1;
@@ -50,17 +50,13 @@ int main() {
         // Verificar colisão com plataformas
         isOnGround = false;
         float playerHeight = (float)sprites.walk_right.frames[0].height;
-        Texture2D current =
-            (facing == 1) ? sprites.walk_right.frames[frame] :
-                            sprites.walk_left.frames[frame];
 
         for (int i = 0; i < PLATFORM_COUNT; i++) {
             Rectangle plat = platforms[i];
-
             if (velocity.y >= 0 &&
                 position.y + playerHeight >= plat.y &&
                 position.y + playerHeight - velocity.y * dt <= plat.y &&
-                position.x + current.width > plat.x &&
+                position.x + sprites.walk_right.frames[0].width > plat.x &&
                 position.x < plat.x + plat.width) {
 
                 position.y = plat.y - playerHeight;
@@ -69,7 +65,7 @@ int main() {
             }
         }
 
-        // Verificar colisão com o chão
+        // Colisão com o chão
         if (position.y + playerHeight >= ground.y) {
             position.y = ground.y - playerHeight;
             velocity.y = 0;
@@ -82,31 +78,51 @@ int main() {
             isOnGround = false;
         }
 
-        // Animação
+        static Animation previousAnim = {0};  // Fora do while se quiser manter estado
+
+        // Selecionar animação
+        Animation currentAnim;
         if (moving) {
-            timer += dt;
-            if (timer > sprites.frame_change) {
-                frame = (frame + 1) % sprites.walk_right.frame_count;
-                timer = 0;
+            if (facing == 1) {
+                currentAnim = sprites.walk_right;
+            } else {
+                currentAnim = sprites.walk_left;
             }
         } else {
-            timer = 0;
-            frame = 0;
+            if (facing == 1) {
+                currentAnim = sprites.idle_right;
+            } else {
+                currentAnim = sprites.idle_left;
+            }
         }
+        
+        // Resetar frame se a animação mudou
+        if (currentAnim.frames != previousAnim.frames) {
+            frame = 0;
+            timer = 0;
+            previousAnim = currentAnim;
+        }
+        
+        // Atualizar quadro da animação
+        timer += dt;
+        if (timer > sprites.frame_change) {
+            frame = (frame + 1) % currentAnim.frame_count;
+            timer = 0;
+        }
+        
+        Texture2D current = currentAnim.frames[frame];
+        
 
         // Desenho
         BeginDrawing();
         ClearBackground(BLACK);
 
-        // Desenhar chão
         DrawRectangleRec(ground, DARKGREEN);
 
-        // Desenhar plataformas
         for (int i = 0; i < PLATFORM_COUNT; i++) {
             DrawRectangleRec(platforms[i], GRAY);
         }
 
-        // Desenhar jogador
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
         EndDrawing();

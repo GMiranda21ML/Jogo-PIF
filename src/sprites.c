@@ -82,6 +82,24 @@ PlayerSprites LoadPlayerSprites(const char *jsonPath) {
     cJSON *fc = cJSON_GetObjectItem(root, "frame_change");
     sprites.frame_change = fc ? (float)fc->valuedouble : 0.15f;
 
+    cJSON *idle = cJSON_GetObjectItem(root, "player_idle");
+    if (!idle) {
+        fprintf(stderr, "Erro: player_idle não encontrado no JSON.\n");
+        cJSON_Delete(root);
+        free(data);
+        return sprites;
+    }
+
+    sprites.idle_right = LoadAnimationFromArray(cJSON_GetObjectItem(idle, "right"));
+
+    // Criar idle_left invertendo idle_right
+    sprites.idle_left.frame_count = sprites.idle_right.frame_count;
+    sprites.idle_left.frames = malloc(sizeof(Texture2D) * sprites.idle_left.frame_count);
+    for (int i = 0; i < sprites.idle_left.frame_count; i++) {
+        sprites.idle_left.frames[i] = FlipTextureHorizontally(sprites.idle_right.frames[i]);
+    }
+
+
     cJSON_Delete(root);
     free(data);
     return sprites;
@@ -94,7 +112,23 @@ void UnloadPlayerSprites(PlayerSprites sprites) {
     for (int i = 0; i < sprites.walk_left.frame_count; i++) {
         UnloadTexture(sprites.walk_left.frames[i]);
     }
+    for (int i = 0; i < sprites.idle_right.frame_count; i++) {
+        UnloadTexture(sprites.idle_right.frames[i]);
+    }
+    for (int i = 0; i < sprites.idle_left.frame_count; i++) {
+        UnloadTexture(sprites.idle_left.frames[i]);
+    }
 
     free(sprites.walk_right.frames);
     free(sprites.walk_left.frames);
+    free(sprites.idle_right.frames);
+    free(sprites.idle_left.frames);
+}
+
+static Texture2D FlipTextureHorizontally(Texture2D original) {
+    Image img = LoadImageFromTexture(original);
+    ImageFlipHorizontal(&img);
+    Texture2D flipped = LoadTextureFromImage(img);
+    UnloadImage(img);
+    return flipped;
 }

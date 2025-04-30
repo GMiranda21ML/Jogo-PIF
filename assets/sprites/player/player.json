@@ -22,5 +22,14 @@
             "assets/sprites/player/player_walk_inverted/player_walk_inverted8.png"
         ]
     },
+    "player_idle": {
+        "right": [
+            "assets/sprites/player/player_idle/player_idle1.png",
+            "assets/sprites/player/player_idle/player_idle2.png",
+            "assets/sprites/player/player_idle/player_idle3.png",
+            "assets/sprites/player/player_idle/player_idle4.png",
+            "assets/sprites/player/player_idle/player_idle5.png"
+        ]
+    },
     "frame_change": 0.15
 }
