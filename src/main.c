@@ -14,7 +14,7 @@ int main() {
         sprites.frame_change = 0.10f;
     }
 
-    Rectangle ground = { 0, 550, 800, 100 };
+    Rectangle ground = { 0, 550, 2000, 500 }; // {x, y, largura, altura} || x, y onde vai estar posicionado
 
     Rectangle platforms[PLATFORM_COUNT] = {
         {200, 450, 150, 20},
@@ -38,7 +38,7 @@ int main() {
     int facing = 1;
     static Animation previousAnim = {0};
 
-    // Inicializa a câmera uma única vez
+    // Inicializa a câmera
     Camera2D camera = InitCamera(position, (Vector2){400, 300});
 
     while (!WindowShouldClose()) {
@@ -55,6 +55,11 @@ int main() {
             facing = -1;
             moving = true;
         }
+
+        // Limitar a posição do jogador dentro do terreno
+        if (position.x < 0) position.x = 0;
+        if (position.x + sprites.walk_right.frames[0].width > ground.width)
+            position.x = ground.width - sprites.walk_right.frames[0].width;
 
         // Gravidade
         velocity.y += gravity * dt;
@@ -78,7 +83,7 @@ int main() {
             }
         }
 
-        // Colisão com chão
+        // Colisão com o chão
         if (position.y + playerHeight >= ground.y) {
             position.y = ground.y - playerHeight;
             velocity.y = 0;
@@ -99,24 +104,37 @@ int main() {
             attackFacing = facing;
         }
 
-        // Animação correta
+        // Escolher animação
         Animation currentAnim;
         if (attacking) {
-            currentAnim = (attackFacing == 1) ? sprites.attack_right : sprites.attack_left;
+            if (attackFacing == 1) {
+                currentAnim = sprites.attack_right;
+            } else {
+                currentAnim = sprites.attack_left;
+            }
         } else if (moving) {
-            currentAnim = (facing == 1) ? sprites.walk_right : sprites.walk_left;
+            if (facing == 1) {
+                currentAnim = sprites.walk_right;
+            } else {
+                currentAnim = sprites.walk_left;
+            }
         } else {
-            currentAnim = (facing == 1) ? sprites.idle_right : sprites.idle_left;
+            if (facing == 1) {
+                currentAnim = sprites.idle_right;
+            } else {
+                currentAnim = sprites.idle_left;
+            }
         }
+        
 
-        // Reset se mudou de animação
+        // Reset de frame se animação mudou
         if (currentAnim.frames != previousAnim.frames) {
             frame = 0;
             timer = 0;
             previousAnim = currentAnim;
         }
 
-        // Atualiza frame
+        // Atualizar frames
         timer += dt;
         while (timer > sprites.frame_change) {
             timer -= sprites.frame_change;
@@ -133,14 +151,14 @@ int main() {
 
         Texture2D current = currentAnim.frames[frame];
 
-        // Atualiza a câmera para seguir o jogador
-        UpdateCameraToFollowPlayer(&camera, position, 800, 600);
+        // Atualizar a câmera (com limites do terreno)
+        UpdateCameraToFollowPlayer(&camera, position, 800, 600, ground.width, ground.y + ground.height);
 
         // Desenho
         BeginDrawing();
         ClearBackground(BLACK);
 
-        BeginMode2D(camera); // <-- Aplicar câmera
+        BeginMode2D(camera);
 
         DrawRectangleRec(ground, DARKGREEN);
         for (int i = 0; i < PLATFORM_COUNT; i++) {
@@ -149,9 +167,8 @@ int main() {
 
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
-        EndMode2D(); // <-- Finalizar câmera
-
-        EndDrawing(); // <-- Apenas uma vez
+        EndMode2D();
+        EndDrawing();
     }
 
     UnloadPlayerSprites(sprites);
