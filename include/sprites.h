@@ -20,6 +20,6 @@ typedef struct {
 
 PlayerSprites LoadPlayerSprites(const char *jsonPath);
 void UnloadPlayerSprites(PlayerSprites sprites);
-static Texture2D FlipTextureHorizontally(Texture2D original);
+Texture2D FlipTextureHorizontally(Texture2D original);
 
 #endif

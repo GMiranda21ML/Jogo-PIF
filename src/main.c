@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "sprites.h"
+#include "camera.h"
 
 #define PLATFORM_COUNT 4
 
@@ -19,7 +20,7 @@ int main() {
         {200, 450, 150, 20},
         {450, 350, 150, 20},
         {300, 250, 100, 20},
-        {650, 200, 100, 20}
+        {685, 250, 100, 20}
     };
 
     Vector2 position = {400, 500};
@@ -37,11 +38,14 @@ int main() {
     int facing = 1;
     static Animation previousAnim = {0};
 
+    // Inicializa a câmera uma única vez
+    Camera2D camera = InitCamera(position, (Vector2){400, 300});
+
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
         bool moving = false;
 
-        // Movimento livre mesmo durante ataque
+        // Movimento
         if (IsKeyDown(KEY_D)) {
             position.x += speed * dt;
             facing = 1;
@@ -87,15 +91,15 @@ int main() {
             isOnGround = false;
         }
 
-        // Início do ataque
+        // Ataque
         if (IsKeyPressed(KEY_L) && !attacking) {
             attacking = true;
             frame = 0;
             timer = 0;
-            attackFacing = facing;  // Travar direção da animação
+            attackFacing = facing;
         }
 
-        // Escolher animação correta
+        // Animação correta
         Animation currentAnim;
         if (attacking) {
             currentAnim = (attackFacing == 1) ? sprites.attack_right : sprites.attack_left;
@@ -105,18 +109,17 @@ int main() {
             currentAnim = (facing == 1) ? sprites.idle_right : sprites.idle_left;
         }
 
-        // Reset de frame se animação mudou
+        // Reset se mudou de animação
         if (currentAnim.frames != previousAnim.frames) {
             frame = 0;
             timer = 0;
             previousAnim = currentAnim;
         }
 
-        // Atualização de frames com tempo
+        // Atualiza frame
         timer += dt;
         while (timer > sprites.frame_change) {
             timer -= sprites.frame_change;
-
             if (attacking) {
                 frame++;
                 if (frame >= currentAnim.frame_count) {
@@ -130,9 +133,14 @@ int main() {
 
         Texture2D current = currentAnim.frames[frame];
 
+        // Atualiza a câmera para seguir o jogador
+        UpdateCameraToFollowPlayer(&camera, position, 800, 600);
+
         // Desenho
         BeginDrawing();
         ClearBackground(BLACK);
+
+        BeginMode2D(camera); // <-- Aplicar câmera
 
         DrawRectangleRec(ground, DARKGREEN);
         for (int i = 0; i < PLATFORM_COUNT; i++) {
@@ -141,7 +149,9 @@ int main() {
 
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
-        EndDrawing();
+        EndMode2D(); // <-- Finalizar câmera
+
+        EndDrawing(); // <-- Apenas uma vez
     }
 
     UnloadPlayerSprites(sprites);

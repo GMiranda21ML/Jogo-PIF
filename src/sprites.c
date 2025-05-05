@@ -152,7 +152,7 @@ void UnloadPlayerSprites(PlayerSprites sprites) {
     free(sprites.attack_left.frames);
 }
 
-static Texture2D FlipTextureHorizontally(Texture2D original) {
+Texture2D FlipTextureHorizontally(Texture2D original) {
     Image img = LoadImageFromTexture(original);
     ImageFlipHorizontal(&img);
     Texture2D flipped = LoadTextureFromImage(img);

@@ -40,5 +40,5 @@
             "assets/sprites/player/player_attack/player_attack5.png"
         ]
     },
-    "frame_change": 0.15
+    "frame_change": 0.10
 }
