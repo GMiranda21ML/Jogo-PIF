@@ -9,38 +9,41 @@ int main() {
     SetTargetFPS(60);
 
     PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
-
+    GroundGrassSprites groundSprites; 
+    groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
+    
     if (sprites.frame_change <= 0.0f) {
         sprites.frame_change = 0.10f;
     }
-
+    
     Rectangle ground = { 0, 550, 2000, 500 }; // {x, y, largura, altura} || x, y onde vai estar posicionado
-
+    
     Rectangle platforms[PLATFORM_COUNT] = {
         {200, 450, 150, 20},
         {450, 350, 150, 20},
         {300, 250, 100, 20},
         {685, 250, 100, 20}
     };
-
+    
     Vector2 position = {400, 500};
     Vector2 velocity = {0, 0};
     float gravity = 900.0f;
     float jumpForce = -450.0f;
     bool isOnGround = false;
-
+    
     bool attacking = false;
     int attackFacing = 1;
-
+    
     float speed = 200.0f;
     float timer = 0;
     int frame = 0;
     int facing = 1;
     static Animation previousAnim = {0};
-
+    
+    
     // Inicializa a câmera
     Camera2D camera = InitCamera(position, (Vector2){400, 300});
-
+    
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
         bool moving = false;
@@ -160,7 +163,15 @@ int main() {
 
         BeginMode2D(camera);
 
-        DrawRectangleRec(ground, DARKGREEN);
+        // Desenhar o sprite do chão em tiles
+        int tileWidth = groundSprites.frames[0].width;
+        int tiles = ground.width / tileWidth;
+
+        for (int i = 0; i < tiles + 1; i++) {
+            DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
+        }
+
+        // Desenhar as plataformas
         for (int i = 0; i < PLATFORM_COUNT; i++) {
             DrawRectangleRec(platforms[i], GRAY);
         }
@@ -168,10 +179,12 @@ int main() {
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
         EndMode2D();
+
         EndDrawing();
     }
 
     UnloadPlayerSprites(sprites);
+    UnloadGroundSprites(groundSprites);
     CloseWindow();
     return 0;
 }

@@ -10,7 +10,7 @@ Camera2D InitCamera(Vector2 target, Vector2 offset) {
 }
 
 void UpdateCameraToFollowPlayer(Camera2D *camera, Vector2 playerPos, int screenWidth, int screenHeight, float levelWidth, float levelHeight) {
-    camera->target = (Vector2){ playerPos.x + 32, playerPos.y - 130 };
+    camera->target = (Vector2){ playerPos.x + 32, playerPos.y - 150 };
 
     float viewWidth = screenWidth / camera->zoom;
     float viewHeight = screenHeight / camera->zoom;

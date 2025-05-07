@@ -159,3 +159,69 @@ Texture2D FlipTextureHorizontally(Texture2D original) {
     UnloadImage(img);
     return flipped;
 }
+
+GroundGrassSprites LoadGroundSprites(const char *jsonPath) {
+    GroundGrassSprites ground = {0};
+
+    FILE *file = fopen(jsonPath, "r");
+    if (!file) {
+        fprintf(stderr, "Erro ao abrir JSON do chão: %s\n", jsonPath);
+        return ground;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long size = ftell(file);
+    rewind(file);
+
+    char *data = malloc(size + 1);
+    fread(data, 1, size, file);
+    data[size] = '\0';
+    fclose(file);
+
+    cJSON *root = cJSON_Parse(data);
+    free(data);
+    if (!root) {
+        fprintf(stderr, "Erro ao parsear JSON do chão.\n");
+        return ground;
+    }
+
+    cJSON *ground_grass = cJSON_GetObjectItem(root, "ground_grass");
+    if (!ground_grass) {
+        fprintf(stderr, "Erro: ground_grass não encontrado no JSON.\n");
+        cJSON_Delete(root);
+        return ground;
+    }
+
+    cJSON *groundArray = cJSON_GetObjectItem(ground_grass, "ground");
+    if (!groundArray || !cJSON_IsArray(groundArray)) {
+        fprintf(stderr, "Erro: ground não é um array.\n");
+        cJSON_Delete(root);
+        return ground;
+    }
+
+    int count = cJSON_GetArraySize(groundArray);
+    ground.frame_count = count;
+    ground.frames = malloc(sizeof(Texture2D) * count);
+
+    for (int i = 0; i < count; i++) {
+        cJSON *item = cJSON_GetArrayItem(groundArray, i);
+        const char *path = item->valuestring;
+        if (FileExists(path)) {
+            ground.frames[i] = LoadTexture(path);
+        } else {
+            ground.frames[i] = LoadTextureFromImage(GenImageColor(64, 64, PINK)); // fallback
+            fprintf(stderr, "Erro: %s não encontrado\n", path);
+        }
+    }
+
+    cJSON_Delete(root);
+    return ground;
+}
+
+void UnloadGroundSprites(GroundGrassSprites ground) {
+    for (int i = 0; i < ground.frame_count; i++) {
+        UnloadTexture(ground.frames[i]);
+    }
+    free(ground.frames);
+}
+
