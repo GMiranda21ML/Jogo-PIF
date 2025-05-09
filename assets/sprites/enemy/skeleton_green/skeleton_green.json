@@ -13,14 +13,15 @@
             "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk9.png"
         ],
         "left": [
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted1.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted2.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted3.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted4.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted5.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted6.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted7.png",
-            "assets/sprites/player/player_walk_inverted/player_walk_inverted8.png"
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted1.png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted2.png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted3.png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted4.png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted5.png",
+           "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted16png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted7.png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted8.png",
+            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted9.png"
         ]
     },
     "skeleton_green_attack": {
