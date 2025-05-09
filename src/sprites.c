@@ -225,3 +225,85 @@ void UnloadGroundSprites(GroundGrassSprites ground) {
     free(ground.frames);
 }
 
+EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath) {
+    EnemySprites sprites = {0};
+
+    FILE *file = fopen(jsonPath, "r");
+    if (!file) {
+        fprintf(stderr, "Erro ao abrir JSON: %s\n", jsonPath);
+        return sprites;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long size = ftell(file);
+    rewind(file);
+
+    char *data = malloc(size + 1);
+    if (!data) {
+        fprintf(stderr, "Erro de alocação para dados do JSON.\n");
+        fclose(file);
+        return sprites;
+    }
+
+    fread(data, 1, size, file);
+    data[size] = '\0';
+    fclose(file);
+
+    cJSON *root = cJSON_Parse(data);
+    if (!root) {
+        fprintf(stderr, "Erro ao fazer parse do JSON.\n");
+        free(data);
+        return sprites;
+    }
+
+    cJSON *walk = cJSON_GetObjectItem(root, "player_walk");
+    if (walk) {
+        sprites.walk_right = LoadAnimationFromArray(cJSON_GetObjectItem(walk, "right"));
+        sprites.walk_left = LoadAnimationFromArray(cJSON_GetObjectItem(walk, "left"));
+    } else {
+        fprintf(stderr, "Erro: player_walk não encontrado.\n");
+    }
+
+    cJSON *fc = cJSON_GetObjectItem(root, "frame_change");
+    sprites.frame_change = fc ? (float)fc->valuedouble : 0.15f;
+
+    cJSON *attack = cJSON_GetObjectItem(root, "skeleton_green_attack");
+    if (attack) {
+        sprites.attack_right = LoadAnimationFromArray(cJSON_GetObjectItem(attack, "right"));
+        
+        sprites.attack_left.frame_count = sprites.attack_right.frame_count;
+        sprites.attack_left.frames = malloc(sizeof(Texture2D) * sprites.attack_left.frame_count);
+        for (int i = 0; i < sprites.attack_left.frame_count; i++) {
+            sprites.attack_left.frames[i] = FlipTextureHorizontally(sprites.attack_right.frames[i]);
+        }
+    } else {
+        fprintf(stderr, "Erro: skeleton_green_attack não encontrado.\n");
+    }
+
+    cJSON_Delete(root);
+    free(data);
+    return sprites;
+}
+
+void UnloadEnemySprites(EnemySprites sprites) {
+    for (int i = 0; i < sprites.walk_right.frame_count; i++) {
+        UnloadTexture(sprites.walk_right.frames[i]);
+    }
+    for (int i = 0; i < sprites.walk_left.frame_count; i++) {
+        UnloadTexture(sprites.walk_left.frames[i]);
+    }
+    for (int i = 0; i < sprites.attack_right.frame_count; i++) {
+        UnloadTexture(sprites.attack_right.frames[i]);
+    }
+    for (int i = 0; i < sprites.attack_left.frame_count; i++) {
+        UnloadTexture(sprites.attack_left.frames[i]);
+    }
+
+    free(sprites.walk_right.frames);
+    free(sprites.walk_left.frames);
+    free(sprites.attack_right.frames);
+    free(sprites.attack_left.frames);
+}
+
+
+

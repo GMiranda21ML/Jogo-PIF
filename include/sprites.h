@@ -8,6 +8,7 @@ typedef struct {
     int frame_count;
 } Animation;
 
+
 typedef struct {
     Animation walk_right;
     Animation walk_left;
@@ -22,6 +23,15 @@ typedef struct {
     Texture2D *frames;
     int frame_count;
 } GroundGrassSprites;
+
+typedef struct {
+    Animation walk_right;
+    Animation walk_left;
+    Animation attack_right;
+    Animation attack_left;
+    float frame_change;
+} EnemySprites;
+
 
 
 PlayerSprites LoadPlayerSprites(const char *jsonPath);
