@@ -12,6 +12,8 @@ int main() {
     SetTargetFPS(60);
 
     int playerHealth = 100;
+    float playerHitTimer = 0.0f;
+    const float PLAYER_HIT_COOLDOWN = 0.5f;
 
     PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
     EnemySprites skeleton = LoadSkeletonGreenEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
@@ -59,7 +61,8 @@ int main() {
         float dt = GetFrameTime();
         bool moving = false;
 
-        // Movimento jogador
+        if (playerHitTimer > 0.0f) playerHitTimer -= dt;
+
         if (IsKeyDown(KEY_D)) {
             position.x += speed * dt;
             facing = 1;
@@ -188,8 +191,10 @@ int main() {
         Texture2D skeletonTexture = (skeletonVelocity.x >= 0) ? skeleton.walk_right.frames[skeletonFrame] : skeleton.walk_left.frames[skeletonFrame];
         Rectangle skeletonRect = {skeletonPosition.x, skeletonPosition.y, (float)skeletonTexture.width, (float)skeletonTexture.height};
 
-        if (skeletonAlive && CheckCollisionRecs(playerRect, skeletonRect)) {
+        if (skeletonAlive && CheckCollisionRecs(playerRect, skeletonRect) && playerHitTimer <= 0.0f) {
             if (playerHealth > 0) playerHealth--;
+            playerHitTimer = PLAYER_HIT_COOLDOWN;
+
             if (position.x < skeletonPosition.x) {
                 position.x -= 100 * dt;
             } else {
