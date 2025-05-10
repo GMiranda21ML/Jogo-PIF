@@ -8,47 +8,61 @@ int main() {
     InitWindow(800, 600, "Player Animation");
     SetTargetFPS(60);
 
+    // Carregar sprites do jogador
     PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
-    GroundGrassSprites groundSprites; 
-    groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
-    
+
+    // Carregar sprites do inimigo
+    EnemySprites skeleton = LoadSkeletonGreenEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
+
+    // Carregar sprites do chão
+    GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
+
     if (sprites.frame_change <= 0.0f) {
         sprites.frame_change = 0.10f;
     }
-    
-    Rectangle ground = { 0, 550, 2000, 500 }; // {x, y, largura, altura} || x, y onde vai estar posicionado
-    
+
+    if (skeleton.frame_change <= 0.0f) {
+        skeleton.frame_change = 0.10f;
+    }
+
+    Rectangle ground = { 0, 550, 2000, 500 };
+
     Rectangle platforms[PLATFORM_COUNT] = {
         {200, 450, 150, 20},
         {450, 350, 150, 20},
         {300, 250, 100, 20},
         {685, 250, 100, 20}
     };
-    
+
     Vector2 position = {400, 500};
     Vector2 velocity = {0, 0};
     float gravity = 900.0f;
     float jumpForce = -450.0f;
     bool isOnGround = false;
-    
+
     bool attacking = false;
     int attackFacing = 1;
-    
+
     float speed = 200.0f;
     float timer = 0;
     int frame = 0;
     int facing = 1;
     static Animation previousAnim = {0};
-    
-    
+
+    // Inicializar posição e movimento do inimigo
+    Vector2 skeletonPosition = {600, 500};
+    Vector2 skeletonVelocity = {50, 0};
+    int skeletonFrame = 0;
+    float skeletonTimer = 0;
+
     // Inicializa a câmera
     Camera2D camera = InitCamera(position, (Vector2){400, 300});
-    
+
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
         bool moving = false;
 
-        // Movimento
+        // Movimento do jogador
         if (IsKeyDown(KEY_D)) {
             position.x += speed * dt;
             facing = 1;
@@ -107,28 +121,15 @@ int main() {
             attackFacing = facing;
         }
 
-        // Escolher animação
+        // Escolher animação do jogador
         Animation currentAnim;
         if (attacking) {
-            if (attackFacing == 1) {
-                currentAnim = sprites.attack_right;
-            } else {
-                currentAnim = sprites.attack_left;
-            }
+            currentAnim = (attackFacing == 1) ? sprites.attack_right : sprites.attack_left;
         } else if (moving) {
-            if (facing == 1) {
-                currentAnim = sprites.walk_right;
-            } else {
-                currentAnim = sprites.walk_left;
-            }
+            currentAnim = (facing == 1) ? sprites.walk_right : sprites.walk_left;
         } else {
-            if (facing == 1) {
-                currentAnim = sprites.idle_right;
-            } else {
-                currentAnim = sprites.idle_left;
-            }
+            currentAnim = (facing == 1) ? sprites.idle_right : sprites.idle_left;
         }
-        
 
         // Reset de frame se animação mudou
         if (currentAnim.frames != previousAnim.frames) {
@@ -137,7 +138,7 @@ int main() {
             previousAnim = currentAnim;
         }
 
-        // Atualizar frames
+        // Atualizar frames do jogador
         timer += dt;
         while (timer > sprites.frame_change) {
             timer -= sprites.frame_change;
@@ -154,16 +155,31 @@ int main() {
 
         Texture2D current = currentAnim.frames[frame];
 
-        // Atualizar a câmera (com limites do terreno)
+        // Atualizar inimigo
+        skeletonPosition.x += skeletonVelocity.x * dt;
+        if (skeletonPosition.x > 1000 || skeletonPosition.x < 100) {
+            skeletonVelocity.x *= -1;
+        }
+
+        Animation skeletonAnim = (skeletonVelocity.x >= 0) ? skeleton.walk_right : skeleton.walk_left;
+
+        skeletonTimer += dt;
+        if (skeletonTimer > skeleton.frame_change) {
+            skeletonTimer = 0;
+            skeletonFrame = (skeletonFrame + 1) % skeletonAnim.frame_count;
+        }
+
+        Texture2D skeletonTexture = skeletonAnim.frames[skeletonFrame];
+
+        // Atualizar a câmera
         UpdateCameraToFollowPlayer(&camera, position, 800, 600, ground.width, ground.y + ground.height);
 
         // Desenho
         BeginDrawing();
         ClearBackground(BLACK);
-
         BeginMode2D(camera);
 
-        // Desenhar o sprite do chão em tiles
+        // Desenhar chão
         int tileWidth = groundSprites.frames[0].width;
         int tiles = ground.width / tileWidth;
 
@@ -171,19 +187,23 @@ int main() {
             DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
         }
 
-        // Desenhar as plataformas
+        // Desenhar plataformas
         for (int i = 0; i < PLATFORM_COUNT; i++) {
             DrawRectangleRec(platforms[i], GRAY);
         }
 
+        // Desenhar jogador
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
-        EndMode2D();
+        // Desenhar inimigo
+        DrawTexture(skeletonTexture, (int)skeletonPosition.x, (int)skeletonPosition.y, WHITE);
 
+        EndMode2D();
         EndDrawing();
     }
 
     UnloadPlayerSprites(sprites);
+    UnloadSkeletonGreenEnemySprites(skeleton);
     UnloadGroundSprites(groundSprites);
     CloseWindow();
     return 0;

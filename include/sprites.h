@@ -33,11 +33,11 @@ typedef struct {
 } EnemySprites;
 
 
-
 PlayerSprites LoadPlayerSprites(const char *jsonPath);
 void UnloadPlayerSprites(PlayerSprites sprites);
 Texture2D FlipTextureHorizontally(Texture2D original);
 GroundGrassSprites LoadGroundSprites(const char *jsonPath);
 void UnloadGroundSprites(GroundGrassSprites ground);
-
+EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath);
+void UnloadSkeletonGreenEnemySprites (EnemySprites sprites);
 #endif

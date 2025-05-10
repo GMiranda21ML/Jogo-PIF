@@ -141,7 +141,7 @@ void UnloadPlayerSprites(PlayerSprites sprites) {
         UnloadTexture(sprites.attack_right.frames[i]);
     }
     for (int i = 0; i < sprites.attack_left.frame_count; i++) {
-        UnloadTexture(sprites.attack_right.frames[i]);
+        UnloadTexture(sprites.attack_left.frames[i]);
     }
 
     free(sprites.walk_right.frames);
@@ -256,12 +256,12 @@ EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath) {
         return sprites;
     }
 
-    cJSON *walk = cJSON_GetObjectItem(root, "player_walk");
+    cJSON *walk = cJSON_GetObjectItem(root, "skeleton_green_walk");
     if (walk) {
         sprites.walk_right = LoadAnimationFromArray(cJSON_GetObjectItem(walk, "right"));
         sprites.walk_left = LoadAnimationFromArray(cJSON_GetObjectItem(walk, "left"));
     } else {
-        fprintf(stderr, "Erro: player_walk não encontrado.\n");
+        fprintf(stderr, "Erro: skeleton_green_walk não encontrado.\n");
     }
 
     cJSON *fc = cJSON_GetObjectItem(root, "frame_change");
@@ -285,7 +285,7 @@ EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath) {
     return sprites;
 }
 
-void UnloadEnemySprites(EnemySprites sprites) {
+void UnloadSkeletonGreenEnemySprites(EnemySprites sprites) {
     for (int i = 0; i < sprites.walk_right.frame_count; i++) {
         UnloadTexture(sprites.walk_right.frames[i]);
     }

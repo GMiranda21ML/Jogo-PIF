@@ -1,37 +1,37 @@
 {
     "sprite": "Skeleton_Green",
-    "player_walk": {
+    "skeleton_green_walk": {
         "right": [
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk1.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk2.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk3.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk4.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk5.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk6.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk7.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk8.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk9.png"
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk1.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk2.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk3.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk4.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk5.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk6.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk7.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk8.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk9.png"
         ],
         "left": [
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted1.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted2.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted3.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted4.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted5.png",
-           "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted16png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted7.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted8.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted9.png"
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted1.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted2.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted3.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted4.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted5.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted6.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted7.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted8.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted9.png"
         ]
     },
     "skeleton_green_attack": {
         "right": [
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk1.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk2.png",
-           "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk3.png",
-            "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk4.png",
-           "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk5.png",
-           "assets/sprites/skeleton_green/skeleton_green_walk/skeleton_green_walk6.png"
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk1.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk2.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk3.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk4.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk5.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk6.png"
         ]
     },
     "frame_change": 0.10
