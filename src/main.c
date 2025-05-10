@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "sprites.h"
 #include "camera.h"
-#include <math.h> // para fabs
+#include <math.h>
 
 #define PLATFORM_COUNT 4
 #define DETECTION_RADIUS 200.0f
@@ -11,6 +11,7 @@ int main() {
     SetTargetFPS(60);
 
     int playerHealth = 100;
+    int skeletonHealth = 2; // Adiciona vida ao inimigo
 
     PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
     EnemySprites skeleton = LoadSkeletonGreenEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
@@ -36,6 +37,7 @@ int main() {
 
     bool attacking = false;
     int attackFacing = 1;
+    bool attackAlreadyHit = false;
 
     float speed = 200.0f;
     float timer = 0;
@@ -102,6 +104,7 @@ int main() {
 
         if (IsKeyPressed(KEY_L) && !attacking) {
             attacking = true;
+            attackAlreadyHit = false;
             frame = 0;
             timer = 0;
             attackFacing = facing;
@@ -127,6 +130,19 @@ int main() {
             timer -= sprites.frame_change;
             if (attacking) {
                 frame++;
+                if (!attackAlreadyHit && frame == 2) { // ataque acerta no frame 2
+                    Rectangle attackHitbox;
+                    if (attackFacing == 1) {
+                        attackHitbox = (Rectangle){ position.x + 30, position.y, 50, playerHeight };
+                    } else {
+                        attackHitbox = (Rectangle){ position.x - 50, position.y, 50, playerHeight };
+                    }
+                    Rectangle skeletonRect = {skeletonPosition.x, skeletonPosition.y, (float)skeleton.walk_right.frames[0].width, (float)skeleton.walk_right.frames[0].height};
+                    if (CheckCollisionRecs(attackHitbox, skeletonRect) && skeletonHealth > 0) {
+                        skeletonHealth--;
+                        attackAlreadyHit = true;
+                    }
+                }
                 if (frame >= currentAnim.frame_count) {
                     frame = 0;
                     attacking = false;
@@ -138,26 +154,19 @@ int main() {
 
         Texture2D current = currentAnim.frames[frame];
 
-        // Corrigir altura do inimigo (em cima do chão)
-        skeletonPosition.y = ground.y - skeleton.walk_right.frames[0].height;
-
-        float xDistance = fabs(position.x - skeletonPosition.x);
-        bool playerDetected = xDistance < DETECTION_RADIUS;
-
-        if (playerDetected) {
-            if (skeletonPosition.x < position.x) {
-                skeletonVelocity.x = 50;
+        if (skeletonHealth > 0) {
+            skeletonPosition.y = ground.y - skeleton.walk_right.frames[0].height;
+            float xDistance = fabs(position.x - skeletonPosition.x);
+            bool playerDetected = xDistance < DETECTION_RADIUS;
+            if (playerDetected) {
+                skeletonVelocity.x = (skeletonPosition.x < position.x) ? 50 : -50;
             } else {
-                skeletonVelocity.x = -50;
+                skeletonVelocity.x = 0;
             }
-        } else {
-            skeletonVelocity.x = 0;
+            skeletonPosition.x += skeletonVelocity.x * dt;
         }
 
-        skeletonPosition.x += skeletonVelocity.x * dt;
-
         Animation skeletonAnim = (skeletonVelocity.x >= 0) ? skeleton.walk_right : skeleton.walk_left;
-
         skeletonTimer += dt;
         if (skeletonTimer > skeleton.frame_change) {
             skeletonTimer = 0;
@@ -169,7 +178,7 @@ int main() {
         Rectangle playerRect = {position.x, position.y, (float)current.width, (float)current.height};
         Rectangle skeletonRect = {skeletonPosition.x, skeletonPosition.y, (float)skeletonTexture.width, (float)skeletonTexture.height};
 
-        if (CheckCollisionRecs(playerRect, skeletonRect)) {
+        if (skeletonHealth > 0 && CheckCollisionRecs(playerRect, skeletonRect)) {
             if (playerHealth > 0) playerHealth--;
             if (position.x < skeletonPosition.x) {
                 position.x -= 100 * dt;
@@ -196,7 +205,8 @@ int main() {
         }
 
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
-        DrawTexture(skeletonTexture, (int)skeletonPosition.x, (int)skeletonPosition.y, WHITE);
+        if (skeletonHealth > 0)
+            DrawTexture(skeletonTexture, (int)skeletonPosition.x, (int)skeletonPosition.y, WHITE);
 
         EndMode2D();
 
