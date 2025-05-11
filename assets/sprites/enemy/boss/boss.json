@@ -1,0 +1,47 @@
+{
+    "sprite": "Boss",
+    "boss_walk": {
+        "right": [
+            "assets/sprites/enemy/boss/boss_walk/boss_walk1.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk2.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk3.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk4.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk5.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk6.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk7.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk8.png",
+            "assets/sprites/enemy/boss/boss_walk/boss_walk9.png"
+        ]
+    },
+    "boss_attack1": {
+        "right": [
+            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-1.png",
+            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-2.png",
+            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-3.png",
+            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-4.png"
+        ]
+    },
+    "boss_attack2": {
+        "right": [
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-1.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-2.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-3.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-4.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-5.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-6.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-7.png",
+            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-8.png"
+        ]
+    },
+    "boss_death": {
+        "front": [
+            "assets/sprites/enemy/boss/boss_death/boss_death1.png",
+            "assets/sprites/enemy/boss/boss_death/boss_death2.png",
+            "assets/sprites/enemy/boss/boss_death/boss_death3.png",
+            "assets/sprites/enemy/boss/boss_death/boss_death4.png",
+            "assets/sprites/enemy/boss/boss_death/boss_death5.png",
+            "assets/sprites/enemy/boss/boss_death/boss_death6.png"
+        ]
+    },
+    "frame_change": 0.10
+}
