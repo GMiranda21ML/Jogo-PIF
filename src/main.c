@@ -10,7 +10,7 @@
 #define SKELETON_HIT_DURATION 0.2f
 
 int main() {
-    InitWindow(800, 600, "Player Animation");
+    InitWindow(800, 600, "Metroid Souls");
     InitAudioDevice();
     SetTargetFPS(60);
 
