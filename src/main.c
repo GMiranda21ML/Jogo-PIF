@@ -2,6 +2,7 @@
 #include "sprites.h"
 #include "camera.h"
 #include "enemy.h"
+#include "menu.h"
 #include <math.h>
 
 #define PLATFORM_COUNT 4
@@ -11,6 +12,12 @@
 int main() {
     InitWindow(800, 600, "Player Animation");
     SetTargetFPS(60);
+
+    GameScreen currentScreen = RunMenu();
+    if (currentScreen == SCREEN_EXIT) {
+        CloseWindow();
+        return 0;
+    }
 
     int playerHealth = 100;
     float playerHitTimer = 0.0f;
