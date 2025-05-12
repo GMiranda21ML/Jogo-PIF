@@ -2,7 +2,7 @@
 #include "menu.h"
 
 GameScreen RunGameOver() {
-    Sound gameOverSound = LoadSound("assets/sound/gameOverSound/gameOver.mp3");
+    Sound gameOverSound = LoadSound("assets/sound/gameOverSound/gameOver.wav");
     PlaySound(gameOverSound);    
 
     while (!WindowShouldClose()) {
@@ -23,6 +23,8 @@ GameScreen RunGameOver() {
         EndDrawing();
 
         if (IsKeyPressed(KEY_ENTER)) {
+            StopSound(gameOverSound);
+            UnloadSound(gameOverSound);
             return SCREEN_MENU;
         }
     }
