@@ -19,7 +19,7 @@ int main() {
         return 0;
     }
 
-    int playerHealth = 100;
+    int playerHealth = 1;
     float playerHitTimer = 0.0f;
     const float PLAYER_HIT_COOLDOWN = 0.5f;
 
@@ -168,15 +168,22 @@ int main() {
         Texture2D current = currentAnim.frames[frame];
 
         // Atualiza inimigo
-        UpdateEnemy(&skeleton, position, dt, skeleton.sprites);
-
+        
         // Verifica dano ao jogador
         Rectangle playerRect = {position.x, position.y, (float)current.width, (float)current.height};
         Texture2D enemyTex = GetEnemyTexture(&skeleton, skeleton.sprites);
         Rectangle enemyRect = {skeleton.position.x, skeleton.position.y, (float)enemyTex.width, (float)enemyTex.height};
+        UpdateEnemy(&skeleton, position, dt, skeleton.sprites, playerRect);
 
         if (skeleton.alive && CheckCollisionRecs(playerRect, enemyRect) && playerHitTimer <= 0.0f) {
-            if (playerHealth > 0) playerHealth--;
+            if (playerHealth > 0) {
+                playerHealth--;
+                if (playerHealth <= 0) {
+                    currentScreen = SCREEN_GAMEOVER;
+                    break;
+                }
+            }
+            
             playerHitTimer = PLAYER_HIT_COOLDOWN;
 
             // Knockback
@@ -224,6 +231,16 @@ int main() {
 
         EndDrawing();
     }
+
+    if (currentScreen == SCREEN_GAMEOVER) {
+        GameScreen next = RunGameOver();
+        if (next == SCREEN_MENU) {
+            main();
+        } else {
+            CloseWindow();
+            return 0;
+        }
+    }    
 
     UnloadPlayerSprites(sprites);
     UnloadEnemySprites(skeleton.sprites);
