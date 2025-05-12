@@ -1,6 +1,8 @@
 #include "enemy.h"
 #include <math.h>
 
+#define MIN_DISTANCE_TO_PLAYER 20.0f
+
 void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->position = position;
     enemy->velocity = (Vector2){0, 0};
@@ -11,21 +13,35 @@ void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->hitTimer = 0;
 }
 
-void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton) {
+void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect) {
     if (!enemy->alive) return;
 
     enemy->position.y = 550 - skeleton.walk_right.frames[0].height;
 
     float xDistance = fabs(playerPos.x - enemy->position.x);
     bool detected = xDistance < DETECTION_RADIUS;
+    bool tooClose = xDistance < MIN_DISTANCE_TO_PLAYER;
 
-    if (detected) {
+    if (detected && !tooClose) {
         enemy->velocity.x = (enemy->position.x < playerPos.x) ? 50 : -50;
     } else {
         enemy->velocity.x = 0;
     }
 
-    enemy->position.x += enemy->velocity.x * dt;
+    // Proposta de nova posição
+    Vector2 proposedPosition = enemy->position;
+    proposedPosition.x += enemy->velocity.x * dt;
+
+    // Retângulo proposto do inimigo
+    Texture2D currentTex = GetEnemyTexture(enemy, skeleton);
+    Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
+
+    // Verifica se haverá colisão com o jogador
+    if (!CheckCollisionRecs(proposedRect, playerRect)) {
+        enemy->position.x = proposedPosition.x;
+    } else {
+        enemy->velocity.x = 0;
+    }
 
     enemy->timer += dt;
     if (enemy->timer > skeleton.frame_change) {

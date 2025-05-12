@@ -17,9 +17,10 @@ typedef struct {
 
 #define DETECTION_RADIUS 200.0f
 #define ENEMY_HIT_DURATION 0.2f
+#define MIN_DISTANCE_TO_PLAYER 20.0f  // Incluído aqui por clareza
 
 void InitEnemy(Enemy *enemy, Vector2 position);
-void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton);
+void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect);
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites skeleton);
 Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture);
 void DrawEnemy(Enemy *enemy, Texture2D texture);
