@@ -16,7 +16,7 @@ GameScreen RunGameOver() {
         DrawText(text, x + 3, y + 3, fontSize + 2, DARKGRAY);
         DrawText(text, x, y, fontSize, RED);
 
-        const char *retry = "Pressione ENTER para voltar ao menu";
+        const char *retry = "Pressione ENTER para sair do jogo";
         int retryFontSize = 20;
         DrawText(retry, GetScreenWidth()/2 - MeasureText(retry, retryFontSize)/2, y + 100, retryFontSize, WHITE);
 

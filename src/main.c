@@ -236,12 +236,12 @@ int main() {
     if (currentScreen == SCREEN_GAMEOVER) {
         GameScreen next = RunGameOver();
         if (next == SCREEN_MENU) {
-            UnloadPlayerSprites(sprites);
-            UnloadEnemySprites(skeleton.sprites);
-            UnloadGroundSprites(groundSprites);
-            CloseAudioDevice();
+            // UnloadPlayerSprites(sprites);
+            // UnloadEnemySprites(skeleton.sprites);
+            // UnloadGroundSprites(groundSprites);
+            // CloseAudioDevice();
             CloseWindow();
-            main();
+            // main();
         } else {
             CloseWindow();
             return 0;
