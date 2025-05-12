@@ -11,6 +11,7 @@
 
 int main() {
     InitWindow(800, 600, "Player Animation");
+    InitAudioDevice();
     SetTargetFPS(60);
 
     GameScreen currentScreen = RunMenu();

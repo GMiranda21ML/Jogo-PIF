@@ -2,6 +2,9 @@
 #include "menu.h"
 
 GameScreen RunGameOver() {
+    Sound gameOverSound = LoadSound("assets/sound/gameOverSound/gameOver.mp3");
+    PlaySound(gameOverSound);    
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
@@ -24,5 +27,6 @@ GameScreen RunGameOver() {
         }
     }
 
+    UnloadSound(gameOverSound);
     return SCREEN_EXIT;
 }
