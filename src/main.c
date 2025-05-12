@@ -57,7 +57,6 @@ int main() {
 
         if (playerHitTimer > 0.0f) playerHitTimer -= dt;
 
-        // Movimento lateral
         if (IsKeyDown(KEY_D)) {
             position.x += speed * dt;
             facing = 1;

@@ -8,7 +8,6 @@ typedef struct {
     int frame_count;
 } Animation;
 
-
 typedef struct {
     Animation walk_right;
     Animation walk_left;
@@ -32,14 +31,18 @@ typedef struct {
     float frame_change;
 } EnemySprites;
 
-
 PlayerSprites LoadPlayerSprites(const char *jsonPath);
 void UnloadPlayerSprites(PlayerSprites sprites);
-Texture2D FlipTextureHorizontally(Texture2D original);
+
 GroundGrassSprites LoadGroundSprites(const char *jsonPath);
 void UnloadGroundSprites(GroundGrassSprites ground);
+
 EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath);
-void UnloadSkeletonGreenEnemySprites (EnemySprites sprites);
+void UnloadSkeletonGreenEnemySprites(EnemySprites sprites);
+
 EnemySprites LoadEnemySprites(const char *jsonPath);
 void UnloadEnemySprites(EnemySprites sprites);
+
+Texture2D FlipTextureHorizontally(Texture2D original);
+
 #endif
