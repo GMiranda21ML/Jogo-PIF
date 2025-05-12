@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "sprites.h"
 #include "camera.h"
+#include "enemy.h"
 #include <math.h>
 
 #define PLATFORM_COUNT 4
@@ -16,11 +17,9 @@ int main() {
     const float PLAYER_HIT_COOLDOWN = 0.5f;
 
     PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
-    EnemySprites skeleton = LoadSkeletonGreenEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
     GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
 
     if (sprites.frame_change <= 0.0f) sprites.frame_change = 0.10f;
-    if (skeleton.frame_change <= 0.0f) skeleton.frame_change = 0.10f;
 
     Rectangle ground = { 0, 550, 2000, 500 };
 
@@ -46,14 +45,9 @@ int main() {
     int facing = 1;
     static Animation previousAnim = {0};
 
-    Vector2 skeletonPosition = {600, 500};
-    Vector2 skeletonVelocity = {0, 0};
-    int skeletonFrame = 0;
-    float skeletonTimer = 0;
-
-    int skeletonHealth = 2;
-    float skeletonHitTimer = 0;
-    bool skeletonAlive = true;
+    Enemy skeleton;
+    InitEnemy(&skeleton, (Vector2){600, 500});
+    skeleton.sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json"); 
 
     Camera2D camera = InitCamera(position, (Vector2){400, 300});
 
@@ -63,6 +57,7 @@ int main() {
 
         if (playerHitTimer > 0.0f) playerHitTimer -= dt;
 
+        // Movimento lateral
         if (IsKeyDown(KEY_D)) {
             position.x += speed * dt;
             facing = 1;
@@ -77,9 +72,11 @@ int main() {
         if (position.x + sprites.walk_right.frames[0].width > ground.width)
             position.x = ground.width - sprites.walk_right.frames[0].width;
 
+        // Gravidade
         velocity.y += gravity * dt;
         position.y += velocity.y * dt;
 
+        // Colisão com plataformas
         isOnGround = false;
         float playerHeight = (float)sprites.walk_right.frames[0].height;
 
@@ -103,11 +100,13 @@ int main() {
             isOnGround = true;
         }
 
+        // Pulo
         if (isOnGround && IsKeyPressed(KEY_W)) {
             velocity.y = jumpForce;
             isOnGround = false;
         }
 
+        // Ataque
         if (IsKeyPressed(KEY_L) && !attacking) {
             attacking = true;
             frame = 0;
@@ -136,17 +135,17 @@ int main() {
             if (attacking) {
                 frame++;
 
-                if (frame == 1 && skeletonAlive) {
+                if (frame == 1 && skeleton.alive) {
                     Rectangle playerRect = {position.x, position.y, (float)currentAnim.frames[frame].width, (float)currentAnim.frames[frame].height};
-                    Texture2D skeletonTexture = (skeletonVelocity.x >= 0) ? skeleton.walk_right.frames[skeletonFrame] : skeleton.walk_left.frames[skeletonFrame];
-                    Rectangle skeletonRect = {skeletonPosition.x, skeletonPosition.y, (float)skeletonTexture.width, (float)skeletonTexture.height};
+                    Texture2D skeletonTex = GetEnemyTexture(&skeleton, skeleton.sprites);
+                    Rectangle skeletonRect = {skeleton.position.x, skeleton.position.y, (float)skeletonTex.width, (float)skeletonTex.height};
 
                     if (CheckCollisionRecs(playerRect, skeletonRect) &&
-                        attackFacing == ((skeletonPosition.x > position.x) ? 1 : -1)) {
-                        skeletonHealth--;
-                        skeletonHitTimer = SKELETON_HIT_DURATION;
-                        if (skeletonHealth <= 0) {
-                            skeletonAlive = false;
+                        attackFacing == ((skeleton.position.x > position.x) ? 1 : -1)) {
+                        skeleton.health--;
+                        skeleton.hitTimer = SKELETON_HIT_DURATION;
+                        if (skeleton.health <= 0) {
+                            skeleton.alive = false;
                         }
                     }
                 }
@@ -162,52 +161,33 @@ int main() {
 
         Texture2D current = currentAnim.frames[frame];
 
-        if (skeletonAlive) {
-            skeletonPosition.y = ground.y - skeleton.walk_right.frames[0].height;
+        // Atualiza inimigo
+        UpdateEnemy(&skeleton, position, dt, skeleton.sprites);
 
-            float xDistance = fabs(position.x - skeletonPosition.x);
-            bool playerDetected = xDistance < DETECTION_RADIUS;
-
-            if (playerDetected) {
-                skeletonVelocity.x = (skeletonPosition.x < position.x) ? 50 : -50;
-            } else {
-                skeletonVelocity.x = 0;
-            }
-
-            skeletonPosition.x += skeletonVelocity.x * dt;
-
-            skeletonTimer += dt;
-            if (skeletonTimer > skeleton.frame_change) {
-                skeletonTimer = 0;
-                skeletonFrame = (skeletonFrame + 1) % skeleton.walk_right.frame_count;
-            }
-        }
-
-        if (skeletonHitTimer > 0) {
-            skeletonHitTimer -= dt;
-        }
-
+        // Verifica dano ao jogador
         Rectangle playerRect = {position.x, position.y, (float)current.width, (float)current.height};
-        Texture2D skeletonTexture = (skeletonVelocity.x >= 0) ? skeleton.walk_right.frames[skeletonFrame] : skeleton.walk_left.frames[skeletonFrame];
-        Rectangle skeletonRect = {skeletonPosition.x, skeletonPosition.y, (float)skeletonTexture.width, (float)skeletonTexture.height};
+        Texture2D enemyTex = GetEnemyTexture(&skeleton, skeleton.sprites);
+        Rectangle enemyRect = {skeleton.position.x, skeleton.position.y, (float)enemyTex.width, (float)enemyTex.height};
 
-        if (skeletonAlive && CheckCollisionRecs(playerRect, skeletonRect) && playerHitTimer <= 0.0f) {
+        if (skeleton.alive && CheckCollisionRecs(playerRect, enemyRect) && playerHitTimer <= 0.0f) {
             if (playerHealth > 0) playerHealth--;
             playerHitTimer = PLAYER_HIT_COOLDOWN;
 
-            if (position.x < skeletonPosition.x) {
+            // Knockback
+            if (position.x < skeleton.position.x)
                 position.x -= 100 * dt;
-            } else {
+            else
                 position.x += 100 * dt;
-            }
         }
 
         UpdateCameraToFollowPlayer(&camera, position, 800, 600, ground.width, ground.y + ground.height);
 
+        // Desenho
         BeginDrawing();
         ClearBackground(BLACK);
         BeginMode2D(camera);
 
+        // Desenhar chão
         int tileWidth = groundSprites.frames[0].width;
         int tiles = ground.width / tileWidth;
 
@@ -215,19 +195,23 @@ int main() {
             DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
         }
 
+        // Plataformas
         for (int i = 0; i < PLATFORM_COUNT; i++) {
             DrawRectangleRec(platforms[i], GRAY);
         }
 
+        // Jogador
         DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
-        if (skeletonAlive) {
-            Color tint = (skeletonHitTimer > 0) ? RED : WHITE;
-            DrawTexture(skeletonTexture, (int)skeletonPosition.x, (int)skeletonPosition.y, tint);
+        // Inimigo
+        if (skeleton.alive) {
+            Color tint = (skeleton.hitTimer > 0) ? RED : WHITE;
+            DrawTexture(enemyTex, (int)skeleton.position.x, (int)skeleton.position.y, tint);
         }
 
         EndMode2D();
 
+        // Vida do jogador
         DrawRectangle(20, 20, 200, 20, DARKGRAY);
         DrawRectangle(20, 20, 2 * playerHealth, 20, RED);
         DrawRectangleLines(20, 20, 200, 20, WHITE);
@@ -236,7 +220,7 @@ int main() {
     }
 
     UnloadPlayerSprites(sprites);
-    UnloadSkeletonGreenEnemySprites(skeleton);
+    UnloadEnemySprites(skeleton.sprites);
     UnloadGroundSprites(groundSprites);
     CloseWindow();
     return 0;

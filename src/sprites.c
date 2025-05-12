@@ -306,4 +306,11 @@ void UnloadSkeletonGreenEnemySprites(EnemySprites sprites) {
 }
 
 
+EnemySprites LoadEnemySprites(const char *jsonPath) {
+    return LoadSkeletonGreenEnemySprites(jsonPath);
+}
+
+void UnloadEnemySprites(EnemySprites sprites) {
+    UnloadSkeletonGreenEnemySprites(sprites);
+}
 
