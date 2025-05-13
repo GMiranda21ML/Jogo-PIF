@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "camera.h": "c"
+        "camera.h": "c",
+        "raylib.h": "c"
     }
 }

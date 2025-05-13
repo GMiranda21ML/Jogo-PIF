@@ -26,12 +26,12 @@
     },
     "skeleton_green_attack": {
         "right": [
-            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk1.png",
-            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk2.png",
-            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk3.png",
-            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk4.png",
-            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk5.png",
-            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk6.png"
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_attack1.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_attack2.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_attack3.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_attack4.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_attack5.png",
+            "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_attack6.png"
         ]
     },
     "frame_change": 0.10

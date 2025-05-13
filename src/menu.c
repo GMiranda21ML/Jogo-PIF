@@ -1,7 +1,8 @@
 #include "raylib.h"
 #include "menu.h"
 
-GameScreen RunMenu() {
+GameScreen RunMenu(Music menuMusic) {  
+    // PlayMusicStream(menuMusic);
     const char *options[] = {"Jogar", "Teclas", "Sair"};
     int selected = 0;
     int optionCount = sizeof(options) / sizeof(options[0]);
@@ -13,6 +14,7 @@ GameScreen RunMenu() {
     };
 
     while (!WindowShouldClose()) {
+        UpdateMusicStream(menuMusic);
         if (IsKeyPressed(KEY_UP)) {
             selected--;
         }

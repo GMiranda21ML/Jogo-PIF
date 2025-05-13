@@ -46,7 +46,7 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
     enemy->timer += dt;
     if (enemy->timer > skeleton.frame_change) {
         enemy->timer = 0;
-        enemy->frame = (enemy->frame + 1) % skeleton.walk_right.frame_count;
+        enemy->frame = (enemy->frame + 1) % skeleton.attack_right.frame_count;
     }
 
     if (enemy->hitTimer > 0) {

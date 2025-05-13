@@ -1,8 +1,9 @@
 #include "raylib.h"
 #include "menu.h"
 
-GameScreen RunKeyboardScreen() {
+GameScreen RunKeyboardScreen(Music menuMusic) {
     while (!WindowShouldClose()) {
+        UpdateMusicStream(menuMusic);
         if (IsKeyPressed(KEY_SPACE)) {
             return SCREEN_MENU;
         }
