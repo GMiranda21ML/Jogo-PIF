@@ -8,6 +8,7 @@
 #define PLATFORM_COUNT 4
 #define DETECTION_RADIUS 200.0f
 #define SKELETON_HIT_DURATION 0.2f
+#define PLAYER_HIT_COOLDOWN 0.5f
 
 int main() {
     InitWindow(800, 600, "Metroid Souls");
@@ -20,11 +21,14 @@ int main() {
         if (currentScreen == SCREEN_MENU) {
             currentScreen = RunMenu();
         }
+        
+        if (currentScreen == SCREEN_KEYBOARD) {
+            currentScreen = RunKeyboardScreen();
+        }
 
         if (currentScreen == SCREEN_GAME) {
             int playerHealth = 100;
             float playerHitTimer = 0.0f;
-            const float PLAYER_HIT_COOLDOWN = 0.5f;
 
             PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
             GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
@@ -75,6 +79,11 @@ int main() {
                     position.x -= speed * dt;
                     facing = -1;
                     moving = true;
+                }
+
+                if (IsKeyPressed(KEY_R)) {
+                    currentScreen = SCREEN_MENU;
+                    break;
                 }
 
                 // Limites

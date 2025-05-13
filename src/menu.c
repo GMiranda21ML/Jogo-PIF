@@ -2,7 +2,7 @@
 #include "menu.h"
 
 GameScreen RunMenu() {
-    const char *options[] = {"Jogar", "Sair"};
+    const char *options[] = {"Jogar", "Teclas", "Sair"};
     int selected = 0;
     int optionCount = sizeof(options) / sizeof(options[0]);
 
@@ -31,6 +31,9 @@ GameScreen RunMenu() {
                 return SCREEN_GAME;
             }
             if (selected == 1) {
+                return SCREEN_KEYBOARD;
+            }
+            if (selected == 2) {
                 return SCREEN_EXIT;
             }
         }
