@@ -15,23 +15,21 @@ int main() {
     InitAudioDevice();
     SetTargetFPS(60);
 
-    
     GameScreen currentScreen = SCREEN_MENU;
-    
+
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
         Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
-        
+
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
             StopMusicStream(menuMusic);
             UnloadMusicStream(menuMusic);
         }
-        
+
         if (currentScreen == SCREEN_MENU) {
             PlayMusicStream(menuMusic);
             currentScreen = RunMenu(menuMusic);
         }
 
-        
         if (currentScreen == SCREEN_KEYBOARD) {
             currentScreen = RunKeyboardScreen(menuMusic);
         }
@@ -171,11 +169,7 @@ int main() {
 
                             if (CheckCollisionRecs(playerRect, skeletonRect) &&
                                 attackFacing == ((skeleton.position.x > position.x) ? 1 : -1)) {
-                                skeleton.health--;
-                                skeleton.hitTimer = SKELETON_HIT_DURATION;
-                                if (skeleton.health <= 0) {
-                                    skeleton.alive = false;
-                                }
+                                DamageEnemy(&skeleton);
                             }
                         }
 
@@ -193,10 +187,10 @@ int main() {
                 // Atualiza inimigo
                 Rectangle playerRect = {position.x, position.y, (float)current.width, (float)current.height};
                 Texture2D enemyTex = GetEnemyTexture(&skeleton, skeleton.sprites);
-                Rectangle enemyRect = {skeleton.position.x, skeleton.position.y, (float)enemyTex.width, (float)enemyTex.height};
+                Rectangle enemyRect = GetEnemyRect(&skeleton, enemyTex);
                 UpdateEnemy(&skeleton, position, dt, skeleton.sprites, playerRect);
 
-                if (skeleton.alive && CheckCollisionRecs(playerRect, enemyRect) && playerHitTimer <= 0.0f) {
+                if (skeleton.alive && skeleton.attacking && CheckCollisionRecs(playerRect, enemyRect) && playerHitTimer <= 0.0f) {
                     playerHealth -= 20;
                     playerHitTimer = PLAYER_HIT_COOLDOWN;
 
@@ -205,7 +199,6 @@ int main() {
                         break;
                     }
 
-                    // Knockback
                     if (position.x < skeleton.position.x)
                         position.x -= 100 * dt;
                     else
@@ -219,30 +212,24 @@ int main() {
                 ClearBackground(BLACK);
                 BeginMode2D(camera);
 
-                // Chão
                 int tileWidth = groundSprites.frames[0].width;
                 int tiles = ground.width / tileWidth;
                 for (int i = 0; i < tiles + 1; i++) {
                     DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
                 }
 
-                // Plataformas
                 for (int i = 0; i < PLATFORM_COUNT; i++) {
                     DrawRectangleRec(platforms[i], GRAY);
                 }
 
-                // Jogador
                 DrawTexture(current, (int)position.x, (int)position.y, WHITE);
 
-                // Inimigo
                 if (skeleton.alive) {
-                    Color tint = (skeleton.hitTimer > 0) ? RED : WHITE;
-                    DrawTexture(enemyTex, (int)skeleton.position.x, (int)skeleton.position.y, tint);
+                    DrawEnemy(&skeleton, enemyTex);
                 }
 
                 EndMode2D();
 
-                // Barra de vida
                 DrawRectangle(20, 20, 200, 20, DARKGRAY);
                 DrawRectangle(20, 20, 2 * playerHealth, 20, RED);
                 DrawRectangleLines(20, 20, 200, 20, WHITE);
@@ -250,7 +237,6 @@ int main() {
                 EndDrawing();
             }
 
-            // Libera recursos ao sair do jogo
             UnloadPlayerSprites(sprites);
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);

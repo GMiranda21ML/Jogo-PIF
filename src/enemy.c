@@ -1,8 +1,6 @@
 #include "enemy.h"
 #include <math.h>
 
-#define MIN_DISTANCE_TO_PLAYER 20.0f
-
 void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->position = position;
     enemy->velocity = (Vector2){0, 0};
@@ -11,6 +9,8 @@ void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->health = 3;
     enemy->alive = true;
     enemy->hitTimer = 0;
+    enemy->attacking = false;
+    enemy->facing = 1;
 }
 
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect) {
@@ -18,35 +18,42 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
 
     enemy->position.y = 550 - skeleton.walk_right.frames[0].height;
 
-    float xDistance = fabs(playerPos.x - enemy->position.x);
+    float deltaX = enemy->position.x - playerPos.x;
+    float deltaY = enemy->position.y - playerPos.y;
+    float xDistance = sqrt(deltaX * deltaX + deltaY * deltaY);
     bool detected = xDistance < DETECTION_RADIUS;
     bool tooClose = xDistance < MIN_DISTANCE_TO_PLAYER;
 
-    if (detected && !tooClose) {
-        enemy->velocity.x = (enemy->position.x < playerPos.x) ? 50 : -50;
-    } else {
-        enemy->velocity.x = 0;
+    if (detected){
+        float sign = playerPos.x - enemy->position.x < 0 ? -1 : 1;
+        enemy->velocity.x = sign * ENEMY_VELOCITY;
+        enemy->facing = sign;
+        enemy->attacking = tooClose;
     }
 
     // Proposta de nova posição
     Vector2 proposedPosition = enemy->position;
     proposedPosition.x += enemy->velocity.x * dt;
 
-    // Retângulo proposto do inimigo
+    // Retângulo proposto
     Texture2D currentTex = GetEnemyTexture(enemy, skeleton);
     Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
 
-    // Verifica se haverá colisão com o jogador
     if (!CheckCollisionRecs(proposedRect, playerRect)) {
         enemy->position.x = proposedPosition.x;
     } else {
         enemy->velocity.x = 0;
     }
 
+    // Atualização de animação
     enemy->timer += dt;
     if (enemy->timer > skeleton.frame_change) {
         enemy->timer = 0;
-        enemy->frame = (enemy->frame + 1) % skeleton.attack_right.frame_count;
+        if (enemy->attacking) {
+            enemy->frame = (enemy->frame + 1) % skeleton.attack_right.frame_count;
+        } else {
+            enemy->frame = (enemy->frame + 1) % skeleton.walk_right.frame_count;
+        }
     }
 
     if (enemy->hitTimer > 0) {
@@ -55,9 +62,15 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
 }
 
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites skeleton) {
-    return (enemy->velocity.x >= 0) ? 
-        skeleton.walk_right.frames[enemy->frame] : 
-        skeleton.walk_left.frames[enemy->frame];
+    if (enemy->attacking) {
+        return (enemy->facing >= 0) ?
+            skeleton.attack_right.frames[enemy->frame] :
+            skeleton.attack_left.frames[enemy->frame];
+    } else {
+        return (enemy->facing >= 0) ?
+            skeleton.walk_right.frames[enemy->frame] :
+            skeleton.walk_left.frames[enemy->frame];
+    }
 }
 
 Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture) {

@@ -12,12 +12,15 @@ typedef struct {
     int health;
     bool alive;
     float hitTimer;
-    EnemySprites sprites; 
+    bool attacking;
+    int facing; // 1 = direita, -1 = esquerda
+    EnemySprites sprites;
 } Enemy;
 
-#define DETECTION_RADIUS 200.0f
+#define DETECTION_RADIUS 200
 #define ENEMY_HIT_DURATION 0.2f
-#define MIN_DISTANCE_TO_PLAYER 20.0f  // Incluído aqui por clareza
+#define MIN_DISTANCE_TO_PLAYER 40
+#define ENEMY_VELOCITY 70
 
 void InitEnemy(Enemy *enemy, Vector2 position);
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect);
