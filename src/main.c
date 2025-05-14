@@ -72,6 +72,8 @@ int main() {
 
             Camera2D camera = InitCamera(position, (Vector2){400, 300});
 
+            Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
+
             while (!WindowShouldClose()) {
                 float dt = GetFrameTime();
                 bool moving = false;
@@ -211,6 +213,8 @@ int main() {
                 BeginDrawing();
                 ClearBackground(BLACK);
                 BeginMode2D(camera);
+
+                DrawTexture(background, 0, -490, WHITE);
 
                 int tileWidth = groundSprites.frames[0].width;
                 int tiles = ground.width / tileWidth;
