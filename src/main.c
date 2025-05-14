@@ -15,19 +15,19 @@ int main() {
     InitAudioDevice();
     SetTargetFPS(60);
 
-    Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");PlayMusicStream(menuMusic);
     
     GameScreen currentScreen = SCREEN_MENU;
     
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
-        PlayMusicStream(menuMusic);
+        Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
         
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
             StopMusicStream(menuMusic);
             UnloadMusicStream(menuMusic);
         }
-
+        
         if (currentScreen == SCREEN_MENU) {
+            PlayMusicStream(menuMusic);
             currentScreen = RunMenu(menuMusic);
         }
 
