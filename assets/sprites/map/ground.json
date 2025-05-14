@@ -2,7 +2,7 @@
     "sprite": "ground",
     "ground_grass": {
         "ground": [
-            "assets/sprites/map/ground/ground1.png"
+            "assets/sprites/map/ground/groundForest.png"
         ]
     }
 }
