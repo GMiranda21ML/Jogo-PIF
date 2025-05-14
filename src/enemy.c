@@ -30,6 +30,9 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
         enemy->facing = sign;
         enemy->attacking = tooClose;
     }
+    if (fabsf(enemy->position.x - playerPos.x) > DETECTION_RADIUS){
+        return;
+    }
 
     if (tooClose)
         enemy->velocity.x = 0;
