@@ -13,7 +13,7 @@ typedef struct {
     bool alive;
     float hitTimer;
     bool attacking;
-    int facing; // 1 = direita, -1 = esquerda
+    int facing;
     EnemySprites sprites;
 } Enemy;
 

@@ -31,11 +31,9 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
         enemy->attacking = tooClose;
     }
 
-    // Proposta de nova posição
     Vector2 proposedPosition = enemy->position;
     proposedPosition.x += enemy->velocity.x * dt;
 
-    // Retângulo proposto
     Texture2D currentTex = GetEnemyTexture(enemy, skeleton);
     Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
 
@@ -45,7 +43,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
         enemy->velocity.x = 0;
     }
 
-    // Atualização de animação
     enemy->timer += dt;
     if (enemy->timer > skeleton.frame_change) {
         enemy->timer = 0;
