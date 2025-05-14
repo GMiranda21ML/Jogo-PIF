@@ -192,20 +192,32 @@ int main() {
                 Rectangle enemyRect = GetEnemyRect(&skeleton, enemyTex);
                 UpdateEnemy(&skeleton, position, dt, skeleton.sprites, playerRect);
 
-                if (skeleton.alive && skeleton.attacking && CheckCollisionRecs(playerRect, enemyRect) && playerHitTimer <= 0.0f) {
-                    playerHealth -= 20;
-                    playerHitTimer = PLAYER_HIT_COOLDOWN;
+                if (skeleton.alive && skeleton.attacking && playerHitTimer <= 0.0f) {
+                    Rectangle attackArea = GetEnemyRect(&skeleton, enemyTex);
 
-                    if (playerHealth <= 0) {
-                        currentScreen = SCREEN_GAMEOVER;
-                        break;
+                    if (skeleton.facing >= 0) {
+                        attackArea.width += 30;
+                    } else {
+                        attackArea.x -= 30;
+                        attackArea.width += 30;
                     }
 
-                    if (position.x < skeleton.position.x)
-                        position.x -= 100 * dt;
-                    else
-                        position.x += 100 * dt;
+                    if (CheckCollisionRecs(playerRect, attackArea)) {
+                        playerHealth -= 20;
+                        playerHitTimer = PLAYER_HIT_COOLDOWN;
+
+                        if (playerHealth <= 0) {
+                            currentScreen = SCREEN_GAMEOVER;
+                            break;
+                        }
+
+                        if (position.x < skeleton.position.x)
+                            position.x -= 100 * dt;
+                        else
+                            position.x += 100 * dt;
+                    }
                 }
+
 
                 UpdateCameraToFollowPlayer(&camera, position, 800, 600, ground.width, ground.y + ground.height);
 
