@@ -31,17 +31,15 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
         enemy->attacking = tooClose;
     }
 
+    if (tooClose)
+        enemy->velocity.x = 0;
+    enemy->position.x += enemy->velocity.x * dt;
+
     Vector2 proposedPosition = enemy->position;
     proposedPosition.x += enemy->velocity.x * dt;
 
     Texture2D currentTex = GetEnemyTexture(enemy, skeleton);
     Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
-
-    if (!CheckCollisionRecs(proposedRect, playerRect)) {
-        enemy->position.x = proposedPosition.x;
-    } else {
-        enemy->velocity.x = 0;
-    }
 
     enemy->timer += dt;
     if (enemy->timer > skeleton.frame_change) {
@@ -57,25 +55,16 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
         enemy->hitTimer -= dt;
     }
 
-    // Aplica dano ao jogador
     if (enemy->attacking && enemy->alive) {
         Rectangle attackArea = GetEnemyRect(enemy, currentTex);
 
-    // Aumentar alcance para frente
     if (enemy->facing >= 0) {
-        attackArea.width += 30; // aumenta o alcance para frente
+        attackArea.width += 30; 
     } else {
         attackArea.x -= 30;
         attackArea.width += 30;
     }
 
-    // Verifica colisão com jogador
-    if (CheckCollisionRecs(attackArea, playerRect)) {
-        // Marcar dano no jogador via variável global ou ponteiro
-        // Aqui, você não pode aplicar diretamente, mas avisar o main que o jogador foi atingido.
-        // Você pode usar uma flag como retorno ou sinalizar dano de outra forma
-        // Como alternativa temporária, deixe esse trecho vazio e a lógica fica no main.c
-    }
 }
 
 }
