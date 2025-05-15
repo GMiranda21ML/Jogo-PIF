@@ -3,12 +3,18 @@
 #include "camera.h"
 #include "enemy.h"
 #include "menu.h"
+#include "map1.h"    // Novo mapa
 #include <math.h>
 
 #define PLATFORM_COUNT 4
 #define DETECTION_RADIUS 200.0f
 #define SKELETON_HIT_DURATION 0.2f
 #define PLAYER_HIT_COOLDOWN 0.5f
+
+typedef enum {
+    MAP_ORIGINAL,
+    MAP_1
+} MapType;
 
 int main() {
     InitWindow(800, 600, "Metroid Souls");
@@ -43,6 +49,7 @@ int main() {
 
             if (sprites.frame_change <= 0.0f) sprites.frame_change = 0.10f;
 
+            // Map original
             Rectangle ground = { 0, 550, 2000, 500 };
             Rectangle platforms[PLATFORM_COUNT] = {
                 {200, 450, 150, 20},
@@ -50,6 +57,11 @@ int main() {
                 {300, 250, 100, 20},
                 {685, 250, 100, 20}
             };
+
+            // Inicializa o mapa 1 externo
+            InitMap1();
+
+            MapType currentMap = MAP_ORIGINAL;
 
             Vector2 position = {400, 500};
             Vector2 velocity = {0, 0};
@@ -96,10 +108,30 @@ int main() {
                     break;
                 }
 
-                // Limites
+                // Limites horizontais no mapa atual
                 if (position.x < 0) position.x = 0;
-                if (position.x + sprites.walk_right.frames[0].width > ground.width)
-                    position.x = ground.width - sprites.walk_right.frames[0].width;
+
+                // Troca de mapa ao chegar na ponta direita do mapa original
+                if (currentMap == MAP_ORIGINAL) {
+                    if (position.x + sprites.walk_right.frames[0].width >= ground.width) {
+                        // Troca para mapa 1
+                        currentMap = MAP_1;
+                        ground = ground1;
+                        for (int i = 0; i < MAP1_PLATFORM_COUNT; i++) {
+                            platforms[i] = platforms1[i];
+                        }
+                        position = (Vector2){0, 500};
+                    }
+                }
+
+                // Limita a posição no mapa atual
+                if (currentMap == MAP_ORIGINAL) {
+                    if (position.x + sprites.walk_right.frames[0].width > ground.width)
+                        position.x = ground.width - sprites.walk_right.frames[0].width;
+                } else if (currentMap == MAP_1) {
+                    if (position.x + sprites.walk_right.frames[0].width > ground.width)
+                        position.x = ground.width - sprites.walk_right.frames[0].width;
+                }
 
                 // Gravidade
                 velocity.y += gravity * dt;
@@ -228,14 +260,18 @@ int main() {
 
                 DrawTexture(background, 0, -490, WHITE);
 
-                int tileWidth = groundSprites.frames[0].width;
-                int tiles = ground.width / tileWidth;
-                for (int i = 0; i < tiles + 1; i++) {
-                    DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
-                }
-
-                for (int i = 0; i < PLATFORM_COUNT; i++) {
-                    DrawRectangleRec(platforms[i], GRAY);
+                // Desenha o mapa conforme o currentMap
+                if (currentMap == MAP_ORIGINAL) {
+                    int tileWidth = groundSprites.frames[0].width;
+                    int tiles = ground.width / tileWidth;
+                    for (int i = 0; i < tiles + 1; i++) {
+                        DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
+                    }
+                    for (int i = 0; i < PLATFORM_COUNT; i++) {
+                        DrawRectangleRec(platforms[i], GRAY);
+                    }
+                } else if (currentMap == MAP_1) {
+                    DrawMap1(groundSprites.frames[0]);
                 }
 
                 DrawTexture(current, (int)position.x, (int)position.y, WHITE);
@@ -256,6 +292,7 @@ int main() {
             UnloadPlayerSprites(sprites);
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);
+            UnloadTexture(background);
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {
