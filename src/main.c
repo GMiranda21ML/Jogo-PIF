@@ -23,8 +23,10 @@ int main() {
 
     GameScreen currentScreen = SCREEN_MENU;
 
+    Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
+    // SetSoundVolume(hitSound, 0.5f); se quiser diminuir o som do hit
+    Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
-        Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
 
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
             StopMusicStream(menuMusic);
@@ -41,7 +43,7 @@ int main() {
         }
 
         if (currentScreen == SCREEN_GAME) {
-            int playerHealth = 100;
+            int playerHealth = 150;
             float playerHitTimer = 0.0f;
 
             PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
@@ -104,6 +106,7 @@ int main() {
                 }
 
                 if (IsKeyPressed(KEY_R)) {
+                    menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
                     currentScreen = SCREEN_MENU;
                     break;
                 }
@@ -204,6 +207,8 @@ int main() {
                             if (CheckCollisionRecs(playerRect, skeletonRect) &&
                                 attackFacing == ((skeleton.position.x > position.x) ? 1 : -1)) {
                                 DamageEnemy(&skeleton);
+
+                                PlaySound(hitSound);
                             }
                         }
 
@@ -235,7 +240,7 @@ int main() {
                     }
 
                     if (CheckCollisionRecs(playerRect, attackArea)) {
-                        playerHealth -= 20;
+                        playerHealth -= 10;
                         playerHitTimer = PLAYER_HIT_COOLDOWN;
 
                         if (playerHealth <= 0) {
@@ -282,9 +287,9 @@ int main() {
 
                 EndMode2D();
 
-                DrawRectangle(20, 20, 200, 20, DARKGRAY);
+                DrawRectangle(20, 20, 300, 20, DARKGRAY);
                 DrawRectangle(20, 20, 2 * playerHealth, 20, RED);
-                DrawRectangleLines(20, 20, 200, 20, WHITE);
+                DrawRectangleLines(20, 20, 300, 20, WHITE);
 
                 EndDrawing();
             }
@@ -296,6 +301,7 @@ int main() {
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {
+            menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
             GameScreen next = RunGameOver();
             if (next == SCREEN_MENU) {
                 currentScreen = SCREEN_MENU;
@@ -305,6 +311,8 @@ int main() {
         }
     }
 
+    
+    UnloadSound(hitSound);
     CloseAudioDevice();
     CloseWindow();
     return 0;
