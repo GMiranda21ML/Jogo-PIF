@@ -10,5 +10,6 @@ extern Rectangle platforms1[MAP1_PLATFORM_COUNT];
 
 void InitMap1();
 void DrawMap1(Texture2D groundTile);
+void UnloadMap1();
 
 #endif
