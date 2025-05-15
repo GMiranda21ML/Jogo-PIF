@@ -2,7 +2,7 @@
 #include "sprites.h"
 #include "camera.h"
 #include "enemy.h"
-#include "menu.h"
+#include "screens.h"
 #include "map1.h"    // Novo mapa
 #include <math.h>
 
@@ -21,28 +21,30 @@ int main() {
     InitAudioDevice();
     SetTargetFPS(60);
 
-    GameScreen currentScreen = SCREEN_MENU;
+    GameScreen currentScreen = RunCutscene();
 
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
     // SetSoundVolume(hitSound, 0.5f); se quiser diminuir o som do hit
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
+    Music forestMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
-
+        
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
             StopMusicStream(menuMusic);
             UnloadMusicStream(menuMusic);
         }
-
+        
         if (currentScreen == SCREEN_MENU) {
             PlayMusicStream(menuMusic);
             currentScreen = RunMenu(menuMusic);
         }
-
+        
         if (currentScreen == SCREEN_KEYBOARD) {
             currentScreen = RunKeyboardScreen(menuMusic);
         }
-
+        
         if (currentScreen == SCREEN_GAME) {
+            PlayMusicStream(forestMusic);
             int playerHealth = 150;
             float playerHitTimer = 0.0f;
 
@@ -89,6 +91,7 @@ int main() {
             Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
 
             while (!WindowShouldClose()) {
+                UpdateMusicStream(forestMusic); 
                 float dt = GetFrameTime();
                 bool moving = false;
 
@@ -298,6 +301,8 @@ int main() {
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
+            StopMusicStream(forestMusic);
+            UnloadMusicStream(forestMusic);
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {

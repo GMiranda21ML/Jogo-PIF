@@ -1,5 +1,5 @@
 #include "raylib.h"
-#include "menu.h"
+#include "screens.h"
 
 GameScreen RunGameOver() {
     Sound gameOverSound = LoadSound("assets/sound/gameOverSound/gameOver.wav");
