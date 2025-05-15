@@ -26,7 +26,7 @@ int main() {
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
     // SetSoundVolume(hitSound, 0.5f); se quiser diminuir o som do hit
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
-    Music forestMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+    Music gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
         
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
@@ -44,7 +44,8 @@ int main() {
         }
         
         if (currentScreen == SCREEN_GAME) {
-            PlayMusicStream(forestMusic);
+            gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+            PlayMusicStream(gameMusic);
             int playerHealth = 150;
             float playerHitTimer = 0.0f;
 
@@ -91,7 +92,7 @@ int main() {
             Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
 
             while (!WindowShouldClose()) {
-                UpdateMusicStream(forestMusic); 
+                UpdateMusicStream(gameMusic); 
                 float dt = GetFrameTime();
                 bool moving = false;
 
@@ -301,8 +302,8 @@ int main() {
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
-            StopMusicStream(forestMusic);
-            UnloadMusicStream(forestMusic);
+            StopMusicStream(gameMusic);
+            UnloadMusicStream(gameMusic);
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {
