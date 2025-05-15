@@ -9,7 +9,7 @@ extern Rectangle ground1;
 extern Rectangle platforms1[MAP1_PLATFORM_COUNT];
 
 void InitMap1();
-void DrawMap1(Texture2D groundTile);
+void DrawMap1();
 void UnloadMap1();
 
 #endif
