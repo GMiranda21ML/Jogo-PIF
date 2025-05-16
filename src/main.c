@@ -156,7 +156,7 @@ int main() {
 
                 velocity.y += gravity * dt;
                 position.y += velocity.y * dt;
-
+                
                 isOnGround = false;
                 float playerHeight = (float)sprites.walk_right.frames[0].height;
 
@@ -179,6 +179,37 @@ int main() {
                     velocity.y = 0;
                     isOnGround = true;
                 }
+
+                if (currentMap == MAP_1) {
+                    Rectangle playerRect = {
+                        position.x,
+                        position.y,
+                        (float)sprites.walk_right.frames[0].width,
+                        (float)sprites.walk_right.frames[0].height
+                    };
+
+                    Rectangle secondFloor = ground1_secondFloor;
+
+                    if (velocity.y < 0 &&
+                        CheckCollisionRecs(playerRect, secondFloor) &&
+                        position.y + playerRect.height > secondFloor.y + secondFloor.height) {
+                        
+                        position.y = secondFloor.y + secondFloor.height;
+                        velocity.y = 0;
+                    }
+
+                    if (velocity.y >= 0 &&
+                        position.y + playerHeight >= ground1_secondFloor.y &&
+                        position.y + playerHeight - velocity.y * dt <= ground1_secondFloor.y &&
+                        position.x + sprites.walk_right.frames[0].width > ground1_secondFloor.x &&
+                        position.x < ground1_secondFloor.x + ground1_secondFloor.width) {
+
+                        position.y = ground1_secondFloor.y - playerHeight;
+                        velocity.y = 0;
+                        isOnGround = true;
+                    }
+                }
+
 
                 if (isOnGround && IsKeyPressed(KEY_W)) {
                     velocity.y = jumpForce;
@@ -279,7 +310,7 @@ int main() {
                 BeginMode2D(camera);
 
                 DrawTexture(background, 0, -490, WHITE);
-
+                
                 if (currentMap == MAP_ORIGINAL) {
                     int tileWidth = groundSprites.frames[0].width;
                     int tiles = ground.width / tileWidth;

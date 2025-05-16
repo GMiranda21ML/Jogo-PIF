@@ -3,9 +3,10 @@
 
 #include "raylib.h"
 
-#define MAP1_PLATFORM_COUNT 4
+#define MAP1_PLATFORM_COUNT 2  
 
 extern Rectangle ground1;
+extern Rectangle ground1_secondFloor;
 extern Rectangle platforms1[MAP1_PLATFORM_COUNT];
 
 void InitMap1();
