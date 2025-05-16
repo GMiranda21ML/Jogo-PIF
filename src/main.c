@@ -4,6 +4,7 @@
 #include "enemy.h"
 #include "screens.h"
 #include "map1.h"    // Novo mapa
+#include "powerUp.h"
 #include <math.h>
 
 #define PLATFORM_COUNT 4
@@ -49,7 +50,10 @@ int main() {
             int playerHealth = 150;
             float playerHitTimer = 0.0f;
 
-            PlayerSprites sprites = LoadPlayerSprites("assets/sprites/player/player.json");
+            PlayerLevel playerLevel;
+            InitPlayerLevels(&playerLevel);
+            PlayerSprites sprites = LoadPlayerSprites(playerLevel.currentLevel->spritePath);
+
             GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
 
             if (sprites.frame_change <= 0.0f) sprites.frame_change = 0.10f;
@@ -225,8 +229,17 @@ int main() {
                                 DamageEnemy(&skeleton);
 
                                 PlaySound(hitSound);
+
+                                if (!skeleton.alive) {
+                                    AddKill(&playerLevel);
+                        
+                                    UnloadPlayerSprites(sprites);
+                                    sprites = LoadPlayerSprites(playerLevel.currentLevel->spritePath);
+                                }
                             }
+
                         }
+
 
                         if (frame >= currentAnim.frame_count) {
                             frame = 0;
@@ -310,6 +323,7 @@ int main() {
                 EndDrawing();
             }
 
+            FreePlayerLevels(&playerLevel);
             UnloadPlayerSprites(sprites);
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);
@@ -329,7 +343,7 @@ int main() {
         }
     }
 
-    
+
     UnloadSound(hitSound);
     CloseAudioDevice();
     CloseWindow();

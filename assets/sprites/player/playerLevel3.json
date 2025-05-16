@@ -1,0 +1,44 @@
+{
+    "sprite": "Player",
+    "player_walk": {
+        "right": [
+            "assets/sprites/player/player_walk/player_walk1.png",
+            "assets/sprites/player/player_walk/player_walk2.png",
+            "assets/sprites/player/player_walk/player_walk3.png",
+            "assets/sprites/player/player_walk/player_walk4.png",
+            "assets/sprites/player/player_walk/player_walk5.png",
+            "assets/sprites/player/player_walk/player_walk6.png",
+            "assets/sprites/player/player_walk/player_walk7.png",
+            "assets/sprites/player/player_walk/player_walk8.png"
+        ],
+        "left": [
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted1.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted2.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted3.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted4.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted5.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted6.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted7.png",
+            "assets/sprites/player/player_walk_inverted/player_walk_inverted8.png"
+        ]
+    },
+    "player_idle": {
+        "right": [
+            "assets/sprites/player/player_idle/player_idle1.png",
+            "assets/sprites/player/player_idle/player_idle2.png",
+            "assets/sprites/player/player_idle/player_idle3.png",
+            "assets/sprites/player/player_idle/player_idle4.png",
+            "assets/sprites/player/player_idle/player_idle5.png"
+        ]
+    },
+    "player_attack": {
+        "right": [
+            "assets/sprites/player/player_attack3/player_attack3-1.png",
+            "assets/sprites/player/player_attack3/player_attack3-2.png",
+            "assets/sprites/player/player_attack3/player_attack3-3.png",
+            "assets/sprites/player/player_attack3/player_attack3-4.png",
+            "assets/sprites/player/player_attack3/player_attack3-5.png"
+        ]
+    },
+    "frame_change": 0.10
+}
