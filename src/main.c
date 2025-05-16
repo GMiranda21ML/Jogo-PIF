@@ -3,7 +3,7 @@
 #include "camera.h"
 #include "enemy.h"
 #include "screens.h"
-#include "map1.h"    // Novo mapa
+#include "map1.h"    
 #include "levelUp.h"
 #include <math.h>
 
@@ -11,6 +11,9 @@
 #define DETECTION_RADIUS 200.0f
 #define SKELETON_HIT_DURATION 0.2f
 #define PLAYER_HIT_COOLDOWN 0.5f
+
+#define ORIGINAL_MAP_ROWS 4
+#define ORIGINAL_MAP_COLS 1
 
 typedef enum {
     MAP_ORIGINAL,
@@ -27,25 +30,32 @@ int main() {
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
     Sound levelUpSound = LoadSound("assets/sound/levelUp/levelUpSound.mp3");
     SetSoundVolume(levelUpSound, 1.5f); 
-    // SetSoundVolume(hitSound, 0.5f); se quiser diminuir o som do hit
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     Music gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+
+    Rectangle originalMapMatrix[ORIGINAL_MAP_ROWS][ORIGINAL_MAP_COLS] = {
+        {{200, 450, 150, 20}},
+        {{450, 350, 150, 20}},
+        {{300, 250, 100, 20}},
+        {{685, 250, 100, 20}}
+    };
+
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
-        
+
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
             StopMusicStream(menuMusic);
             UnloadMusicStream(menuMusic);
         }
-        
+
         if (currentScreen == SCREEN_MENU) {
             PlayMusicStream(menuMusic);
             currentScreen = RunMenu(menuMusic);
         }
-        
+
         if (currentScreen == SCREEN_KEYBOARD) {
             currentScreen = RunKeyboardScreen(menuMusic);
         }
-        
+
         if (currentScreen == SCREEN_GAME) {
             gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
             PlayMusicStream(gameMusic);
@@ -60,18 +70,13 @@ int main() {
 
             if (sprites.frame_change <= 0.0f) sprites.frame_change = 0.10f;
 
-            // Map original
             Rectangle ground = { 0, 550, 2000, 500 };
-            Rectangle platforms[PLATFORM_COUNT] = {
-                {200, 450, 150, 20},
-                {450, 350, 150, 20},
-                {300, 250, 100, 20},
-                {685, 250, 100, 20}
-            };
+            Rectangle platforms[PLATFORM_COUNT];
+            for (int i = 0; i < PLATFORM_COUNT; i++) {
+                platforms[i] = originalMapMatrix[i][0];
+            }
 
-            // Inicializa o mapa 1 externo
             InitMap1();
-
             MapType currentMap = MAP_ORIGINAL;
 
             Vector2 position = {400, 500};
@@ -104,7 +109,6 @@ int main() {
 
                 if (playerHitTimer > 0.0f) playerHitTimer -= dt;
 
-                // Movimento
                 if (IsKeyDown(KEY_D)) {
                     position.x += speed * dt;
                     facing = 1;
@@ -121,13 +125,10 @@ int main() {
                     break;
                 }
 
-                // Limites horizontais no mapa atual
                 if (position.x < 0) position.x = 0;
 
-                // Troca de mapa ao chegar na ponta direita do mapa original
                 if (currentMap == MAP_ORIGINAL) {
                     if (position.x + sprites.walk_right.frames[0].width >= ground.width) {
-                        // Troca para mapa 1
                         currentMap = MAP_1;
                         ground = ground1;
                         for (int i = 0; i < MAP1_PLATFORM_COUNT; i++) {
@@ -139,30 +140,23 @@ int main() {
                     if (position.x <= 0) {
                         currentMap = MAP_ORIGINAL;
                         ground = (Rectangle){ 0, 550, 2000, 500 };
-                        platforms[0] = (Rectangle){200, 450, 150, 20};
-                        platforms[1] = (Rectangle){450, 350, 150, 20};
-                        platforms[2] = (Rectangle){300, 250, 100, 20};
-                        platforms[3] = (Rectangle){685, 250, 100, 20};
-                        position = (Vector2){ground.width - sprites.walk_right.frames[0].width, 500};  // Reaparece na direita do mapa original
+                        for (int i = 0; i < PLATFORM_COUNT; i++) {
+                            platforms[i] = originalMapMatrix[i][0];
+                        }
+                        position = (Vector2){ground.width - sprites.walk_right.frames[0].width, 500};
                         InitEnemy(&skeleton, (Vector2){600, 500});
                         skeleton.sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
                     }
                 }
 
-                // Limita a posição no mapa atual
-                if (currentMap == MAP_ORIGINAL) {
-                    if (position.x + sprites.walk_right.frames[0].width > ground.width)
-                        position.x = ground.width - sprites.walk_right.frames[0].width;
-                } else if (currentMap == MAP_1) {
+                if (currentMap == MAP_ORIGINAL || currentMap == MAP_1) {
                     if (position.x + sprites.walk_right.frames[0].width > ground.width)
                         position.x = ground.width - sprites.walk_right.frames[0].width;
                 }
 
-                // Gravidade
                 velocity.y += gravity * dt;
                 position.y += velocity.y * dt;
 
-                // Colisão com plataformas
                 isOnGround = false;
                 float playerHeight = (float)sprites.walk_right.frames[0].height;
 
@@ -186,13 +180,11 @@ int main() {
                     isOnGround = true;
                 }
 
-                // Pulo
                 if (isOnGround && IsKeyPressed(KEY_W)) {
                     velocity.y = jumpForce;
                     isOnGround = false;
                 }
 
-                // Ataque
                 if (IsKeyPressed(KEY_L) && !attacking) {
                     attacking = true;
                     frame = 0;
@@ -229,19 +221,15 @@ int main() {
                             if (CheckCollisionRecs(playerRect, skeletonRect) &&
                                 attackFacing == ((skeleton.position.x > position.x) ? 1 : -1)) {
                                 DamageEnemy(&skeleton);
-
                                 PlaySound(hitSound);
 
                                 if (!skeleton.alive) {
                                     AddKill(&playerLevel, levelUpSound);
-                        
                                     UnloadPlayerSprites(sprites);
                                     sprites = LoadPlayerSprites(playerLevel.currentLevel->spritePath);
                                 }
                             }
-
                         }
-
 
                         if (frame >= currentAnim.frame_count) {
                             frame = 0;
@@ -254,7 +242,6 @@ int main() {
 
                 Texture2D current = currentAnim.frames[frame];
 
-                // Atualiza inimigo
                 Rectangle playerRect = {position.x, position.y, (float)current.width, (float)current.height};
                 Texture2D enemyTex = GetEnemyTexture(&skeleton, skeleton.sprites);
                 Rectangle enemyRect = GetEnemyRect(&skeleton, enemyTex);
@@ -262,7 +249,6 @@ int main() {
 
                 if (skeleton.alive && skeleton.attacking && playerHitTimer <= 0.0f) {
                     Rectangle attackArea = GetEnemyRect(&skeleton, enemyTex);
-
                     if (skeleton.facing >= 0) {
                         attackArea.width += 30;
                     } else {
@@ -286,17 +272,14 @@ int main() {
                     }
                 }
 
-
                 UpdateCameraToFollowPlayer(&camera, position, 800, 600, ground.width, ground.y + ground.height);
 
-                // Desenho
                 BeginDrawing();
                 ClearBackground(BLACK);
                 BeginMode2D(camera);
 
                 DrawTexture(background, 0, -490, WHITE);
 
-                // Desenha o mapa conforme o currentMap
                 if (currentMap == MAP_ORIGINAL) {
                     int tileWidth = groundSprites.frames[0].width;
                     int tiles = ground.width / tileWidth;
