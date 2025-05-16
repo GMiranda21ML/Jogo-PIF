@@ -4,7 +4,7 @@
 #include "enemy.h"
 #include "screens.h"
 #include "map1.h"    // Novo mapa
-#include "powerUp.h"
+#include "levelUp.h"
 #include <math.h>
 
 #define PLATFORM_COUNT 4
@@ -25,6 +25,8 @@ int main() {
     GameScreen currentScreen = RunCutscene();
 
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
+    Sound levelUpSound = LoadSound("assets/sound/levelUp/levelUpSound.mp3");
+    SetSoundVolume(levelUpSound, 1.5f); 
     // SetSoundVolume(hitSound, 0.5f); se quiser diminuir o som do hit
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     Music gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
@@ -231,7 +233,7 @@ int main() {
                                 PlaySound(hitSound);
 
                                 if (!skeleton.alive) {
-                                    AddKill(&playerLevel);
+                                    AddKill(&playerLevel, levelUpSound);
                         
                                     UnloadPlayerSprites(sprites);
                                     sprites = LoadPlayerSprites(playerLevel.currentLevel->spritePath);
@@ -343,7 +345,7 @@ int main() {
         }
     }
 
-
+    UnloadSound(levelUpSound);
     UnloadSound(hitSound);
     CloseAudioDevice();
     CloseWindow();

@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "camera.h": "c",
-        "raylib.h": "c"
+        "raylib.h": "c",
+        "powerup.h": "c"
     },
     "makefile.configureOnOpen": false
 }
