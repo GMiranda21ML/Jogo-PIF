@@ -5,6 +5,7 @@
 #include "screens.h"
 #include "map1.h"    
 #include "levelUp.h"
+#include <time.h>
 #include <math.h>
 
 #define PLATFORM_COUNT 4
@@ -24,7 +25,8 @@ int main() {
     InitWindow(800, 600, "Metroid Souls");
     InitAudioDevice();
     SetTargetFPS(60);
-
+    srand(time(NULL));
+    
     GameScreen currentScreen = RunCutscene();
 
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
@@ -32,6 +34,18 @@ int main() {
     SetSoundVolume(levelUpSound, 1.5f); 
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     Music gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+    Sound hitPlayerSound[6] = {
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer1.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer2.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer3.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer4.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer5.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer6.wav")
+    };   
+
+    for (int i = 0; i < 6; i++) {
+        SetSoundVolume(hitPlayerSound[i], 0.5f);
+    } 
 
     Rectangle originalMapMatrix[ORIGINAL_MAP_ROWS][ORIGINAL_MAP_COLS] = {
         {{200, 450, 150, 20}},
@@ -291,6 +305,10 @@ int main() {
                         playerHealth -= 10;
                         playerHitTimer = PLAYER_HIT_COOLDOWN;
 
+
+                        int randomIndex = rand() % 6; // função random da raylib int randomIndex = GetRandomValue(0, 5);
+                        PlaySound(hitPlayerSound[randomIndex]);
+
                         if (playerHealth <= 0) {
                             currentScreen = SCREEN_GAMEOVER;
                             break;
@@ -359,6 +377,9 @@ int main() {
         }
     }
 
+    for (int i = 0; i < 6; i++) {
+        UnloadSound(hitPlayerSound[i]);
+    }
     UnloadSound(levelUpSound);
     UnloadSound(hitSound);
     CloseAudioDevice();
