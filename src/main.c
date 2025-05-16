@@ -129,6 +129,18 @@ int main() {
                         }
                         position = (Vector2){0, 500};
                     }
+                } else if (currentMap == MAP_1) {
+                    if (position.x <= 0) {
+                        currentMap = MAP_ORIGINAL;
+                        ground = (Rectangle){ 0, 550, 2000, 500 };
+                        platforms[0] = (Rectangle){200, 450, 150, 20};
+                        platforms[1] = (Rectangle){450, 350, 150, 20};
+                        platforms[2] = (Rectangle){300, 250, 100, 20};
+                        platforms[3] = (Rectangle){685, 250, 100, 20};
+                        position = (Vector2){ground.width - sprites.walk_right.frames[0].width, 500};  // Reaparece na direita do mapa original
+                        InitEnemy(&skeleton, (Vector2){600, 500});
+                        skeleton.sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
+                    }
                 }
 
                 // Limita a posição no mapa atual
