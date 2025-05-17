@@ -332,12 +332,22 @@ int main() {
                 if (currentMap == MAP_ORIGINAL) {
                     int tileWidth = groundSprites.frames[0].width;
                     int tiles = ground.width / tileWidth;
-                    for (int i = 0; i < tiles + 1; i++) {
+                    for (int i = 0; i < tiles + 1; i++) {   
                         DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
                     }
                     for (int i = 0; i < PLATFORM_COUNT; i++) {
                         DrawRectangleRec(platforms[i], GRAY);
                     }
+                //TEMPORARIO PARA TESTAR CENÁRIO 2!!!!!!!!
+                if (IsKeyPressed(KEY_T)) {
+                    currentMap = MAP_1;
+                    ground = ground1;
+                    for (int i = 0; i < MAP1_PLATFORM_COUNT; i++) {
+                        platforms[i] = platforms1[i];
+                    }
+                    position = (Vector2){0, 500};
+                }
+                //FIM
                 } else if (currentMap == MAP_1) {
                     DrawMap1(groundSprites.frames[0]);
                 }
