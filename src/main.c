@@ -332,5 +332,7 @@ int main() {
     UnloadSound(hitSound);
     CloseAudioDevice();
     CloseWindow();
+
+    
     return 0;
 }
