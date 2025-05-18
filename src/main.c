@@ -96,7 +96,7 @@ int main() {
             Vector2 position = {400, 500};
             Vector2 velocity = {0, 0};
             float gravity = 900.0f;
-            float jumpForce = -450.0f;
+            float jumpForce = -1000.0f;
             bool isOnGround = false;
 
             bool attacking = false;
@@ -202,27 +202,42 @@ int main() {
                         (float)sprites.walk_right.frames[0].height
                     };
 
-                    Rectangle secondFloor = ground1_secondFloor;
-
-                    if (velocity.y < 0 &&
-                        CheckCollisionRecs(playerRect, secondFloor) &&
-                        position.y + playerRect.height > secondFloor.y + secondFloor.height) {
-                        
-                        position.y = secondFloor.y + secondFloor.height;
-                        velocity.y = 0;
+                    if (velocity.y < 0 && CheckCollisionRecs(playerRect, ceiling_left)) {
+                        position.y = ceiling_left.y + ceiling_left.height;  
+                        velocity.y = 0;  
                     }
 
-                    if (velocity.y >= 0 &&
-                        position.y + playerHeight >= ground1_secondFloor.y &&
-                        position.y + playerHeight - velocity.y * dt <= ground1_secondFloor.y &&
-                        position.x + sprites.walk_right.frames[0].width > ground1_secondFloor.x &&
-                        position.x < ground1_secondFloor.x + ground1_secondFloor.width) {
+                    if (velocity.y < 0 && CheckCollisionRecs(playerRect, ceiling_right)) {
+                        position.y = ceiling_right.y + ceiling_right.height;  
+                        velocity.y = 0;  
+                    }
 
-                        position.y = ground1_secondFloor.y - playerHeight;
-                        velocity.y = 0;
-                        isOnGround = true;
+                    Rectangle secondFloors[] = {ground1_secondFloor_left, ground1_secondFloor_right};
+
+                    for (int i = 0; i < 2; i++) {
+                        Rectangle secondFloor = secondFloors[i];
+
+                        if (velocity.y < 0 &&
+                            CheckCollisionRecs(playerRect, secondFloor) &&
+                            position.y + playerRect.height > secondFloor.y + secondFloor.height) {
+
+                            position.y = secondFloor.y + secondFloor.height;
+                            velocity.y = 0;
+                        }
+
+                        if (velocity.y >= 0 &&
+                            position.y + playerHeight >= secondFloor.y &&
+                            position.y + playerHeight - velocity.y * dt <= secondFloor.y &&
+                            position.x + playerRect.width > secondFloor.x &&
+                            position.x < secondFloor.x + secondFloor.width) {
+
+                            position.y = secondFloor.y - playerHeight;
+                            velocity.y = 0;
+                            isOnGround = true;
+                        }
                     }
                 }
+
 
 
                 if (isOnGround && IsKeyPressed(KEY_W)) {
