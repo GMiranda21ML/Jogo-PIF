@@ -1,0 +1,8 @@
+{
+    "sprite": "wallCastle",
+    "wall_stone": {
+        "wall_stone": [
+            "assets/sprites/map/wall/wallCastle.png"
+        ]
+    }
+}
