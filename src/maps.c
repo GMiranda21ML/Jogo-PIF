@@ -3,11 +3,16 @@
 #include "map1.h"
 
 #define MAX_WALLS 1000
+#define MAX_CEILINGS 1000
 
 static Rectangle walls[MAX_WALLS];
 static int wallCount = 0;
 
+static Rectangle ceilings[MAX_CEILINGS];
+static int ceilingCount = 0;
+
 static Texture2D wallTile;
+static Texture2D ceilingTile;
 
 void DrawWall(int x, int baseY, int heightInPixels) {
     int wallTileHeight = wallTile.height;
@@ -39,8 +44,66 @@ void CreateWallComColisao(int x, int baseY, int altura) {
     }
 }
 
+void DrawCeiling(int xInicio, int xFim, int topY, int altura) {
+    int tileWidth = ceilingTile.width;
+    int tileHeight = ceilingTile.height;
+
+    int blocosHorizontais = (xFim - xInicio) / tileWidth;
+    int blocosVerticais = altura / tileHeight;
+
+    for (int i = 0; i < blocosVerticais; i++) {
+        for (int j = 0; j < blocosHorizontais; j++) {
+            DrawTexture(ceilingTile, xInicio + j * tileWidth, topY + i * tileHeight, WHITE);
+        }
+    }
+
+    int restoAltura = altura % tileHeight;
+    if (restoAltura > 0) {
+        for (int j = 0; j < blocosHorizontais; j++) {
+            Rectangle src = {0, 0, tileWidth, restoAltura};
+            Rectangle dest = {xInicio + j * tileWidth, topY + blocosVerticais * tileHeight, tileWidth, restoAltura};
+            DrawTexturePro(ceilingTile, src, dest, (Vector2){0, 0}, 0, WHITE);
+        }
+    }
+
+    int restoLargura = (xFim - xInicio) % tileWidth;
+    if (restoLargura > 0) {
+        for (int i = 0; i < blocosVerticais; i++) {
+            Rectangle src = {0, 0, restoLargura, tileHeight};
+            Rectangle dest = {xFim - restoLargura, topY + i * tileHeight, restoLargura, tileHeight};
+            DrawTexturePro(ceilingTile, src, dest, (Vector2){0, 0}, 0, WHITE);
+        }
+    }
+
+    if (restoAltura > 0 && restoLargura > 0) {
+        Rectangle src = {0, 0, restoLargura, restoAltura};
+        Rectangle dest = {xFim - restoLargura, topY + blocosVerticais * tileHeight, restoLargura, restoAltura};
+        DrawTexturePro(ceilingTile, src, dest, (Vector2){0, 0}, 0, WHITE);
+    }
+}
+
+
+void CreateCeilingComColisao(int xInicio, int xFim, int topY, int altura) {
+    DrawCeiling(xInicio, xFim, topY, altura);
+
+    if (ceilingCount < MAX_CEILINGS) {
+        Rectangle ceilingRec = {
+            xInicio,
+            topY,
+            xFim - xInicio,
+            altura
+        };
+        ceilings[ceilingCount++] = ceilingRec;
+    }
+}
+
+
 void SetWallTile(Texture2D texture) {
     wallTile = texture;
+}
+
+void SetCeilingTile(Texture2D texture) {
+    ceilingTile = texture;
 }
 
 Rectangle *GetWalls(void) {
@@ -53,5 +116,9 @@ int GetWallCount(void) {
 
 void UnloadWallTile(void) {
     UnloadTexture(wallTile);
+}
+
+void UnloadCeilingTile(void) {
+    UnloadTexture(ceilingTile);
 }
 

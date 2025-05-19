@@ -20,8 +20,10 @@ void InitMap1() {
     background1 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
+    Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");;
 
     SetWallTile(wallTile); // novo: informa o maps.c sobre a textura da parede
+    SetCeilingTile(ceilingTile);
 }
 
 void DrawMap1() {
@@ -39,6 +41,9 @@ void DrawMap1() {
 
     // Agora usa a função de outro arquivo:
     CreateWallComColisao(ground1.x + 300, ground1.y, 185);
+
+    CreateCeilingComColisao(0, 250, 0,10);
+    CreateCeilingComColisao(350, 2000, 0,10);
 }
 
 Rectangle* GetMap1Platforms() {
