@@ -6,7 +6,7 @@ void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->velocity = (Vector2){0, 0};
     enemy->frame = 0;
     enemy->timer = 0;
-    enemy->health = 150;
+    enemy->health = 20;
     enemy->alive = true;
     enemy->hitTimer = 0;
     enemy->attacking = false;

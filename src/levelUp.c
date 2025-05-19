@@ -7,17 +7,17 @@ void InitPlayerLevels(PlayerLevel* player) {
 
     LevelNode* level1 = (LevelNode *)malloc(sizeof(LevelNode));
     level1->level = 1;
-    level1->damage = 1;
+    level1->damage = 5;
     level1->spritePath = "assets/sprites/player/playerLevel1.json";
 
     LevelNode* level2 = (LevelNode *)malloc(sizeof(LevelNode));
     level2->level = 2;
-    level2->damage = 2;
+    level2->damage = 7;
     level2->spritePath = "assets/sprites/player/playerLevel2.json";
 
     LevelNode* level3 = (LevelNode *)malloc(sizeof(LevelNode));
     level3->level = 3;
-    level3->damage = 3;
+    level3->damage = 10;
     level3->spritePath = "assets/sprites/player/playerLevel3.json";
 
     level1->next = level2;
