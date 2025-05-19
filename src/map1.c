@@ -2,48 +2,11 @@
 #include "maps.h"
 #include "raylib.h"
 
-#define MAX_WALLS 1000
-
 Rectangle ground1;
 Rectangle platforms1[MAP1_PLATFORM_COUNT];
-Rectangle walls[MAX_WALLS];
 
 static Texture2D background1;
 static Texture2D groundTile1;
-static Texture2D wallTile;
-
-
-int wallCount = 0;
-
-void DrawWall(int x, int baseY, int heightInPixels) {
-    int wallTileHeight = wallTile.height;
-    int blocks = heightInPixels / wallTileHeight;
-
-    for (int i = 0; i < blocks; i++) {
-        DrawTexture(wallTile, x, baseY - (i + 1) * wallTileHeight, WHITE);
-    }
-
-    int remainder = heightInPixels % wallTileHeight;
-    if (remainder > 0) {
-        Rectangle src = {0, wallTileHeight - remainder, wallTile.width, remainder};
-        Rectangle dest = {x, baseY - blocks * wallTileHeight - remainder, wallTile.width, remainder};
-        DrawTexturePro(wallTile, src, dest, (Vector2){0, 0}, 0, WHITE);
-    }
-}
-
-void CreateWallComColisao(int x, int baseY, int altura) {
-    DrawWall(x, baseY, altura);
-
-    if (wallCount < MAX_WALLS) {
-        Rectangle wallRec = {
-            x,
-            baseY - altura,
-            wallTile.width,
-            altura
-        };
-        walls[wallCount++] = wallRec;
-    }
-}
 
 void InitMap1() {
     ground1 = (Rectangle){0, 550, 2000, 500};
@@ -56,7 +19,9 @@ void InitMap1() {
 
     background1 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
-    wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
+    Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
+
+    SetWallTile(wallTile); // novo: informa o maps.c sobre a textura da parede
 }
 
 void DrawMap1() {
@@ -72,12 +37,24 @@ void DrawMap1() {
         DrawRectangleRec(platforms1[i], GRAY);
     }
 
-    CreateWallComColisao(ground1.x + 2000, ground1.y, 185);
+    // Agora usa a função de outro arquivo:
+    CreateWallComColisao(ground1.x + 300, ground1.y, 185);
+}
 
+Rectangle* GetMap1Platforms() {
+    return platforms1;
+}
+
+Rectangle GetMap1Ground(void) {
+    return ground1;
+}
+
+int GetMap1PlatformCount(void) {
+    return MAP1_PLATFORM_COUNT;
 }
 
 void UnloadMap1() {
     UnloadTexture(background1);
     UnloadTexture(groundTile1);
-    UnloadTexture(wallTile);
+    UnloadWallTile();
 }

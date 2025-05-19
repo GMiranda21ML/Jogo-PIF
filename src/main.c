@@ -71,7 +71,9 @@ int main() {
 
             GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
             Rectangle ground = { 0, 550, 2000, 500 };
-            Rectangle platforms[PLATFORM_COUNT];
+            Rectangle platforms[10];
+            int platformcount = PLATFORM_COUNT;
+
             for (int i = 0; i < PLATFORM_COUNT; i++) {
                 platforms[i] = originalMapMatrix[i][0];
             }
@@ -96,7 +98,7 @@ int main() {
                     break;
                 }
 
-                UpdatePlayer(&player, dt, platforms, PLATFORM_COUNT, ground, &skeleton, hitSound, levelUpSound, &currentMap, hitPlayerSound);
+                UpdatePlayer(&player, dt, platforms, platformcount, ground, &skeleton, hitSound, levelUpSound, &currentMap, hitPlayerSound);
 
                 Rectangle playerRect = {player.position.x, player.position.y, player.position.x, player.position.y};
                 UpdateEnemy(&skeleton, player.position, dt, skeleton.sprites, playerRect);
@@ -119,6 +121,16 @@ int main() {
                     for (int i = 0; i < PLATFORM_COUNT; i++) {
                         DrawRectangleRec(platforms[i], GRAY);
                     }
+                } static bool map1Loaded = false;
+                if (currentMap == MAP_1 && !map1Loaded) {
+                    InitMap1();
+                    Rectangle* map1Plats = GetMap1Platforms();
+                    platformcount = GetMap1PlatformCount();
+                    for (int i = 0; i < platformcount; i++) {
+                        platforms[i] = map1Plats[i];
+                    }
+                    ground = GetMap1Ground();
+                    map1Loaded = true;
                 } else if (currentMap == MAP_1) {
                     DrawMap1();
                 }

@@ -3,6 +3,7 @@
 #include "maps.h"
 #include "levelUp.h"
 #include <math.h>
+#include <stdlib.h>
 
 #define PLAYER_HIT_COOLDOWN 0.5f
 
@@ -37,6 +38,17 @@ Rectangle GetPlayerRect(Player *player) {
     return (Rectangle){player->position.x, player->position.y, (float)current.width, (float)current.height};
 }
 
+Rectangle GetPlayerRectWall(Player *player) {
+    return (Rectangle){
+        player->position.x,
+        player->position.y,
+        player->sprites.walk_right.frames[0].width,
+        player->sprites.walk_right.frames[0].height
+    };
+}
+
+
+
 void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemy, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
     bool moving = false;
     if (player->playerHitTimer > 0.0f) player->playerHitTimer -= dt;
@@ -51,24 +63,27 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         moving = true;
     }
 
+    int count = GetWallCount();
+    Rectangle *wallsArray = GetWalls();
+
+    Rectangle playerRecWall = GetPlayerRectWall(player);
+    for (int i = 0; i < count; i++) {
+    if (CheckCollisionRecs(playerRecWall, wallsArray[i])) {
+        if (IsKeyDown(KEY_D)) player->position.x -= player->speed * dt;
+        else if (IsKeyDown(KEY_A)) player->position.x += player->speed * dt;
+        break;
+    }
+}
+
+
     if (player->position.x < 0) player->position.x = 0;
 
     if (*currentMap == MAP_ORIGINAL && player->position.x + player->sprites.walk_right.frames[0].width >= ground.width) {
         *currentMap = MAP_1;
-        ground = ground1;
-        for (int i = 0; i < MAP1_PLATFORM_COUNT; i++) {
-            platforms[i] = platforms1[i];
-        }
         player->position = (Vector2){0, 500};
     } else if (*currentMap == MAP_1 && player->position.x <= 0) {
         *currentMap = MAP_ORIGINAL;
-        ground = (Rectangle){0, 550, 2000, 500};
-        for (int i = 0; i < platformCount; i++) {
-            platforms[i] = (Rectangle){ 200 + i*250, 450 - i*100, 150, 20 };
-        }
         player->position = (Vector2){ground.width - player->sprites.walk_right.frames[0].width, 500};
-        InitEnemy(enemy, (Vector2){600, 500});
-        enemy->sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
     }
 
     player->velocity.y += player->gravity * dt;
