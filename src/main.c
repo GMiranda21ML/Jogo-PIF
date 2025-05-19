@@ -12,6 +12,7 @@
 #define PLATFORM_COUNT 4
 #define ORIGINAL_MAP_ROWS 4
 #define ORIGINAL_MAP_COLS 1
+#define MAX_ENEMIES 2
 
 int main() {
     InitWindow(800, 600, "Metroid Souls");
@@ -81,9 +82,13 @@ int main() {
             InitMap1();
             MapType currentMap = MAP_ORIGINAL;
 
-            Enemy skeleton;
-            InitEnemy(&skeleton, (Vector2){600, 500});
-            skeleton.sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
+            Enemy enemies[MAX_ENEMIES];
+            int enemyCount = 2;
+            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f);
+            enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
+
+            InitEnemy(&enemies[1], (Vector2){680, 505}, 0.4f);
+            enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
             Camera2D camera = InitCamera(player.position, (Vector2){400, 300});
             Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
@@ -98,11 +103,13 @@ int main() {
                     break;
                 }
 
-                UpdatePlayer(&player, dt, platforms, platformcount, ground, &skeleton, hitSound, levelUpSound, &currentMap, hitPlayerSound);
+                UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
 
                 Rectangle playerRect = {player.position.x, player.position.y, player.position.x, player.position.y};
-                UpdateEnemy(&skeleton, player.position, dt, skeleton.sprites, playerRect);
 
+                for (int i = 0; i < enemyCount; i++) {
+                    UpdateEnemy(&enemies[i], player.position, dt, enemies[i].sprites, playerRect);
+                }
 
                 UpdateCameraToFollowPlayer(&camera, player.position, 800, 600, ground.width, ground.y + ground.height);
 
@@ -137,8 +144,11 @@ int main() {
 
                 DrawPlayer(&player);
 
-                if (skeleton.alive) {
-                    DrawEnemy(&skeleton, GetEnemyTexture(&skeleton, skeleton.sprites));
+                for (int i = 0; i < enemyCount; i++) {
+                    if (enemies[i].alive) {
+                        DrawEnemy(&enemies[i], GetEnemyTexture(&enemies[i], enemies[i].sprites));
+                    }
+                    
                 }
 
                 EndMode2D();
@@ -157,7 +167,9 @@ int main() {
             }
 
             FreePlayer(&player);
-            UnloadEnemySprites(skeleton.sprites);
+            for (int i = 0; i < enemyCount; i++) {
+                UnloadEnemySprites(enemies[i].sprites);
+            }
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
             StopMusicStream(gameMusic);
@@ -183,6 +195,5 @@ int main() {
     CloseAudioDevice();
     CloseWindow();
 
-    
     return 0;
 }

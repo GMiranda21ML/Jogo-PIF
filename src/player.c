@@ -11,7 +11,7 @@ void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
     player->velocity = (Vector2){0, 0};
     player->gravity = 900.0f;
-    player->jumpForce = -600.0f;
+    player->jumpForce = -450.0f;
     player->speed = 200.0f;
     player->timer = 0;
     player->frame = 0;
@@ -57,7 +57,8 @@ Rectangle GetPlayerRectCeiling(Player *player) {
 }
 
 
-void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemy, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
+void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
+
     bool moving = false;
     if (player->playerHitTimer > 0.0f) player->playerHitTimer -= dt;
 
@@ -185,22 +186,35 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         if (player->attacking) {
             player->frame++;
 
-            if (player->frame == 1 && enemy->alive) {
+            if (player->frame == 1) {
                 Rectangle playerRect = GetPlayerRect(player);
-                Texture2D skeletonTex = GetEnemyTexture(enemy, enemy->sprites);
-                Rectangle skeletonRect = {enemy->position.x, enemy->position.y, (float)skeletonTex.width, (float)skeletonTex.height};
 
-                if (CheckCollisionRecs(playerRect, skeletonRect) &&
-                    player->attackFacing == ((enemy->position.x > player->position.x) ? 1 : -1)) {
-
-                    DamageEnemy(enemy, player->level.currentLevel->damage);
-                    PlaySound(hitSound);
-
-                    if (!enemy->alive) {
-                        AddKill(&player->level, levelUpSound, player);
-                        UnloadPlayerSprites(player->sprites);
-                        player->sprites = LoadPlayerSprites(player->level.currentLevel->spritePath);
+                bool playerNeedsSpriteReload = false;
+            
+                for (int i = 0; i < enemyCount; i++) {
+                    Enemy *enemy = &enemies[i];
+                    if (!enemy->alive) continue;
+            
+                    Texture2D skeletonTex = GetEnemyTexture(enemy, enemy->sprites);
+                    Rectangle skeletonRect = {enemy->position.x, enemy->position.y, (float)skeletonTex.width, (float)skeletonTex.height};
+            
+                    int enemySide = (enemy->position.x > player->position.x) ? 1 : -1;
+                    if (CheckCollisionRecs(playerRect, skeletonRect) && player->attackFacing == enemySide) {
+                        DamageEnemy(enemy, player->level.currentLevel->damage);
+                        PlaySound(hitSound);
+            
+                        if (!enemy->alive) {
+                            AddKill(&player->level, levelUpSound, player);
+                            playerNeedsSpriteReload = true; 
+                        }
+            
+                        // break;
                     }
+                }
+
+                if (playerNeedsSpriteReload) {
+                    UnloadPlayerSprites(player->sprites);
+                    player->sprites = LoadPlayerSprites(player->level.currentLevel->spritePath);
                 }
             }
 
@@ -213,19 +227,26 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         }
     }
 
-    if (enemy->alive && enemy->attacking && player->playerHitTimer <= 0.0f) {
-        Rectangle attackArea = GetEnemyRect(enemy, GetEnemyTexture(enemy, enemy->sprites));
-        if (enemy->facing >= 0) attackArea.width += 30;
-        else {
-            attackArea.x -= 30;
-            attackArea.width += 30;
-        }
-
-        if (CheckCollisionRecs(GetPlayerRect(player), attackArea)) {
-            int randomIndex = rand() % 6; // da raylib int randomIndex = GetRandomValue(0, 5);
-            PlaySound(hitPlayerSound[randomIndex]);
-            player->playerHealth -= 10;
-            player->playerHitTimer = PLAYER_HIT_COOLDOWN;
+    for (int i = 0; i < enemyCount; i++) {
+        Enemy *enemy = &enemies[i];
+    
+        if (enemy->alive && enemy->attacking && player->playerHitTimer <= 0.0f) {
+            Rectangle attackArea = GetEnemyRect(enemy, GetEnemyTexture(enemy, enemy->sprites));
+    
+            if (enemy->facing >= 0) {
+                attackArea.width += 30;
+            } else {
+                attackArea.x -= 30;
+                attackArea.width += 30;
+            }
+    
+            if (CheckCollisionRecs(GetPlayerRect(player), attackArea)) {
+                int randomIndex = rand() % 6;
+                PlaySound(hitPlayerSound[randomIndex]);
+                player->playerHealth -= 10;
+                player->playerHitTimer = PLAYER_HIT_COOLDOWN;
+                break; 
+            }
         }
     }
 }

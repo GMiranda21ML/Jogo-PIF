@@ -1,6 +1,6 @@
 {
     "sprite": "Skeleton_Green",
-    "skeleton_green_walk": {
+    "enemy_walk": {
         "right": [
             "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk1.png",
             "assets/sprites/enemy/skeleton_green/skeleton_green_walk/skeleton_green_walk2.png",
@@ -24,7 +24,7 @@
             "assets/sprites/enemy/skeleton_green/skeleton_green_walk_inverted/skeleton_green_walk_inverted9.png"
         ]
     },
-    "skeleton_green_attack": {
+    "enemy_attack": {
         "right": [
             "assets/sprites/enemy/skeleton_green/skeleton_green_attack/skeleton_green_attack1.png",
             "assets/sprites/enemy/skeleton_green/skeleton_green_attack/skeleton_green_attack2.png",

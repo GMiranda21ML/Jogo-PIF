@@ -1,0 +1,27 @@
+{
+    "sprite": "Blade_Master",
+    "enemy_walk": {
+        "right": [
+            "assets/sprites/enemy/blade_master/blade_master_walk/blade_master_walk2.png",
+            "assets/sprites/enemy/blade_master/blade_master_walk/blade_master_walk3.png",
+            "assets/sprites/enemy/blade_master/blade_master_walk/blade_master_walk4.png"
+        ]
+    },
+    "enemy_attack": {
+        "right": [
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack1.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack2.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack3.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack4.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack5.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack6.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack7.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack8.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack9.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack10.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack11.png",
+            "assets/sprites/enemy/blade_master/blade_master_attack/blade_master_attack12.png"
+        ]
+    },
+    "frame_change": 0.10
+}

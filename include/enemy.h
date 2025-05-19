@@ -14,6 +14,7 @@ typedef struct {
     float hitTimer;
     bool attacking;
     int facing;
+    float attackVelocity;
     EnemySprites sprites;
 } Enemy;
 
@@ -22,7 +23,7 @@ typedef struct {
 #define MIN_DISTANCE_TO_PLAYER 40
 #define ENEMY_VELOCITY 70
 
-void InitEnemy(Enemy *enemy, Vector2 position);
+void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity);
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect);
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites skeleton);
 Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture);

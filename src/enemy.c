@@ -2,7 +2,7 @@
 #include "maps.h"
 #include <math.h>
 
-void InitEnemy(Enemy *enemy, Vector2 position) {
+void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity) {
     enemy->position = position;
     enemy->velocity = (Vector2){0, 0};
     enemy->frame = 0;
@@ -12,6 +12,7 @@ void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->hitTimer = 0;
     enemy->attacking = false;
     enemy->facing = 1;
+    enemy->attackVelocity = attackVelocity;
 }
 
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect) {
@@ -68,8 +69,16 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
     Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
 
     enemy->timer += dt;
-    if (enemy->timer > skeleton.frame_change) {
+    float frameTime;
+    if (enemy->attacking) {
+        frameTime = skeleton.frame_change * enemy->attackVelocity;
+    } else {
+        frameTime = skeleton.frame_change;
+    }
+    
+    if (enemy->timer > frameTime) {
         enemy->timer = 0;
+    
         if (enemy->attacking) {
             enemy->frame = (enemy->frame + 1) % skeleton.attack_right.frame_count;
         } else {

@@ -126,18 +126,18 @@ void UnloadGroundSprites(GroundGrassSprites ground) {
     free(ground.frames);
 }
 
-EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath) {
+EnemySprites LoadEnemysSprites(const char *jsonPath) {
     EnemySprites sprites = {0};
     char *data = NULL;
     cJSON *root = LoadJSONFile(jsonPath, &data);
     if (!root) return sprites;
 
-    cJSON *walk = cJSON_GetObjectItem(root, "skeleton_green_walk");
-    cJSON *attack = cJSON_GetObjectItem(root, "skeleton_green_attack");
+    cJSON *walk = cJSON_GetObjectItem(root, "enemy_walk");
+    cJSON *attack = cJSON_GetObjectItem(root, "enemy_attack");
 
     if (walk) {
         sprites.walk_right = LoadAnimationFromArray(cJSON_GetObjectItem(walk, "right"));
-        sprites.walk_left  = LoadAnimationFromArray(cJSON_GetObjectItem(walk, "left"));
+        sprites.walk_left  = FlipAnimationHorizontally(sprites.walk_right);
     }
     if (attack) {
         sprites.attack_right = LoadAnimationFromArray(cJSON_GetObjectItem(attack, "right"));
@@ -152,7 +152,7 @@ EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath) {
     return sprites;
 }
 
-void UnloadSkeletonGreenEnemySprites(EnemySprites s) {
+void UnloadEnemysSprites(EnemySprites s) {
     UnloadAnimation(s.walk_right);
     UnloadAnimation(s.walk_left);
     UnloadAnimation(s.attack_right);
@@ -160,9 +160,9 @@ void UnloadSkeletonGreenEnemySprites(EnemySprites s) {
 }
 
 EnemySprites LoadEnemySprites(const char *jsonPath) {
-    return LoadSkeletonGreenEnemySprites(jsonPath);
+    return LoadEnemysSprites(jsonPath);
 }
 
 void UnloadEnemySprites(EnemySprites s) {
-    UnloadSkeletonGreenEnemySprites(s);
+    UnloadEnemysSprites(s);
 }

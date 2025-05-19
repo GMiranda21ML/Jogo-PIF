@@ -37,8 +37,8 @@ void UnloadPlayerSprites(PlayerSprites sprites);
 GroundGrassSprites LoadGroundSprites(const char *jsonPath);
 void UnloadGroundSprites(GroundGrassSprites ground);
 
-EnemySprites LoadSkeletonGreenEnemySprites(const char *jsonPath);
-void UnloadSkeletonGreenEnemySprites(EnemySprites sprites);
+EnemySprites LoadEnemysSprites(const char *jsonPath);
+void UnloadEnemysSprites(EnemySprites sprites);
 
 EnemySprites LoadEnemySprites(const char *jsonPath);
 void UnloadEnemySprites(EnemySprites sprites);
