@@ -6,7 +6,7 @@ void InitEnemy(Enemy *enemy, Vector2 position) {
     enemy->velocity = (Vector2){0, 0};
     enemy->frame = 0;
     enemy->timer = 0;
-    enemy->health = 3;
+    enemy->health = 150;
     enemy->alive = true;
     enemy->hitTimer = 0;
     enemy->attacking = false;
@@ -94,10 +94,14 @@ void DrawEnemy(Enemy *enemy, Texture2D texture) {
     DrawTexture(texture, (int)enemy->position.x, (int)enemy->position.y, tint);
 }
 
-void DamageEnemy(Enemy *enemy) {
-    enemy->health--;
+void DamageEnemy(Enemy *enemy, int damage) {
+    if (!enemy->alive) return;
+
+    enemy->health -= damage;
     enemy->hitTimer = ENEMY_HIT_DURATION;
+
     if (enemy->health <= 0) {
+        enemy->health = 0;
         enemy->alive = false;
     }
 }

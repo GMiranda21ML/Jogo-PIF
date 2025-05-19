@@ -27,6 +27,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites skeleton);
 Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture);
 void DrawEnemy(Enemy *enemy, Texture2D texture);
-void DamageEnemy(Enemy *enemy);
+void DamageEnemy(Enemy *enemy, int damage);
 
 #endif

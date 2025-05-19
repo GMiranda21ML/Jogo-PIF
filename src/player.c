@@ -135,7 +135,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
                 if (CheckCollisionRecs(playerRect, skeletonRect) &&
                     player->attackFacing == ((enemy->position.x > player->position.x) ? 1 : -1)) {
 
-                    DamageEnemy(enemy);
+                    DamageEnemy(enemy, 50);
                     PlaySound(hitSound);
 
                     if (!enemy->alive) {
