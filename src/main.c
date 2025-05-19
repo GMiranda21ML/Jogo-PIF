@@ -25,6 +25,18 @@ int main() {
     SetSoundVolume(levelUpSound, 1.5f); 
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     Music gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+    Sound hitPlayerSound[6] = {
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer1.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer2.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer3.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer4.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer5.wav"),
+        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer6.wav")
+    }; 
+
+    for (int i = 0; i < 6; i++) {
+        SetSoundVolume(hitPlayerSound[i], 0.5f);
+    } 
 
     Rectangle originalMapMatrix[ORIGINAL_MAP_ROWS][ORIGINAL_MAP_COLS] = {
         {{200, 450, 150, 20}},
@@ -84,7 +96,7 @@ int main() {
                     break;
                 }
 
-                UpdatePlayer(&player, dt, platforms, PLATFORM_COUNT, ground, &skeleton, hitSound, levelUpSound, &currentMap);
+                UpdatePlayer(&player, dt, platforms, PLATFORM_COUNT, ground, &skeleton, hitSound, levelUpSound, &currentMap, hitPlayerSound);
 
                 Rectangle playerRect = {player.position.x, player.position.y, player.position.x, player.position.y};
                 UpdateEnemy(&skeleton, player.position, dt, skeleton.sprites, playerRect);
@@ -151,6 +163,9 @@ int main() {
         }
     }
 
+    for (int i = 0; i < 6; i++) {
+        UnloadSound(hitPlayerSound[i]);
+    }
     UnloadSound(levelUpSound);
     UnloadSound(hitSound);
     CloseAudioDevice();

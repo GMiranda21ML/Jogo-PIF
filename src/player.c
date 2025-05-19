@@ -37,7 +37,7 @@ Rectangle GetPlayerRect(Player *player) {
     return (Rectangle){player->position.x, player->position.y, (float)current.width, (float)current.height};
 }
 
-void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemy, Sound hitSound, Sound levelUpSound, MapType *currentMap) {
+void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemy, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
     bool moving = false;
     if (player->playerHitTimer > 0.0f) player->playerHitTimer -= dt;
 
@@ -165,6 +165,8 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         }
 
         if (CheckCollisionRecs(GetPlayerRect(player), attackArea)) {
+            int randomIndex = rand() % 6; // da raylib int randomIndex = GetRandomValue(0, 5);
+            PlaySound(hitPlayerSound[randomIndex]);
             player->playerHealth -= 10;
             player->playerHitTimer = PLAYER_HIT_COOLDOWN;
         }
