@@ -18,4 +18,7 @@ void UnloadCeilingTile(void);
 Rectangle *GetWalls(void);
 int GetWallCount(void);
 
+Rectangle *GetCeilings(void);
+int GetCeilingCount(void);
+
 #endif

@@ -47,6 +47,14 @@ Rectangle GetPlayerRectWall(Player *player) {
     };
 }
 
+Rectangle GetPlayerRectCeiling(Player *player) {
+    return (Rectangle){
+        player->position.x,
+        player->position.y,
+        (float)player->sprites.walk_right.frames[0].width,
+        (float)player->sprites.walk_right.frames[0].height
+    };
+}
 
 
 void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemy, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
@@ -68,12 +76,12 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     Rectangle playerRecWall = GetPlayerRectWall(player);
     for (int i = 0; i < count; i++) {
-    if (CheckCollisionRecs(playerRecWall, wallsArray[i])) {
-        if (IsKeyDown(KEY_D)) player->position.x -= player->speed * dt;
-        else if (IsKeyDown(KEY_A)) player->position.x += player->speed * dt;
-        break;
+        if (CheckCollisionRecs(playerRecWall, wallsArray[i])) {
+            if (IsKeyDown(KEY_D)) player->position.x -= player->speed * dt;
+            else if (IsKeyDown(KEY_A)) player->position.x += player->speed * dt;
+            break;
+        }
     }
-}
 
 
     if (player->position.x < 0) player->position.x = 0;
@@ -88,6 +96,23 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     player->velocity.y += player->gravity * dt;
     player->position.y += player->velocity.y * dt;
+
+    int ceilingCount   = GetCeilingCount();
+    Rectangle *ceilings = GetCeilings();
+    Rectangle playerRecCeil = GetPlayerRectCeiling(player);
+
+    for (int i = 0; i < ceilingCount; i++) {
+        Rectangle ceil = ceilings[i];
+
+        if (player->velocity.y < 0 &&
+            CheckCollisionRecs(playerRecCeil, ceil)) {
+
+            player->position.y   = ceil.y + ceil.height;
+            player->velocity.y = 0;
+            break;
+        }
+    }
+
     player->isOnGround = false;
     float playerHeight = (float)player->sprites.walk_right.frames[0].height;
 

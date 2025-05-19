@@ -122,3 +122,11 @@ void UnloadCeilingTile(void) {
     UnloadTexture(ceilingTile);
 }
 
+Rectangle *GetCeilings(void) {
+    return ceilings;
+}
+
+int GetCeilingCount(void) {
+    return ceilingCount;
+}
+
