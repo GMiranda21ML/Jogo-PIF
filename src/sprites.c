@@ -28,7 +28,12 @@ static Animation LoadAnimationFromArray(cJSON *array) {
     for (int i = 0; i < count; i++) {
         cJSON *item = cJSON_GetArrayItem(array, i);
         const char *path = item->valuestring;
-        frames[i] = FileExists(path) ? LoadTexture(path) : LoadTextureFromImage(GenImageColor(64, 64, RED));
+        if (FileExists(path)) {
+            frames[i] = LoadTexture(path);
+        } else {
+            printf("Sprite faltando: %s\n", path);
+            frames[i] = LoadTextureFromImage(GenImageColor(64, 64, BLANK)); // Invisível
+        }
     }
 
     return (Animation){ .frames = frames, .frame_count = count };

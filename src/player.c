@@ -187,36 +187,59 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             player->frame++;
 
             if (player->frame == 1) {
-                Rectangle playerRect = GetPlayerRect(player);
-
+                Rectangle attackRect;
+                Texture2D currentAttackFrame = (player->attackFacing == 1) 
+                    ? player->sprites.attack_right.frames[player->frame] 
+                    : player->sprites.attack_left.frames[player->frame];
+            
+                // Criar uma hitbox de ataque um pouco à frente do jogador
+                if (player->attackFacing == 1) {
+                    attackRect = (Rectangle){
+                        player->position.x + currentAttackFrame.width,
+                        player->position.y,
+                        30,  // Largura do alcance do ataque
+                        (float)currentAttackFrame.height
+                    };
+                } else {
+                    attackRect = (Rectangle){
+                        player->position.x - 30,
+                        player->position.y,
+                        30,
+                        (float)currentAttackFrame.height
+                    };
+                }
+            
                 bool playerNeedsSpriteReload = false;
             
                 for (int i = 0; i < enemyCount; i++) {
                     Enemy *enemy = &enemies[i];
                     if (!enemy->alive) continue;
             
-                    Texture2D skeletonTex = GetEnemyTexture(enemy, enemy->sprites);
-                    Rectangle skeletonRect = {enemy->position.x, enemy->position.y, (float)skeletonTex.width, (float)skeletonTex.height};
+                    Texture2D enemyTex = GetEnemyTexture(enemy, enemy->sprites);
+                    Rectangle enemyRect = {
+                        enemy->position.x,
+                        enemy->position.y,
+                        (float)enemyTex.width,
+                        (float)enemyTex.height
+                    };
             
-                    int enemySide = (enemy->position.x > player->position.x) ? 1 : -1;
-                    if (CheckCollisionRecs(playerRect, skeletonRect) && player->attackFacing == enemySide) {
+                    if (CheckCollisionRecs(attackRect, enemyRect)) {
                         DamageEnemy(enemy, player->level.currentLevel->damage);
                         PlaySound(hitSound);
             
                         if (!enemy->alive) {
                             AddKill(&player->level, levelUpSound, player);
-                            playerNeedsSpriteReload = true; 
+                            playerNeedsSpriteReload = true;
                         }
-            
-                        // break;
                     }
                 }
-
+            
                 if (playerNeedsSpriteReload) {
                     UnloadPlayerSprites(player->sprites);
                     player->sprites = LoadPlayerSprites(player->level.currentLevel->spritePath);
                 }
             }
+            
 
             if (player->frame >= currentAnim.frame_count) {
                 player->frame = 0;
