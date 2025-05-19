@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "raylib.h"
 #include "levelUp.h"
+#include "player.h"
 
 void InitPlayerLevels(PlayerLevel* player) {
     player->currentKills = 0;
@@ -28,11 +29,14 @@ void InitPlayerLevels(PlayerLevel* player) {
     player->currentLevel = level1;
 }
 
-void AddKill(PlayerLevel* player, Sound levelUpSound) {
-    player->currentKills++;
+void AddKill(PlayerLevel* playerLevel, Sound levelUpSound, Player *player) {
+    playerLevel->currentKills++;
 
-    if (player->currentKills % 3 == 0 && player->currentLevel->next != NULL) {
-        player->currentLevel = player->currentLevel->next;
+    if (playerLevel->currentKills % 3 == 0 && playerLevel->currentLevel->next != NULL) {
+        playerLevel->currentLevel = playerLevel->currentLevel->next;
+
+        player->playerHealth = 150;
+
         PlaySound(levelUpSound);
     }
 }

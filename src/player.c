@@ -1,6 +1,7 @@
 #include "player.h"
 #include "map1.h"
 #include "maps.h"
+#include "levelUp.h"
 #include <math.h>
 
 #define PLAYER_HIT_COOLDOWN 0.5f
@@ -139,7 +140,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
                     PlaySound(hitSound);
 
                     if (!enemy->alive) {
-                        AddKill(&player->level, levelUpSound);
+                        AddKill(&player->level, levelUpSound, player);
                         UnloadPlayerSprites(player->sprites);
                         player->sprites = LoadPlayerSprites(player->level.currentLevel->spritePath);
                     }

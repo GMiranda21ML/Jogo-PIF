@@ -3,6 +3,8 @@
 
 #include "raylib.h"
 
+typedef struct Player Player;
+
 typedef struct LevelNode {
     int level;
     int damage;
@@ -16,8 +18,9 @@ typedef struct {
     LevelNode* currentLevel;
 } PlayerLevel;
 
+
 void InitPlayerLevels(PlayerLevel* player);
-void AddKill(PlayerLevel* player, Sound levelUpSound);
+void AddKill(PlayerLevel* playerLevel, Sound levelUpSound, Player *player);
 void FreePlayerLevels(PlayerLevel* player);
 
 #endif
