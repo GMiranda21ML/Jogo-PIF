@@ -2,7 +2,7 @@
 #include "maps.h"
 #include <math.h>
 
-void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health, int damage) {
+void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health, int damage, int walkVelocity) {
     enemy->position = position;
     enemy->velocity = (Vector2){0, 0};
     enemy->frame = 0;
@@ -14,6 +14,7 @@ void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health,
     enemy->facing = 1;
     enemy->attackVelocity = attackVelocity;
     enemy->damage = damage;
+    enemy->walkVelocity = walkVelocity;
 }
 
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect) {
@@ -29,7 +30,7 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
 
     if (detected){
         float sign = playerPos.x - enemy->position.x < 0 ? -1 : 1;
-        enemy->velocity.x = sign * ENEMY_VELOCITY;
+        enemy->velocity.x = sign * enemy->walkVelocity;
         enemy->facing = sign;
         enemy->attacking = tooClose;
     }

@@ -36,7 +36,7 @@ int main() {
     }; 
 
     for (int i = 0; i < 6; i++) {
-        SetSoundVolume(hitPlayerSound[i], 0.5f);
+        SetSoundVolume(hitPlayerSound[i], 0.3f);
     } 
 
     Rectangle originalMapMatrix[ORIGINAL_MAP_ROWS][ORIGINAL_MAP_COLS] = {
@@ -84,10 +84,10 @@ int main() {
 
             Enemy enemies[MAX_ENEMIES];
             int enemyCount = 2;
-            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5);
+            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
             enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-            InitEnemy(&enemies[1], (Vector2){680, 505}, 0.35f, 25, 10);
+            InitEnemy(&enemies[1], (Vector2){680, 505}, 0.35f, 25, 10, 130);
             enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
             Camera2D camera = InitCamera(player.position, (Vector2){400, 300});
