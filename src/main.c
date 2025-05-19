@@ -116,19 +116,10 @@ int main() {
                 BeginDrawing();
                 ClearBackground(BLACK);
                 BeginMode2D(camera);
-
                 DrawTexture(background, 0, -490, WHITE);
 
-                if (currentMap == MAP_ORIGINAL) {
-                    int tileWidth = groundSprites.frames[0].width;
-                    int tiles = ground.width / tileWidth;
-                    for (int i = 0; i < tiles + 1; i++) {
-                        DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
-                    }
-                    for (int i = 0; i < PLATFORM_COUNT; i++) {
-                        DrawRectangleRec(platforms[i], GRAY);
-                    }
-                } static bool map1Loaded = false;
+                static bool map1Loaded = false;
+
                 if (currentMap == MAP_1 && !map1Loaded) {
                     InitMap1();
                     Rectangle* map1Plats = GetMap1Platforms();
@@ -138,9 +129,42 @@ int main() {
                     }
                     ground = GetMap1Ground();
                     map1Loaded = true;
-                } else if (currentMap == MAP_1) {
+
+                } else if (currentMap == MAP_ORIGINAL && map1Loaded) {
+        
+                    for (int i = 0; i < PLATFORM_COUNT; i++) {
+                        platforms[i] = originalMapMatrix[i][0];
+                    }
+
+                    for (int i = PLATFORM_COUNT; i < 10; i++) {
+                        platforms[i] = (Rectangle){0, 0, 0, 0};
+                    }
+
+                    platformcount = PLATFORM_COUNT;
+                    ground = (Rectangle){ 0, 550, 2000, 500 };
+
+                    ClearWallCollision();
+                    ClearCeilingCollision();
+
+                    map1Loaded = false;
+                }
+
+                if (currentMap == MAP_ORIGINAL) {
+                    int tileWidth = groundSprites.frames[0].width;
+                    int tiles = ground.width / tileWidth;
+                    for (int i = 0; i < tiles + 1; i++) {
+                        DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
+                    }
+
+                    for (int i = 0; i < platformcount; i++) {
+                        DrawRectangleRec(platforms[i], GRAY);
+                    }
+                }
+
+                if (currentMap == MAP_1) {
                     DrawMap1();
                 }
+
 
                 DrawPlayer(&player);
 

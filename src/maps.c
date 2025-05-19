@@ -130,3 +130,11 @@ int GetCeilingCount(void) {
     return ceilingCount;
 }
 
+void ClearWallCollision() {
+    wallCount = 0;
+}
+
+void ClearCeilingCollision() {
+    ceilingCount = 0;
+}
+
