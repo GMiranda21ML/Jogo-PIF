@@ -1,0 +1,22 @@
+{
+    "sprite": "armorLord",
+    "enemy_walk": {
+        "right": [
+            "assets/sprites/enemy/boss2/armorLord_walk/armorLord_walk1.png",
+            "assets/sprites/enemy/boss2/armorLord_walk/armorLord_walk2.png"
+        ]
+    },
+    "enemy_attack": {
+        "right": [
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-1.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-2.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-3.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-4.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-5.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-6.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-7.png",
+            "assets/sprites/enemy/boss2/armorLord_attack1/armorLord_attack1-8.png"
+        ]
+    },
+    "frame_change": 0.10
+}

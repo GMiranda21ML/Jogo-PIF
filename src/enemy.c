@@ -17,41 +17,47 @@ void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health,
     enemy->walkVelocity = walkVelocity;
 }
 
-void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect) {
+void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect, Rectangle ground) {
     if (!enemy->alive) return;
 
-    enemy->position.y = 550 - enemySprites.walk_right.frames[0].height;
+    // Atualiza gravidade
+    enemy->velocity.y += GRAVITY * dt;
 
+    Texture2D currentTex = GetEnemyTexture(enemy, enemySprites);
+    Rectangle enemyRect = {
+        enemy->position.x,
+        enemy->position.y,
+        (float)currentTex.width,
+        (float)currentTex.height
+    };
+
+    // Detecção de jogador
     float deltaX = enemy->position.x - playerPos.x;
     float deltaY = enemy->position.y - playerPos.y;
     float xDistance = sqrt(deltaX * deltaX + deltaY * deltaY);
     bool detected = xDistance < DETECTION_RADIUS;
     bool tooClose = xDistance < MIN_DISTANCE_TO_PLAYER;
 
-    if (detected){
+    if (detected) {
         float sign = playerPos.x - enemy->position.x < 0 ? -1 : 1;
         enemy->velocity.x = sign * enemy->walkVelocity;
         enemy->facing = sign;
         enemy->attacking = tooClose;
     }
-    if (fabsf(enemy->position.x - playerPos.x) > DETECTION_RADIUS){
-        return;
-    }
 
     if (tooClose)
         enemy->velocity.x = 0;
-    // Verifica colisão com as paredes
+
+    // Colisão com parede (horizontal)
     bool colidiuComParede = false;
     Rectangle *walls = GetWalls();
     int wallCount = GetWallCount();
 
-    Vector2 proposedPosition = enemy->position;
-    proposedPosition.x += enemy->velocity.x * dt;
-
-    Texture2D currentTex = GetEnemyTexture(enemy, enemySprites);
+    Vector2 proposedPositionX = enemy->position;
+    proposedPositionX.x += enemy->velocity.x * dt;
 
     Rectangle proposedRectWall = {
-        proposedPosition.x,
+        proposedPositionX.x,
         enemy->position.y,
         (float)currentTex.width,
         (float)currentTex.height
@@ -65,10 +71,10 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
     }
 
     if (!colidiuComParede) {
-        enemy->position.x = proposedPosition.x;
+        enemy->position.x = proposedPositionX.x;
     }
 
-    // Verifica colisão com os tetos
+    // Colisão com teto (vertical)
     bool colidiuComTeto = false;
     Rectangle *ceilings = GetCeilings();
     int ceilingCount = GetCeilingCount();
@@ -76,7 +82,7 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
     Vector2 proposedPositionY = enemy->position;
     proposedPositionY.y += enemy->velocity.y * dt;
 
-    Rectangle proposedRectCeiling = {
+    Rectangle proposedRectY = {
         enemy->position.x,
         proposedPositionY.y,
         (float)currentTex.width,
@@ -84,7 +90,7 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
     };
 
     for (int i = 0; i < ceilingCount; i++) {
-        if (CheckCollisionRecs(proposedRectCeiling, ceilings[i])) {
+        if (CheckCollisionRecs(proposedRectY, ceilings[i])) {
             colidiuComTeto = true;
             break;
         }
@@ -96,19 +102,25 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
         if (enemy->velocity.y < 0) enemy->velocity.y = 0;
     }
 
-    Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
+    // Colisão com o chão
+    Rectangle rectAfterYMove = {
+        enemy->position.x,
+        enemy->position.y,
+        (float)currentTex.width,
+        (float)currentTex.height
+    };
 
-    enemy->timer += dt;
-    float frameTime;
-    if (enemy->attacking) {
-        frameTime = enemySprites.frame_change * enemy->attackVelocity;
-    } else {
-        frameTime = enemySprites.frame_change;
+    if (CheckCollisionRecs(rectAfterYMove, ground)) {
+        enemy->position.y = ground.y - rectAfterYMove.height;
+        enemy->velocity.y = 0;
     }
-    
+
+    // Atualiza animação
+    enemy->timer += dt;
+    float frameTime = enemy->attacking ? enemySprites.frame_change * enemy->attackVelocity : enemySprites.frame_change;
+
     if (enemy->timer > frameTime) {
         enemy->timer = 0;
-    
         if (enemy->attacking) {
             enemy->frame = (enemy->frame + 1) % enemySprites.attack_right.frame_count;
         } else {
@@ -116,23 +128,25 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
         }
     }
 
+    // Tempo de hit
     if (enemy->hitTimer > 0) {
         enemy->hitTimer -= dt;
     }
 
+    // Ataque ao jogador
     if (enemy->attacking && enemy->alive) {
         Rectangle attackArea = GetEnemyRect(enemy, currentTex);
-
-    if (enemy->facing >= 0) {
-        attackArea.width += 30; 
-    } else {
-        attackArea.x -= 30;
-        attackArea.width += 30;
+        if (enemy->facing >= 0) {
+            attackArea.width += 30;
+        } else {
+            attackArea.x -= 30;
+            attackArea.width += 30;
+        }
+        // Aqui você pode verificar colisão com o jogador se quiser
+        // if (CheckCollisionRecs(attackArea, playerRect)) { ... }
     }
-
 }
 
-}
 
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites enemySprites) {
     if (enemy->attacking) {
