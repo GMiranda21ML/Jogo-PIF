@@ -78,6 +78,12 @@ int main() {
                 UpdateMusicStream(gameMusic);
                 float dt = GetFrameTime();
 
+                if (IsKeyPressed(KEY_R)) {
+                    menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
+                    currentScreen = SCREEN_MENU;
+                    break;
+                }
+
                 UpdatePlayer(&player, dt, platforms, PLATFORM_COUNT, ground, &skeleton, hitSound, levelUpSound, &currentMap);
 
                 Rectangle playerRect = {player.position.x, player.position.y, player.position.x, player.position.y};
@@ -127,7 +133,6 @@ int main() {
             }
 
             FreePlayer(&player);
-            UnloadPlayerSprites(player.sprites);
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
