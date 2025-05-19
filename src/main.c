@@ -84,10 +84,10 @@ int main() {
 
             Enemy enemies[MAX_ENEMIES];
             int enemyCount = 2;
-            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f);
+            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5);
             enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-            InitEnemy(&enemies[1], (Vector2){680, 505}, 0.4f);
+            InitEnemy(&enemies[1], (Vector2){680, 505}, 0.35f, 25, 10);
             enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
             Camera2D camera = InitCamera(player.position, (Vector2){400, 300});
@@ -105,7 +105,7 @@ int main() {
 
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
 
-                Rectangle playerRect = {player.position.x, player.position.y, player.position.x, player.position.y};
+                Rectangle playerRect = GetPlayerRect(&player);
 
                 for (int i = 0; i < enemyCount; i++) {
                     UpdateEnemy(&enemies[i], player.position, dt, enemies[i].sprites, playerRect);

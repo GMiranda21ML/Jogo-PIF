@@ -2,23 +2,24 @@
 #include "maps.h"
 #include <math.h>
 
-void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity) {
+void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health, int damage) {
     enemy->position = position;
     enemy->velocity = (Vector2){0, 0};
     enemy->frame = 0;
     enemy->timer = 0;
-    enemy->health = 20;
+    enemy->health = health;
     enemy->alive = true;
     enemy->hitTimer = 0;
     enemy->attacking = false;
     enemy->facing = 1;
     enemy->attackVelocity = attackVelocity;
+    enemy->damage = damage;
 }
 
-void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleton, Rectangle playerRect) {
+void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect) {
     if (!enemy->alive) return;
 
-    enemy->position.y = 550 - skeleton.walk_right.frames[0].height;
+    enemy->position.y = 550 - enemySprites.walk_right.frames[0].height;
 
     float deltaX = enemy->position.x - playerPos.x;
     float deltaY = enemy->position.y - playerPos.y;
@@ -46,7 +47,7 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
     Vector2 proposedPosition = enemy->position;
     proposedPosition.x += enemy->velocity.x * dt;
 
-    Texture2D currentTex = GetEnemyTexture(enemy, skeleton);
+    Texture2D currentTex = GetEnemyTexture(enemy, enemySprites);
 
     Rectangle proposedRectWall = {
         proposedPosition.x,
@@ -71,18 +72,18 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
     enemy->timer += dt;
     float frameTime;
     if (enemy->attacking) {
-        frameTime = skeleton.frame_change * enemy->attackVelocity;
+        frameTime = enemySprites.frame_change * enemy->attackVelocity;
     } else {
-        frameTime = skeleton.frame_change;
+        frameTime = enemySprites.frame_change;
     }
     
     if (enemy->timer > frameTime) {
         enemy->timer = 0;
     
         if (enemy->attacking) {
-            enemy->frame = (enemy->frame + 1) % skeleton.attack_right.frame_count;
+            enemy->frame = (enemy->frame + 1) % enemySprites.attack_right.frame_count;
         } else {
-            enemy->frame = (enemy->frame + 1) % skeleton.walk_right.frame_count;
+            enemy->frame = (enemy->frame + 1) % enemySprites.walk_right.frame_count;
         }
     }
 
@@ -104,15 +105,15 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
 
 }
 
-Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites skeleton) {
+Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites enemySprites) {
     if (enemy->attacking) {
         return (enemy->facing >= 0) ?
-            skeleton.attack_right.frames[enemy->frame] :
-            skeleton.attack_left.frames[enemy->frame];
+            enemySprites.attack_right.frames[enemy->frame] :
+            enemySprites.attack_left.frames[enemy->frame];
     } else {
         return (enemy->facing >= 0) ?
-            skeleton.walk_right.frames[enemy->frame] :
-            skeleton.walk_left.frames[enemy->frame];
+            enemySprites.walk_right.frames[enemy->frame] :
+            enemySprites.walk_left.frames[enemy->frame];
     }
 }
 

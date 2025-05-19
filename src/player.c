@@ -110,7 +110,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         if (player->velocity.y < 0 &&
             CheckCollisionRecs(playerRecCeil, ceil)) {
 
-            player->position.y   = ceil.y + ceil.height;
+            player->position.y = ceil.y + ceil.height;
             player->velocity.y = 0;
             break;
         }
@@ -243,7 +243,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             if (CheckCollisionRecs(GetPlayerRect(player), attackArea)) {
                 int randomIndex = rand() % 6;
                 PlaySound(hitPlayerSound[randomIndex]);
-                player->playerHealth -= 10;
+                player->playerHealth -= enemy->damage;
                 player->playerHitTimer = PLAYER_HIT_COOLDOWN;
                 break; 
             }
