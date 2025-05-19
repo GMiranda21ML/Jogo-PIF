@@ -72,6 +72,21 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         moving = true;
     }
 
+    Rectangle playerRectEspinho = GetPlayerRect(player);
+
+    // Invulnerabilidade temporária
+    if (player->playerHitTimer > 0.0f) {
+        player->playerHitTimer -= dt;
+    } else {
+        int vidaAntes = player->playerHealth;
+        CheckSpikeDamage(playerRectEspinho, &player->playerHealth);
+
+        if (player->playerHealth < vidaAntes) {
+            player->playerHitTimer = PLAYER_HIT_COOLDOWN;
+        }
+    }
+
+
     int count = GetWallCount();
     Rectangle *wallsArray = GetWalls();
 

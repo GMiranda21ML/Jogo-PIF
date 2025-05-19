@@ -1,18 +1,61 @@
 #include "maps.h"
 #include "raylib.h"
 #include "map1.h"
+#include "player.h"
 
 #define MAX_WALLS 1000
 #define MAX_CEILINGS 1000
+#define MAX_SPIKES 100
 
+typedef struct Spike {
+    Rectangle hitbox;
+    Texture2D texture;
+} Spike;
+    
 static Rectangle walls[MAX_WALLS];
 static int wallCount = 0;
 
 static Rectangle ceilings[MAX_CEILINGS];
 static int ceilingCount = 0;
 
+static Spike spikes[MAX_SPIKES];
+static int spikeCount = 0;
+
+static Texture2D spikeTexture;
 static Texture2D wallTile;
 static Texture2D ceilingTile;
+
+
+
+
+void LoadSpikeTexture() {
+    spikeTexture = LoadTexture("assets/objetos/espinho.png");
+}
+
+void CreateSpike(int x, int y) {
+    if (spikeCount < MAX_SPIKES) {
+        Spike spike = {
+            .hitbox = { x, y, spikeTexture.width, spikeTexture.height },
+            .texture = spikeTexture
+        };
+        spikes[spikeCount++] = spike;
+    }
+}
+
+void DrawSpikes() {
+    for (int i = 0; i < spikeCount; i++) {
+        DrawTexture(spikes[i].texture, spikes[i].hitbox.x, spikes[i].hitbox.y, WHITE);
+    }
+}
+
+void CheckSpikeDamage(Rectangle playerRect, int *playerHealth) {
+    for (int i = 0; i < spikeCount; i++) {
+        if (CheckCollisionRecs(playerRect, spikes[i].hitbox)) {
+            *playerHealth -= 10; // Aplica 1 de dano, ou o que quiser
+        }
+    }
+}
+
 
 void DrawWall(int x, int baseY, int heightInPixels) {
     int wallTileHeight = wallTile.height;
@@ -112,6 +155,10 @@ Rectangle *GetWalls(void) {
 
 int GetWallCount(void) {
     return wallCount;
+}
+
+void UnloadSpikeTexture() {
+    UnloadTexture(spikeTexture);
 }
 
 void UnloadWallTile(void) {

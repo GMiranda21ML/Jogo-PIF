@@ -21,6 +21,7 @@ void InitMap1() {
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");;
+    LoadSpikeTexture();
 
     SetWallTile(wallTile); // novo: informa o maps.c sobre a textura da parede
     SetCeilingTile(ceilingTile);
@@ -42,6 +43,9 @@ void DrawMap1() {
     // Agora usa a função de outro arquivo:
     CreateWallComColisao(ground1.x + 300, ground1.y, 185);
 
+    DrawSpikes();
+    CreateSpike(120, 500);
+
     CreateCeilingComColisao(0, 250, 0,10);
     CreateCeilingComColisao(350, 2000, 100,10);
 }
@@ -61,5 +65,6 @@ int GetMap1PlatformCount(void) {
 void UnloadMap1() {
     UnloadTexture(background1);
     UnloadTexture(groundTile1);
+    UnloadSpikeTexture();
     UnloadWallTile();
 }
