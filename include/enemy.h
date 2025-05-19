@@ -17,7 +17,7 @@ typedef struct {
     EnemySprites sprites;
 } Enemy;
 
-#define DETECTION_RADIUS 200
+#define DETECTION_RADIUS 200.0f
 #define ENEMY_HIT_DURATION 0.2f
 #define MIN_DISTANCE_TO_PLAYER 40
 #define ENEMY_VELOCITY 70

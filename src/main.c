@@ -5,20 +5,13 @@
 #include "screens.h"
 #include "map1.h"    
 #include "levelUp.h"
+#include "maps.h"
+#include "player.h"
 #include <math.h>
 
 #define PLATFORM_COUNT 4
-#define DETECTION_RADIUS 200.0f
-#define SKELETON_HIT_DURATION 0.2f
-#define PLAYER_HIT_COOLDOWN 0.5f
-
 #define ORIGINAL_MAP_ROWS 4
 #define ORIGINAL_MAP_COLS 1
-
-typedef enum {
-    MAP_ORIGINAL,
-    MAP_1
-} MapType;
 
 int main() {
     InitWindow(800, 600, "Metroid Souls");
@@ -59,17 +52,12 @@ int main() {
         if (currentScreen == SCREEN_GAME) {
             gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
             PlayMusicStream(gameMusic);
-            int playerHealth = 150;
-            float playerHitTimer = 0.0f;
 
-            PlayerLevel playerLevel;
-            InitPlayerLevels(&playerLevel);
-            PlayerSprites sprites = LoadPlayerSprites(playerLevel.currentLevel->spritePath);
+            // Inicializa o player, usando o módulo player.c/player.h
+            Player player;
+            InitPlayer(&player);
 
             GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
-
-            if (sprites.frame_change <= 0.0f) sprites.frame_change = 0.10f;
-
             Rectangle ground = { 0, 550, 2000, 500 };
             Rectangle platforms[PLATFORM_COUNT];
             for (int i = 0; i < PLATFORM_COUNT; i++) {
@@ -79,200 +67,24 @@ int main() {
             InitMap1();
             MapType currentMap = MAP_ORIGINAL;
 
-            Vector2 position = {400, 500};
-            Vector2 velocity = {0, 0};
-            float gravity = 900.0f;
-            float jumpForce = -450.0f;
-            bool isOnGround = false;
-
-            bool attacking = false;
-            int attackFacing = 1;
-
-            float speed = 200.0f;
-            float timer = 0;
-            int frame = 0;
-            int facing = 1;
-            static Animation previousAnim = {0};
-
             Enemy skeleton;
             InitEnemy(&skeleton, (Vector2){600, 500});
             skeleton.sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-            Camera2D camera = InitCamera(position, (Vector2){400, 300});
-
+            Camera2D camera = InitCamera(player.position, (Vector2){400, 300});
             Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
 
             while (!WindowShouldClose()) {
-                UpdateMusicStream(gameMusic); 
+                UpdateMusicStream(gameMusic);
                 float dt = GetFrameTime();
-                bool moving = false;
 
-                if (playerHitTimer > 0.0f) playerHitTimer -= dt;
+                UpdatePlayer(&player, dt, platforms, PLATFORM_COUNT, ground, &skeleton, hitSound, levelUpSound, &currentMap);
 
-                if (IsKeyDown(KEY_D)) {
-                    position.x += speed * dt;
-                    facing = 1;
-                    moving = true;
-                } else if (IsKeyDown(KEY_A)) {
-                    position.x -= speed * dt;
-                    facing = -1;
-                    moving = true;
-                }
+                Rectangle playerRect = {player.position.x, player.position.y, player.position.x, player.position.y};
+                UpdateEnemy(&skeleton, player.position, dt, skeleton.sprites, playerRect);
 
-                if (IsKeyPressed(KEY_R)) {
-                    menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
-                    currentScreen = SCREEN_MENU;
-                    break;
-                }
 
-                if (position.x < 0) position.x = 0;
-
-                if (currentMap == MAP_ORIGINAL) {
-                    if (position.x + sprites.walk_right.frames[0].width >= ground.width) {
-                        currentMap = MAP_1;
-                        ground = ground1;
-                        for (int i = 0; i < MAP1_PLATFORM_COUNT; i++) {
-                            platforms[i] = platforms1[i];
-                        }
-                        position = (Vector2){0, 500};
-                    }
-                } else if (currentMap == MAP_1) {
-                    if (position.x <= 0) {
-                        currentMap = MAP_ORIGINAL;
-                        ground = (Rectangle){ 0, 550, 2000, 500 };
-                        for (int i = 0; i < PLATFORM_COUNT; i++) {
-                            platforms[i] = originalMapMatrix[i][0];
-                        }
-                        position = (Vector2){ground.width - sprites.walk_right.frames[0].width, 500};
-                        InitEnemy(&skeleton, (Vector2){600, 500});
-                        skeleton.sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
-                    }
-                }
-
-                if (currentMap == MAP_ORIGINAL || currentMap == MAP_1) {
-                    if (position.x + sprites.walk_right.frames[0].width > ground.width)
-                        position.x = ground.width - sprites.walk_right.frames[0].width;
-                }
-
-                velocity.y += gravity * dt;
-                position.y += velocity.y * dt;
-
-                isOnGround = false;
-                float playerHeight = (float)sprites.walk_right.frames[0].height;
-
-                for (int i = 0; i < PLATFORM_COUNT; i++) {
-                    Rectangle plat = platforms[i];
-                    if (velocity.y >= 0 &&
-                        position.y + playerHeight >= plat.y &&
-                        position.y + playerHeight - velocity.y * dt <= plat.y &&
-                        position.x + sprites.walk_right.frames[0].width > plat.x &&
-                        position.x < plat.x + plat.width) {
-
-                        position.y = plat.y - playerHeight;
-                        velocity.y = 0;
-                        isOnGround = true;
-                    }
-                }
-
-                if (position.y + playerHeight >= ground.y) {
-                    position.y = ground.y - playerHeight;
-                    velocity.y = 0;
-                    isOnGround = true;
-                }
-
-                if (isOnGround && IsKeyPressed(KEY_W)) {
-                    velocity.y = jumpForce;
-                    isOnGround = false;
-                }
-
-                if (IsKeyPressed(KEY_L) && !attacking) {
-                    attacking = true;
-                    frame = 0;
-                    timer = 0;
-                    attackFacing = facing;
-                }
-
-                Animation currentAnim;
-                if (attacking) {
-                    currentAnim = (attackFacing == 1) ? sprites.attack_right : sprites.attack_left;
-                } else if (moving) {
-                    currentAnim = (facing == 1) ? sprites.walk_right : sprites.walk_left;
-                } else {
-                    currentAnim = (facing == 1) ? sprites.idle_right : sprites.idle_left;
-                }
-
-                if (currentAnim.frames != previousAnim.frames) {
-                    frame = 0;
-                    timer = 0;
-                    previousAnim = currentAnim;
-                }
-
-                timer += dt;
-                while (timer > sprites.frame_change) {
-                    timer -= sprites.frame_change;
-                    if (attacking) {
-                        frame++;
-
-                        if (frame == 1 && skeleton.alive) {
-                            Rectangle playerRect = {position.x, position.y, (float)currentAnim.frames[frame].width, (float)currentAnim.frames[frame].height};
-                            Texture2D skeletonTex = GetEnemyTexture(&skeleton, skeleton.sprites);
-                            Rectangle skeletonRect = {skeleton.position.x, skeleton.position.y, (float)skeletonTex.width, (float)skeletonTex.height};
-
-                            if (CheckCollisionRecs(playerRect, skeletonRect) &&
-                                attackFacing == ((skeleton.position.x > position.x) ? 1 : -1)) {
-                                DamageEnemy(&skeleton);
-                                PlaySound(hitSound);
-
-                                if (!skeleton.alive) {
-                                    AddKill(&playerLevel, levelUpSound);
-                                    UnloadPlayerSprites(sprites);
-                                    sprites = LoadPlayerSprites(playerLevel.currentLevel->spritePath);
-                                }
-                            }
-                        }
-
-                        if (frame >= currentAnim.frame_count) {
-                            frame = 0;
-                            attacking = false;
-                        }
-                    } else {
-                        frame = (frame + 1) % currentAnim.frame_count;
-                    }
-                }
-
-                Texture2D current = currentAnim.frames[frame];
-
-                Rectangle playerRect = {position.x, position.y, (float)current.width, (float)current.height};
-                Texture2D enemyTex = GetEnemyTexture(&skeleton, skeleton.sprites);
-                Rectangle enemyRect = GetEnemyRect(&skeleton, enemyTex);
-                UpdateEnemy(&skeleton, position, dt, skeleton.sprites, playerRect);
-
-                if (skeleton.alive && skeleton.attacking && playerHitTimer <= 0.0f) {
-                    Rectangle attackArea = GetEnemyRect(&skeleton, enemyTex);
-                    if (skeleton.facing >= 0) {
-                        attackArea.width += 30;
-                    } else {
-                        attackArea.x -= 30;
-                        attackArea.width += 30;
-                    }
-
-                    if (CheckCollisionRecs(playerRect, attackArea)) {
-                        playerHealth -= 10;
-                        playerHitTimer = PLAYER_HIT_COOLDOWN;
-
-                        if (playerHealth <= 0) {
-                            currentScreen = SCREEN_GAMEOVER;
-                            break;
-                        }
-
-                        if (position.x < skeleton.position.x)
-                            position.x -= 100 * dt;
-                        else
-                            position.x += 100 * dt;
-                    }
-                }
-
-                UpdateCameraToFollowPlayer(&camera, position, 800, 600, ground.width, ground.y + ground.height);
+                UpdateCameraToFollowPlayer(&camera, player.position, 800, 600, ground.width, ground.y + ground.height);
 
                 BeginDrawing();
                 ClearBackground(BLACK);
@@ -293,23 +105,29 @@ int main() {
                     DrawMap1(groundSprites.frames[0]);
                 }
 
-                DrawTexture(current, (int)position.x, (int)position.y, WHITE);
+                DrawPlayer(&player);
 
                 if (skeleton.alive) {
-                    DrawEnemy(&skeleton, enemyTex);
+                    DrawEnemy(&skeleton, GetEnemyTexture(&skeleton, skeleton.sprites));
                 }
 
                 EndMode2D();
 
+                // Barra de vida
                 DrawRectangle(20, 20, 300, 20, DARKGRAY);
-                DrawRectangle(20, 20, 2 * playerHealth, 20, RED);
+                DrawRectangle(20, 20, 2 * player.playerHealth, 20, RED);
                 DrawRectangleLines(20, 20, 300, 20, WHITE);
 
                 EndDrawing();
+
+                if (player.playerHealth <= 0) {
+                    currentScreen = SCREEN_GAMEOVER;
+                    break;
+                }
             }
 
-            FreePlayerLevels(&playerLevel);
-            UnloadPlayerSprites(sprites);
+            FreePlayer(&player);
+            UnloadPlayerSprites(player.sprites);
             UnloadEnemySprites(skeleton.sprites);
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
@@ -333,6 +151,5 @@ int main() {
     CloseAudioDevice();
     CloseWindow();
 
-    
     return 0;
 }
