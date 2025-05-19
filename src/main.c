@@ -102,7 +102,7 @@ int main() {
                         DrawRectangleRec(platforms[i], GRAY);
                     }
                 } else if (currentMap == MAP_1) {
-                    DrawMap1(groundSprites.frames[0]);
+                    DrawMap1();
                 }
 
                 DrawPlayer(&player);
