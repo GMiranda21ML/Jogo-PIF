@@ -11,7 +11,7 @@ void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
     player->velocity = (Vector2){0, 0};
     player->gravity = 900.0f;
-    player->jumpForce = -450.0f;
+    player->jumpForce = -600.0f;
     player->speed = 200.0f;
     player->timer = 0;
     player->frame = 0;
@@ -96,7 +96,9 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     player->velocity.y += player->gravity * dt;
     player->position.y += player->velocity.y * dt;
-
+    player->isOnGround = false;
+    float playerHeight = (float)player->sprites.walk_right.frames[0].height;
+    
     int ceilingCount   = GetCeilingCount();
     Rectangle *ceilings = GetCeilings();
     Rectangle playerRecCeil = GetPlayerRectCeiling(player);
@@ -112,9 +114,24 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             break;
         }
     }
+    
+    for (int i = 0; i < ceilingCount; i++) {
+        Rectangle ceil = ceilings[i];
 
-    player->isOnGround = false;
-    float playerHeight = (float)player->sprites.walk_right.frames[0].height;
+        if (player->velocity.y >= 0 &&
+            player->position.y + playerHeight >= ceil.y &&
+            player->position.y + playerHeight - player->velocity.y * dt <= ceil.y &&
+            player->position.x + player->sprites.walk_right.frames[0].width > ceil.x &&
+            player->position.x < ceil.x + ceil.width) {
+
+            player->position.y = ceil.y - playerHeight;
+            player->velocity.y = 0;
+            player->isOnGround = true;
+            break;
+        }
+    }
+
+    
 
     for (int i = 0; i < platformCount; i++) {
         Rectangle plat = platforms[i];
