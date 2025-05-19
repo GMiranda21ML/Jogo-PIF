@@ -66,7 +66,35 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
 
     if (!colidiuComParede) {
         enemy->position.x = proposedPosition.x;
-}
+    }
+
+    // Verifica colisão com os tetos
+    bool colidiuComTeto = false;
+    Rectangle *ceilings = GetCeilings();
+    int ceilingCount = GetCeilingCount();
+
+    Vector2 proposedPositionY = enemy->position;
+    proposedPositionY.y += enemy->velocity.y * dt;
+
+    Rectangle proposedRectCeiling = {
+        enemy->position.x,
+        proposedPositionY.y,
+        (float)currentTex.width,
+        (float)currentTex.height
+    };
+
+    for (int i = 0; i < ceilingCount; i++) {
+        if (CheckCollisionRecs(proposedRectCeiling, ceilings[i])) {
+            colidiuComTeto = true;
+            break;
+        }
+    }
+
+    if (!colidiuComTeto) {
+        enemy->position.y = proposedPositionY.y;
+    } else {
+        if (enemy->velocity.y < 0) enemy->velocity.y = 0;
+    }
 
     Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
 
