@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "maps.h"
 #include <math.h>
 
 void InitEnemy(Enemy *enemy, Vector2 position) {
@@ -36,12 +37,34 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites skeleto
 
     if (tooClose)
         enemy->velocity.x = 0;
-    enemy->position.x += enemy->velocity.x * dt;
+    // Verifica colisão com as paredes
+    bool colidiuComParede = false;
+    Rectangle *walls = GetWalls();
+    int wallCount = GetWallCount();
 
     Vector2 proposedPosition = enemy->position;
     proposedPosition.x += enemy->velocity.x * dt;
 
     Texture2D currentTex = GetEnemyTexture(enemy, skeleton);
+
+    Rectangle proposedRectWall = {
+        proposedPosition.x,
+        enemy->position.y,
+        (float)currentTex.width,
+        (float)currentTex.height
+    };
+
+    for (int i = 0; i < wallCount; i++) {
+        if (CheckCollisionRecs(proposedRectWall, walls[i])) {
+            colidiuComParede = true;
+            break;
+        }
+    }
+
+    if (!colidiuComParede) {
+        enemy->position.x = proposedPosition.x;
+}
+
     Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
 
     enemy->timer += dt;
