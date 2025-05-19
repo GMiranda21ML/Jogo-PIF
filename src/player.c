@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #define PLAYER_HIT_COOLDOWN 0.5f
+#define MAP1_WIDTH 2000 
 
 void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
@@ -108,6 +109,8 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     } else if (*currentMap == MAP_1 && player->position.x <= 0) {
         *currentMap = MAP_ORIGINAL;
         player->position = (Vector2){ground.width - player->sprites.walk_right.frames[0].width, 500};
+    } else if (*currentMap == MAP_1 && player->position.x + player->sprites.walk_right.frames[0].width >= MAP1_WIDTH) {
+    player->position.x = MAP1_WIDTH - player->sprites.walk_right.frames[0].width;
     }
 
     player->velocity.y += player->gravity * dt;
