@@ -51,12 +51,12 @@ void DrawMap2() {
     CreateCeilingComColisao(550,700,200,10);
     CreateCeilingComColisao(250,400,200,10);
 
-    CreateCeilingComColisao(250,400,480,10);
+    CreateCeilingComColisao(300,350,480,10);
     CreateCeilingComColisao(550,600,480,10);
     CreateCeilingComColisao(750,900,480,10);
 
     CreateCeilingComColisao(1050,1100,400,10);
-    CreateCeilingComColisao(1330,1530,450,10);
+    CreateCeilingComColisao(1330,1500,450,10);
 }
 
 Rectangle* GetMap2Platforms() {
