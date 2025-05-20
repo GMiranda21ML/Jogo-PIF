@@ -55,7 +55,7 @@ void DrawMap2() {
     CreateCeilingComColisao(300,350,450,10);
     CreateCeilingComColisao(550,600,480,10);
     CreateCeilingComColisao(850,900,480,10);
-    CreateCeilingComColisao(650,700,480,10);
+    CreateCeilingComColisao(650,700,465,10);
 
     CreateCeilingComColisao(1050,1100,400,10);
     CreateCeilingComColisao(1330,1530,450,10);
