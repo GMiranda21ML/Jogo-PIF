@@ -166,11 +166,15 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         }
     }
 
-    if (player->position.y + playerHeight >= ground.y) {
+    if (player->position.x + player->sprites.walk_right.frames[0].width > ground.x &&
+        player->position.x < ground.x + ground.width &&
+        player->position.y + playerHeight >= ground.y) {
+
         player->position.y = ground.y - playerHeight;
         player->velocity.y = 0;
         player->isOnGround = true;
     }
+
 
     if (player->isOnGround && IsKeyPressed(KEY_W)) {
         player->velocity.y = player->jumpForce;

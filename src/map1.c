@@ -9,7 +9,7 @@ static Texture2D background1;
 static Texture2D groundTile1;
 
 void InitMap1() {
-    ground1 = (Rectangle){0, 550, 2000, 500};
+    ground1 = (Rectangle){1800, 550, 2000, 10};
 
     platforms1[0] = (Rectangle){200, 450, 150, 20};
     platforms1[1] = (Rectangle){450, 350, 150, 20};
@@ -41,10 +41,13 @@ void DrawMap1() {
     }
 
     // Agora usa a função de outro arquivo:
-    CreateWallComColisao(ground1.x + 300, ground1.y, 185);
+    CreateWallComColisao(1000, 550, 185);
 
     DrawSpikes();
     CreateSpike(120, 500);
+
+    CreateCeilingComColisao(0, 250, 550,10);
+    CreateCeilingComColisao(350, 1650, 550,10);
 
     CreateCeilingComColisao(0, 250, 0,10);
     CreateCeilingComColisao(350, 2000, 100,10);
