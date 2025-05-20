@@ -128,7 +128,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     else if (*currentMap == MAP_1 &&
             player->position.y > 550 &&
             ((player->position.x >= 850 && player->position.x <= 1150) ||
-            (player->position.x >= 1650 && player->position.x <= 1800))) {
+            (player->position.x >= 1530 && player->position.x <= 1680))) {
 
         *currentMap = MAP_2;
         player->position = (Vector2){player->position.x, 0};
@@ -137,7 +137,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     else if (*currentMap == MAP_2 &&
             player->position.y < 0 &&
             ((player->position.x >= 850 && player->position.x <= 1150) ||
-            (player->position.x >= 1650 && player->position.x <= 1800))) {
+            (player->position.x >= 1530 && player->position.x <= 1680))) {
 
         *currentMap = MAP_1;
         player->position = (Vector2){player->position.x, 520};
