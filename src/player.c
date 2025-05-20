@@ -12,7 +12,7 @@ void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
     player->velocity = (Vector2){0, 0};
     player->gravity = 900.0f;
-    player->jumpForce = -450.0f;
+    player->jumpForce = -1000.0f;
     player->speed = 200.0f;
     player->timer = 0;
     player->frame = 0;
@@ -127,7 +127,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     // MAP_1 para MAP_2 (entrada inferior - faixa 1)
     else if (*currentMap == MAP_1 &&
             player->position.y > 550 &&
-            ((player->position.x >= 250 && player->position.x <= 350) ||
+            ((player->position.x >= 850 && player->position.x <= 1150) ||
             (player->position.x >= 1650 && player->position.x <= 1800))) {
 
         *currentMap = MAP_2;
@@ -136,7 +136,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     // MAP_2 para MAP_1 (retorno superior - faixa 1)
     else if (*currentMap == MAP_2 &&
             player->position.y < 0 &&
-            ((player->position.x >= 250 && player->position.x <= 350) ||
+            ((player->position.x >= 850 && player->position.x <= 1150) ||
             (player->position.x >= 1650 && player->position.x <= 1800))) {
 
         *currentMap = MAP_1;

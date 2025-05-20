@@ -32,12 +32,10 @@ void DrawMap2() {
     for (int i = 0; i < MAP2_PLATFORM_COUNT; i++) {
         DrawRectangleRec(platforms2[i], GRAY);
     }
-
-    CreateCeilingComColisao(0, 2000, 100,10);
-
-    CreateCeilingComColisao(0, 250, 0,10);
-    CreateCeilingComColisao(350, 1650, 0,10);
-    CreateCeilingComColisao(1800, 2000, 0,10);
+    
+    CreateWallComColisao(1150, 200, 200);
+    CreateWallComColisao(850, 100, 100);
+    CreateCeilingComColisao(850 , 1183,200 ,10);
 }
 
 Rectangle* GetMap2Platforms() {

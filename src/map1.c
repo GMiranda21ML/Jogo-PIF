@@ -11,11 +11,8 @@ static Texture2D groundTile1;
 void InitMap1() {
     ground1 = (Rectangle){1800, 550, 2000, 10};
 
-    platforms1[0] = (Rectangle){200, 450, 150, 20};
-    platforms1[1] = (Rectangle){450, 350, 150, 20};
-    platforms1[2] = (Rectangle){300, 250, 100, 20};
-    platforms1[3] = (Rectangle){685, 250, 100, 20};
-    platforms1[4] = (Rectangle){800, 250, 100, 20};
+    platforms1[0] = (Rectangle){900, 450, 200, 20};
+    
 
     background1 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
@@ -40,17 +37,15 @@ void DrawMap1() {
         DrawRectangleRec(platforms1[i], GRAY);
     }
 
-    // Agora usa a função de outro arquivo:
-    CreateWallComColisao(1000, 550, 185);
+    CreateWallComColisao(1500, 550, 244);
+    CreateWallComColisao(0, 294, 500);
 
     DrawSpikes();
     CreateSpike(120, 500);
 
-    CreateCeilingComColisao(0, 250, 550,10);
-    CreateCeilingComColisao(350, 1650, 550,10);
-
-    CreateCeilingComColisao(0, 250, 0,10);
-    CreateCeilingComColisao(350, 2000, 100,10);
+    CreateCeilingComColisao(0,1530,294,10);
+    CreateCeilingComColisao(0,850,550,10);
+    CreateCeilingComColisao(1150,1800,550,10);
 }
 
 Rectangle* GetMap1Platforms() {
