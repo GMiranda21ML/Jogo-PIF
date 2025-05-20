@@ -33,7 +33,7 @@ void DrawMap2() {
         DrawRectangleRec(platforms2[i], GRAY);
     }
 
-    CreateCeilingComColisao(0, 2000, 200,10);
+    CreateCeilingComColisao(0, 2000, 100,10);
 
     CreateCeilingComColisao(0, 250, 0,10);
     CreateCeilingComColisao(350, 1650, 0,10);
