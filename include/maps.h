@@ -20,6 +20,11 @@ void ClearAllMapCollisions(void);
 void ClearSpikeCollision(void);
 void UnloadWallTile(void);
 void UnloadCeilingTile(void);
+void CreateSpike(int xInicio, int yInicio, int xFim, int yFim);
+void DrawSpikes(void);
+void CheckSpikeDamage(Rectangle playerRect, int *playerHealth);
+void LoadSpikeTexture(void);
+void UnloadSpikeTexture(void);
 
 Rectangle *GetWalls(void);
 int GetWallCount(void);

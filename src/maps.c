@@ -32,13 +32,44 @@ void LoadSpikeTexture() {
     spikeTexture = LoadTexture("assets/objetos/espinho.png");
 }
 
-void CreateSpike(int x, int y) {
-    if (spikeCount < MAX_SPIKES) {
-        Spike spike = {
-            .hitbox = { x, y, spikeTexture.width, spikeTexture.height },
-            .texture = spikeTexture
-        };
-        spikes[spikeCount++] = spike;
+void CreateSpike(int xInicio, int yInicio, int xFim, int yFim) {
+    if (spikeTexture.id == 0) return; // Garante que a textura foi carregada
+
+    int dx = xFim - xInicio;
+    int dy = yFim - yInicio;
+
+    // Apenas linhas horizontais ou verticais são suportadas
+    if (dx != 0 && dy != 0) return;
+
+    int spikeWidth = spikeTexture.width;
+    int spikeHeight = spikeTexture.height;
+
+    if (dx != 0) { // Horizontal
+        int step = (dx > 0) ? spikeWidth : -spikeWidth;
+        for (int x = xInicio; (step > 0) ? (x <= xFim) : (x >= xFim); x += step) {
+            if (spikeCount >= MAX_SPIKES) break;
+            spikes[spikeCount++] = (Spike){
+                .hitbox = { x, yInicio, spikeWidth, spikeHeight },
+                .texture = spikeTexture
+            };
+        }
+    } else if (dy != 0) { // Vertical
+        int step = (dy > 0) ? spikeHeight : -spikeHeight;
+        for (int y = yInicio; (step > 0) ? (y <= yFim) : (y >= yFim); y += step) {
+            if (spikeCount >= MAX_SPIKES) break;
+            spikes[spikeCount++] = (Spike){
+                .hitbox = { xInicio, y, spikeWidth, spikeHeight },
+                .texture = spikeTexture
+            };
+        }
+    } else {
+        // Se for apenas um ponto, cria um espinho único
+        if (spikeCount < MAX_SPIKES) {
+            spikes[spikeCount++] = (Spike){
+                .hitbox = { xInicio, yInicio, spikeWidth, spikeHeight },
+                .texture = spikeTexture
+            };
+        }
     }
 }
 
