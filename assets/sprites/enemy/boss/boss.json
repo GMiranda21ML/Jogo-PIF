@@ -1,46 +1,59 @@
 {
-    "sprite": "Boss",
+    "sprite": "boss",
     "boss_walk": {
         "right": [
-            "assets/sprites/enemy/boss/boss_walk/boss_walk1.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk2.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk3.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk4.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk5.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk6.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk7.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk8.png",
-            "assets/sprites/enemy/boss/boss_walk/boss_walk9.png"
+            "assets/sprites/enemy/boss/armorLord_walk/armorLord_walk1.png",
+            "assets/sprites/enemy/boss/armorLord_walk/armorLord_walk2.png"
         ]
     },
     "boss_attack1": {
         "right": [
-            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-1.png",
-            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-2.png",
-            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-3.png",
-            "assets/sprites/enemy/boss/boss_attack1/boss_attack1-4.png"
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-1.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-2.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-3.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-4.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-5.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-6.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-7.png",
+            "assets/sprites/enemy/boss/armorLord_attack1/armorLord_attack1-8.png"
         ]
     },
     "boss_attack2": {
         "right": [
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-1.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-2.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-3.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-4.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-5.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-6.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-7.png",
-            "assets/sprites/enemy/boss/boss_attack2/boss_attack2-8.png"
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-1.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-2.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-3.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-4.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-5.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-6.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-7.png",
+            "assets/sprites/enemy/boss/armorLord_attack2/ArmorLord_attack2-8.png"
         ]
     },
-    "boss_death": {
-        "front": [
-            "assets/sprites/enemy/boss/boss_death/boss_death1.png",
-            "assets/sprites/enemy/boss/boss_death/boss_death2.png",
-            "assets/sprites/enemy/boss/boss_death/boss_death3.png",
-            "assets/sprites/enemy/boss/boss_death/boss_death4.png",
-            "assets/sprites/enemy/boss/boss_death/boss_death5.png",
-            "assets/sprites/enemy/boss/boss_death/boss_death6.png"
+    "boss_attack3": {
+        "right": [
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-1.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-2.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-3.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-4.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-5.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-6.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-7.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-8.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-9.png",
+            "assets/sprites/enemy/boss/armorLord_attack3/armorLord_attack3-10.png"
+        ]
+    },
+    "boss_attack4": {
+        "right": [
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-1.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-2.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-3.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-4.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-5.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-6.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-7.png",
+            "assets/sprites/enemy/boss/armorLord_attack4/armorLord_attack4-8.png"
         ]
     },
     "frame_change": 0.10
