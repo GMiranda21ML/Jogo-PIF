@@ -11,8 +11,8 @@ static Texture2D groundTile2;
 void InitMap2() {
     ground2 = (Rectangle){0, 550, 2000, 500};
 
-    background2 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
-    groundTile2 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
+    background2 = LoadTexture("assets/backgroundMap/backgroundPorao.png");
+    groundTile2 = LoadTexture("assets/sprites/map/ground/groundPorao.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
 
