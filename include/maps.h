@@ -5,7 +5,8 @@
 
 typedef enum {
     MAP_ORIGINAL,
-    MAP_1
+    MAP_1,
+    MAP_2
 } MapType;
 
 void DrawWall(int x, int baseY, int heightInPixels);

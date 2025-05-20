@@ -3,7 +3,8 @@
 #include "camera.h"
 #include "enemy.h"
 #include "screens.h"
-#include "map1.h"    
+#include "map1.h"  
+#include "map2.h"  
 #include "levelUp.h"
 #include "maps.h"
 #include "player.h"
@@ -161,10 +162,55 @@ int main() {
                     }
                 }
 
+                static bool map2Loaded = false;
+
+                if (currentMap == MAP_1 && !map1Loaded) {
+                    InitMap1();
+                    Rectangle* map1Plats = GetMap1Platforms();
+                    platformcount = GetMap1PlatformCount();
+                    for (int i = 0; i < platformcount; i++) {
+                        platforms[i] = map1Plats[i];
+                    }
+                    ground = GetMap1Ground();
+                    map1Loaded = true;
+                    map2Loaded = false;
+
+                } else if (currentMap == MAP_ORIGINAL && map1Loaded) {
+                    for (int i = 0; i < PLATFORM_COUNT; i++) {
+                        platforms[i] = originalMapMatrix[i][0];
+                    }
+                    for (int i = PLATFORM_COUNT; i < 10; i++) {
+                        platforms[i] = (Rectangle){0, 0, 0, 0};
+                    }
+                    platformcount = PLATFORM_COUNT;
+                    ground = (Rectangle){0, 550, 2000, 500};
+
+                    ClearWallCollision();
+                    ClearCeilingCollision();
+
+                    map1Loaded = false;
+                    map2Loaded = false;
+
+                } else if (currentMap == MAP_2 && !map2Loaded) {
+                    InitMap2();
+                    Rectangle* map2Plats = GetMap2Platforms();
+                    platformcount = GetMap2PlatformCount();
+                    for (int i = 0; i < platformcount; i++) {
+                        platforms[i] = map2Plats[i];
+                    }
+                    ground = GetMap2Ground();
+                    map2Loaded = true;
+                    map1Loaded = false;
+                }
+
+
                 if (currentMap == MAP_1) {
                     DrawMap1();
                 }
 
+                if (currentMap == MAP_2) {
+                    DrawMap2();
+                }
 
                 DrawPlayer(&player);
 
