@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <math.h>
 
-#define PLATFORM_COUNT 4
-#define ORIGINAL_MAP_ROWS 4
-#define ORIGINAL_MAP_COLS 1
+#define PLATFORM_COUNT 0
+#define ORIGINAL_MAP_ROWS 0
+#define ORIGINAL_MAP_COLS 0
 #define MAX_ENEMIES 2
 
 int main() {
