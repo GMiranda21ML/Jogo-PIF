@@ -145,7 +145,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     // MAP_1 para MAP_3 (acima da tela - faixa central)
     else if (*currentMap == MAP_1 &&
-            player->position.x >= 250 && player->position.x <= 350 &&
+            player->position.x >= 150 && player->position.x <= 250 &&
             player->position.y < 0) {
 
         *currentMap = MAP_3;
@@ -153,7 +153,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     }
     // MAP_3 para MAP_1 (descendo da tela)
     else if (*currentMap == MAP_3 &&
-            player->position.x >= 250 && player->position.x <= 350 &&
+            player->position.x >= 150 && player->position.x <= 250 &&
             player->position.y > 550) {
 
         *currentMap = MAP_1;

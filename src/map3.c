@@ -9,7 +9,7 @@ static Texture2D background3;
 static Texture2D groundTile3;
 
 void InitMap3() {
-    ground3 = (Rectangle){350, 550, 2000, 10};
+    ground3 = (Rectangle){250, 550, 2000, 10};
 
     background3 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile3 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
@@ -36,7 +36,7 @@ void DrawMap3() {
 
 
     CreateCeilingComColisao(0, 2000, 0, 10);
-    CreateCeilingComColisao(0, 250, 550, 10);
+    CreateCeilingComColisao(0, 150, 550, 10);
 }
 
 Rectangle* GetMap3Platforms() {

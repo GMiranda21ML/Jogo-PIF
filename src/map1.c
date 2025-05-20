@@ -37,14 +37,18 @@ void DrawMap1() {
 
     DrawSpikes();
     CreateSpike(830, 260, 1480, 260);
+    CreateSpike(635, 260, 830, 260);
 
     CreateWallComColisao(1500, 550, 244);
-    CreateWallComColisao(1500, 306, 206);
+    CreateWallComColisao(1500, 300, 200);
     CreateWallComColisao(0, 294, 500);
     CreateWallComColisao(1967, 550, 550);
-    CreateWallComColisao(800, 300, 206);
+    CreateWallComColisao(800, 300, 200);
+    CreateWallComColisao(250, 200, 200);
 
-    CreateCeilingComColisao(800,830,100,10);
+    CreateCeilingComColisao(250,620,200,10);
+    CreateCeilingComColisao(430,830,100,10);
+    CreateCeilingComColisao(250,2000,0,10);
 
     CreateCeilingComColisao(900,1100,450,10);
     CreateCeilingComColisao(0,1530,294,10);
@@ -57,9 +61,13 @@ void DrawMap1() {
     CreateCeilingComColisao(1530,1680,450,10);
     CreateCeilingComColisao(1817,1967,370,10);
 
-    CreateCeilingComColisao(950,1100,100,10);
-    CreateCeilingComColisao(1250,1400,100,10);
+    CreateCeilingComColisao(950,1100,120,10);
+    CreateCeilingComColisao(1250,1400,120,10);
 
+    CreateCeilingComColisao(0,150,200,10);
+    CreateCeilingComColisao(0,150,0,10);
+    CreateCeilingComColisao(150,250,100,10);
+    
 }
 
 Rectangle* GetMap1Platforms() {
