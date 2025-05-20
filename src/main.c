@@ -30,6 +30,7 @@ int main() {
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     Music originalMapMusic = LoadMusicStream("assets/sound/gameMusic/forestMap/forestMusic.mp3");
     Music map1Music = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+    Music caveMusic = LoadMusicStream("assets/sound/gameMusic/caveMusic/caveMusic.mp3");
 
     Music* currentMapMusic = NULL;
     MapType lastMap = -1;
@@ -105,21 +106,27 @@ int main() {
                 float dt = GetFrameTime();
 
                 if (currentMap != lastMap) {
-                    if (currentMapMusic != NULL) StopMusicStream(*currentMapMusic);
-
+                    Music* newMapMusic = NULL;
+                
                     switch (currentMap) {
-                        case MAP_ORIGINAL: currentMapMusic = &originalMapMusic; break;
-                        case MAP_1: currentMapMusic = &map1Music; break;
-                        default: currentMapMusic = NULL; break;
+                        case MAP_ORIGINAL: newMapMusic = &originalMapMusic; break;
+                        case MAP_1:
+                        case MAP_3:
+                            newMapMusic = &map1Music;
+                            break;
+                        case MAP_2: newMapMusic = &caveMusic; break;
+                        default: newMapMusic = NULL; break;
                     }
-
-                    if (currentMapMusic != NULL) {
-                        StopMusicStream(*currentMapMusic);
-                        PlayMusicStream(*currentMapMusic);
+                
+                    if (newMapMusic != currentMapMusic) {
+                        if (currentMapMusic != NULL) StopMusicStream(*currentMapMusic);
+                        currentMapMusic = newMapMusic;
+                        if (currentMapMusic != NULL) PlayMusicStream(*currentMapMusic);
                     }
-
+                
                     lastMap = currentMap;
                 }
+                
 
                 if (currentMapMusic != NULL) UpdateMusicStream(*currentMapMusic);
 
