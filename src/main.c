@@ -9,6 +9,7 @@
 #include "map3.h"
 #include "maps.h"
 #include "player.h"
+#include <stdio.h>
 #include <math.h>
 
 #define PLATFORM_COUNT 4
@@ -27,7 +28,12 @@ int main() {
     Sound levelUpSound = LoadSound("assets/sound/levelUp/levelUpSound.mp3");
     SetSoundVolume(levelUpSound, 1.5f); 
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
-    Music gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+    Music originalMapMusic = LoadMusicStream("assets/sound/gameMusic/forestMap/forestMusic.mp3");
+    Music map1Music = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+
+    Music* currentMapMusic = NULL;
+    MapType lastMap = -1;
+
     Sound hitPlayerSound[6] = {
         LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer1.wav"),
         LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer2.wav"),
@@ -69,9 +75,6 @@ int main() {
         }
 
         if (currentScreen == SCREEN_GAME) {
-            gameMusic = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
-            PlayMusicStream(gameMusic);
-
             Player player;
             InitPlayer(&player);
 
@@ -80,7 +83,6 @@ int main() {
             Rectangle platforms[10];
             int platformcount = PLATFORM_COUNT;
 
-            // Inicializa plataformas originais
             for (int i = 0; i < PLATFORM_COUNT; i++) {
                 platforms[i] = originalMapMatrix[i][0];
             }
@@ -100,8 +102,26 @@ int main() {
             Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
 
             while (!WindowShouldClose()) {
-                UpdateMusicStream(gameMusic);
                 float dt = GetFrameTime();
+
+                if (currentMap != lastMap) {
+                    if (currentMapMusic != NULL) StopMusicStream(*currentMapMusic);
+
+                    switch (currentMap) {
+                        case MAP_ORIGINAL: currentMapMusic = &originalMapMusic; break;
+                        case MAP_1: currentMapMusic = &map1Music; break;
+                        default: currentMapMusic = NULL; break;
+                    }
+
+                    if (currentMapMusic != NULL) {
+                        StopMusicStream(*currentMapMusic);
+                        PlayMusicStream(*currentMapMusic);
+                    }
+
+                    lastMap = currentMap;
+                }
+
+                if (currentMapMusic != NULL) UpdateMusicStream(*currentMapMusic);
 
                 if (IsKeyPressed(KEY_R)) {
                     menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
@@ -110,7 +130,6 @@ int main() {
                 }
 
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
-
                 Rectangle playerRect = GetPlayerRect(&player);
 
                 for (int i = 0; i < enemyCount; i++) {
@@ -198,8 +217,6 @@ int main() {
                     map2Loaded = false;
                 }
 
-
-                // Desenho do mapa
                 if (currentMap == MAP_ORIGINAL) {
                     int tileWidth = groundSprites.frames[0].width;
                     int tiles = ground.width / tileWidth;
@@ -212,20 +229,11 @@ int main() {
                     }
                 }
 
-                if (currentMap == MAP_1) {
-                    DrawMap1();
-                }
-
-                if (currentMap == MAP_2) {
-                    DrawMap2();
-                }
-
-                if (currentMap == MAP_3) {
-                    DrawMap3();
-                }
+                if (currentMap == MAP_1) DrawMap1();
+                if (currentMap == MAP_2) DrawMap2();
+                if (currentMap == MAP_3) DrawMap3();
 
                 DrawPlayer(&player);
-
                 for (int i = 0; i < enemyCount; i++) {
                     if (enemies[i].alive) {
                         DrawEnemy(&enemies[i], GetEnemyTexture(&enemies[i], enemies[i].sprites));
@@ -234,7 +242,6 @@ int main() {
 
                 EndMode2D();
 
-                // Barra de vida
                 DrawRectangle(20, 20, 300, 20, DARKGRAY);
                 DrawRectangle(20, 20, 2 * player.playerHealth, 20, RED);
                 DrawRectangleLines(20, 20, 300, 20, WHITE);
@@ -253,8 +260,6 @@ int main() {
             }
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
-            StopMusicStream(gameMusic);
-            UnloadMusicStream(gameMusic);
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {
@@ -273,6 +278,10 @@ int main() {
     }
     UnloadSound(levelUpSound);
     UnloadSound(hitSound);
+    if (currentMapMusic != NULL) StopMusicStream(*currentMapMusic);
+    UnloadMusicStream(originalMapMusic);
+    UnloadMusicStream(map1Music);
+
     CloseAudioDevice();
     CloseWindow();
 
