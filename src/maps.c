@@ -185,3 +185,12 @@ void ClearCeilingCollision() {
     ceilingCount = 0;
 }
 
+void ClearSpikeCollision() {
+    spikeCount = 0;
+}
+
+void ClearAllMapCollisions() {
+    ClearWallCollision();
+    ClearCeilingCollision();
+    ClearSpikeCollision();
+}

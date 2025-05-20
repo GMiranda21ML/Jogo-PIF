@@ -15,6 +15,8 @@ void DrawCeiling(int xInicio, int xFim, int topY, int altura);
 void CreateCeilingComColisao(int xInicio, int xFim, int topY, int altura);
 void ClearWallCollision(void);
 void ClearCeilingCollision(void);
+void ClearAllMapCollisions(void);
+void ClearSpikeCollision(void);
 void UnloadWallTile(void);
 void UnloadCeilingTile(void);
 

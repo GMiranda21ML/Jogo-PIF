@@ -12,7 +12,7 @@ void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
     player->velocity = (Vector2){0, 0};
     player->gravity = 900.0f;
-    player->jumpForce = -450.0f;
+    player->jumpForce = -800.0f;
     player->speed = 200.0f;
     player->timer = 0;
     player->frame = 0;

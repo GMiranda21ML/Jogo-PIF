@@ -144,8 +144,7 @@ int main() {
                     platformcount = PLATFORM_COUNT;
                     ground = (Rectangle){ 0, 550, 2000, 500 };
 
-                    ClearWallCollision();
-                    ClearCeilingCollision();
+                    ClearAllMapCollisions();
 
                     map1Loaded = false;
                 }
@@ -192,6 +191,7 @@ int main() {
                     map2Loaded = false;
 
                 } else if (currentMap == MAP_2 && !map2Loaded) {
+                    ClearAllMapCollisions();
                     InitMap2();
                     Rectangle* map2Plats = GetMap2Platforms();
                     platformcount = GetMap2PlatformCount();
