@@ -29,7 +29,7 @@ int main() {
     SetSoundVolume(levelUpSound, 1.5f); 
     Music menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
     Music originalMapMusic = LoadMusicStream("assets/sound/gameMusic/forestMap/forestMusic.mp3");
-    Music map1Music = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
+    Music map1and3Music = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
     Music caveMusic = LoadMusicStream("assets/sound/gameMusic/caveMusic/caveMusic.mp3");
 
     Music* currentMapMusic = NULL;
@@ -112,7 +112,7 @@ int main() {
                         case MAP_ORIGINAL: newMapMusic = &originalMapMusic; break;
                         case MAP_1:
                         case MAP_3:
-                            newMapMusic = &map1Music;
+                            newMapMusic = &map1and3Music;
                             break;
                         case MAP_2: newMapMusic = &caveMusic; break;
                         default: newMapMusic = NULL; break;
@@ -126,11 +126,15 @@ int main() {
                 
                     lastMap = currentMap;
                 }
-                
 
                 if (currentMapMusic != NULL) UpdateMusicStream(*currentMapMusic);
 
                 if (IsKeyPressed(KEY_R)) {
+                    if (currentMapMusic != NULL) {
+                        StopMusicStream(*currentMapMusic);
+                        currentMapMusic = NULL;
+                    }
+                    lastMap = -1;
                     menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
                     currentScreen = SCREEN_MENU;
                     break;
@@ -256,6 +260,11 @@ int main() {
                 EndDrawing();
 
                 if (player.playerHealth <= 0) {
+                    if (currentMapMusic != NULL) {
+                        StopMusicStream(*currentMapMusic);
+                        currentMapMusic = NULL;
+                    }
+                    lastMap = -1;
                     currentScreen = SCREEN_GAMEOVER;
                     break;
                 }
@@ -267,9 +276,21 @@ int main() {
             }
             UnloadGroundSprites(groundSprites);
             UnloadTexture(background);
+
+            if (currentMapMusic != NULL) {
+                StopMusicStream(*currentMapMusic);
+                currentMapMusic = NULL;
+            }
+            lastMap = -1;
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {
+            if (currentMapMusic != NULL) {
+                StopMusicStream(*currentMapMusic);
+                currentMapMusic = NULL;
+            }
+            lastMap = -1;
+
             menuMusic = LoadMusicStream("assets/sound/menuSound/menuMusica.mp3");
             GameScreen next = RunGameOver();
             if (next == SCREEN_MENU) {
@@ -287,7 +308,8 @@ int main() {
     UnloadSound(hitSound);
     if (currentMapMusic != NULL) StopMusicStream(*currentMapMusic);
     UnloadMusicStream(originalMapMusic);
-    UnloadMusicStream(map1Music);
+    UnloadMusicStream(map1and3Music);
+    UnloadMusicStream(caveMusic);
 
     CloseAudioDevice();
     CloseWindow();
