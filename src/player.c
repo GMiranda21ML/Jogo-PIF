@@ -149,7 +149,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             player->position.y < 0) {
 
         *currentMap = MAP_3;
-        player->position = (Vector2){player->position.x, 550};
+        player->position = (Vector2){player->position.x, 520};
     }
     // MAP_3 para MAP_1 (descendo da tela)
     else if (*currentMap == MAP_3 &&

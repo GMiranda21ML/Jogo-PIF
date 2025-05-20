@@ -37,7 +37,7 @@ void DrawMap1() {
 
     DrawSpikes();
     CreateSpike(830, 260, 1480, 260);
-    CreateSpike(635, 260, 830, 260);
+    CreateSpike(640, 260, 830, 260);
 
     CreateWallComColisao(1500, 550, 244);
     CreateWallComColisao(1500, 300, 200);
