@@ -34,6 +34,24 @@ void DrawMap3() {
         DrawRectangleRec(platforms3[i], GRAY);
     }
 
+    DrawSpikes();
+    CreateSpike(350, 215, 1750, 215);
+
+    CreateWallComColisao(0, 550, 550);
+    CreateWallComColisao(1967, 550, 550);
+
+    CreateCeilingComColisao(0, 100, 320, 10);
+    CreateCeilingComColisao(200, 300, 350, 10);
+    CreateCeilingComColisao(1867, 1967, 470, 10);
+
+    CreateCeilingComColisao(200, 1967, 250, 10);
+    CreateCeilingComColisao(400, 1797, 380, 10);
+    
+    CreateCeilingComColisao(350, 550, 180, 10);
+    CreateCeilingComColisao(650, 850, 160, 10);
+    CreateCeilingComColisao(1000, 1200, 180, 10);
+    CreateCeilingComColisao(1350, 1500, 160, 10);
+    CreateCeilingComColisao(1600, 1700, 180, 10);
 
     CreateCeilingComColisao(0, 2000, 0, 10);
     CreateCeilingComColisao(0, 150, 550, 10);
