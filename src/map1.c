@@ -11,9 +11,7 @@ static Texture2D groundTile1;
 void InitMap1() {
     ground1 = (Rectangle){1800, 550, 2000, 10};
 
-    platforms1[0] = (Rectangle){900, 450, 200, 20};
     
-
     background1 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
@@ -40,9 +38,8 @@ void DrawMap1() {
     CreateWallComColisao(1500, 550, 244);
     CreateWallComColisao(0, 294, 500);
 
-    DrawSpikes();
-    CreateSpike(120, 500, 150, 500);
 
+    CreateCeilingComColisao(900,1100,450,10);
     CreateCeilingComColisao(0,1530,294,10);
     CreateCeilingComColisao(0,850,550,10);
     CreateCeilingComColisao(1150,1800,550,10);
