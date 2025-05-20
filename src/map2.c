@@ -16,7 +16,6 @@ void InitMap2() {
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
 
-    LoadSpikeTexture();
     SetWallTile(wallTile);
     SetCeilingTile(ceilingTile);
 }
@@ -33,6 +32,8 @@ void DrawMap2() {
     for (int i = 0; i < MAP2_PLATFORM_COUNT; i++) {
         DrawRectangleRec(platforms2[i], GRAY);
     }
+
+    CreateCeilingComColisao(0, 2000, 200,10);
 
     CreateCeilingComColisao(0, 250, 0,10);
     CreateCeilingComColisao(350, 1650, 0,10);

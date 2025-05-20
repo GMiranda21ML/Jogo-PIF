@@ -12,7 +12,7 @@ void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
     player->velocity = (Vector2){0, 0};
     player->gravity = 900.0f;
-    player->jumpForce = -800.0f;
+    player->jumpForce = -1000.0f;
     player->speed = 200.0f;
     player->timer = 0;
     player->frame = 0;
@@ -103,31 +103,63 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     if (player->position.x < 0) player->position.x = 0;
 
-    if (*currentMap == MAP_ORIGINAL && player->position.x + player->sprites.walk_right.frames[0].width >= ground.width) {
+    // MAP_ORIGINAL para MAP_1 (lado direito)
+    if (*currentMap == MAP_ORIGINAL &&
+        player->position.x + player->sprites.walk_right.frames[0].width >= ground.width) {
+        
         *currentMap = MAP_1;
         player->position = (Vector2){0, 500};
-    } 
-    else if (*currentMap == MAP_1 && player->position.x <= 0) {
-            *currentMap = MAP_ORIGINAL;
-            player->position = (Vector2){ground.width - player->sprites.walk_right.frames[0].width, 500};
-    } 
-    else if (*currentMap == MAP_1 && player->position.x + player->sprites.walk_right.frames[0].width >= MAP1_WIDTH) {
-            player->position.x = MAP1_WIDTH - player->sprites.walk_right.frames[0].width;
-    } 
-    else if (*currentMap == MAP_1 &&
-            ((player->position.x >= 250 && player->position.x <= 350 && player->position.y > 550) ||
-            (player->position.x >= 1650 && player->position.x <= 1800 && player->position.y > 550))) {
-            
-            *currentMap = MAP_2;
-            player->position = (Vector2){player->position.x, 0};
-
-    } else if (*currentMap == MAP_2 &&
-            ((player->position.x >= 250 && player->position.x <= 350 && player->position.y < 0) ||
-            (player->position.x >= 1650 && player->position.x <= 1800 && player->position.y < 0))) {
-            
-            *currentMap = MAP_1;
-            player->position = (Vector2){player->position.x, 550};
     }
+    // MAP_1 para MAP_ORIGINAL (lado esquerdo)
+    else if (*currentMap == MAP_1 &&
+            player->position.x <= 0) {
+
+        *currentMap = MAP_ORIGINAL;
+        player->position = (Vector2){ground.width - player->sprites.walk_right.frames[0].width, 500};
+    }
+    // Evita sair da borda direita de MAP_1
+    else if (*currentMap == MAP_1 &&
+            player->position.x + player->sprites.walk_right.frames[0].width >= MAP1_WIDTH) {
+
+        player->position.x = MAP1_WIDTH - player->sprites.walk_right.frames[0].width;
+    }
+
+    // MAP_1 para MAP_2 (entrada inferior - faixa 1)
+    else if (*currentMap == MAP_1 &&
+            player->position.y > 550 &&
+            ((player->position.x >= 250 && player->position.x <= 350) ||
+            (player->position.x >= 1650 && player->position.x <= 1800))) {
+
+        *currentMap = MAP_2;
+        player->position = (Vector2){player->position.x, 0};
+    }
+    // MAP_2 para MAP_1 (retorno superior - faixa 1)
+    else if (*currentMap == MAP_2 &&
+            player->position.y < 0 &&
+            ((player->position.x >= 250 && player->position.x <= 350) ||
+            (player->position.x >= 1650 && player->position.x <= 1800))) {
+
+        *currentMap = MAP_1;
+        player->position = (Vector2){player->position.x, 550};
+    }
+
+    // MAP_1 para MAP_3 (acima da tela - faixa central)
+    else if (*currentMap == MAP_1 &&
+            player->position.x >= 250 && player->position.x <= 350 &&
+            player->position.y < 0) {
+
+        *currentMap = MAP_3;
+        player->position = (Vector2){player->position.x, 550};
+    }
+    // MAP_3 para MAP_1 (descendo da tela)
+    else if (*currentMap == MAP_3 &&
+            player->position.x >= 250 && player->position.x <= 350 &&
+            player->position.y > 550) {
+
+        *currentMap = MAP_1;
+        player->position = (Vector2){player->position.x, 0};
+    }
+
 
     player->velocity.y += player->gravity * dt;
     player->position.y += player->velocity.y * dt;

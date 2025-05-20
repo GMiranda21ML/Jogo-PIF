@@ -6,6 +6,7 @@
 #include "map1.h"  
 #include "map2.h"  
 #include "levelUp.h"
+#include "map3.h"
 #include "maps.h"
 #include "player.h"
 #include <math.h>
@@ -49,6 +50,7 @@ int main() {
 
     static bool map1Loaded = false;
     static bool map2Loaded = false;
+    static bool map3Loaded = false;
 
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
 
@@ -139,6 +141,7 @@ int main() {
 
                     map1Loaded = true;
                     map2Loaded = false;
+                    map3Loaded = false;
 
                 } else if (currentMap == MAP_2 && !map2Loaded) {
                     ClearAllMapCollisions();
@@ -157,6 +160,7 @@ int main() {
 
                     map2Loaded = true;
                     map1Loaded = false;
+                    map3Loaded = false;
 
                 } else if (currentMap == MAP_ORIGINAL) {
                     for (int i = 0; i < PLATFORM_COUNT; i++) {
@@ -172,7 +176,28 @@ int main() {
 
                     map1Loaded = false;
                     map2Loaded = false;
+                    map3Loaded = false;
+
+                }  else if (currentMap == MAP_3 && !map3Loaded) {
+                    ClearAllMapCollisions();
+                    InitMap3();
+                    Rectangle* map3Plats = GetMap3Platforms();
+                    platformcount = GetMap3PlatformCount();
+
+                    for (int i = 0; i < platformcount; i++) {
+                        platforms[i] = map3Plats[i];
+                    }
+                    for (int i = platformcount; i < 10; i++) {
+                        platforms[i] = (Rectangle){0,0,0,0};
+                    }
+
+                    ground = GetMap3Ground();
+
+                    map3Loaded = true;
+                    map1Loaded = false;
+                    map2Loaded = false;
                 }
+
 
                 // Desenho do mapa
                 if (currentMap == MAP_ORIGINAL) {
@@ -193,6 +218,10 @@ int main() {
 
                 if (currentMap == MAP_2) {
                     DrawMap2();
+                }
+
+                if (currentMap == MAP_3) {
+                    DrawMap3();
                 }
 
                 DrawPlayer(&player);
