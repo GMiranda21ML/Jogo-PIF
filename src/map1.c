@@ -42,6 +42,27 @@ void DrawMap1() {
     CreateSpike(640, 260, 830, 260);
 
     CreateInvisibleComColisao(300, 550, 244);
+    CreateInvisibleComColisao(850, 550, 244);
+    CreateInvisibleComColisao(610, 300, 100);
+    CreateInvisibleComColisao(620, 200, 100);
+
+    CreateInvisibleComColisao(920, 125, 125);
+    CreateInvisibleComColisao(1100, 125, 125);
+
+    CreateInvisibleComColisao(1220, 125, 125);
+    CreateInvisibleComColisao(1400, 125, 125);
+
+    CreateInvisibleComColisao(830, 100, 100);
+    CreateInvisibleComColisao(400, 100, 100);
+    CreateInvisibleComColisao(1680, 550, 550);
+    CreateInvisibleComColisao(1785, 390, 390);
+    CreateInvisibleComColisao(1475, 100, 100);
+
+    CreateInvisibleComColisao(870, 450, 150);
+    CreateInvisibleComColisao(1100, 450, 150);
+    CreateInvisibleComColisao(1120, 550, 250);
+    CreateInvisibleComColisao(150, 200, 100);
+    CreateInvisibleComColisao(120, 100, 100);
 
     CreateWallComColisao(1500, 550, 244);
     CreateWallComColisao(1505, 300, 200);
@@ -65,8 +86,8 @@ void DrawMap1() {
     CreateCeilingComColisao(1530,1680,450,10);
     CreateCeilingComColisao(1817,1967,370,10);
 
-    CreateCeilingComColisao(950,1100,120,10);
-    CreateCeilingComColisao(1250,1400,120,10);
+    CreateCeilingComColisao(950,1100,125,10);
+    CreateCeilingComColisao(1250,1400,125,10);
 
     CreateCeilingComColisao(0,150,200,10);
     CreateCeilingComColisao(0,150,0,10);
