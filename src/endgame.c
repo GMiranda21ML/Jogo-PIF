@@ -1,8 +1,10 @@
 #include "raylib.h"
 #include "screens.h"
 
-GameScreen ShowEndGameScreen(void) {
+GameScreen ShowEndGameScreen(Music *music) {
     while (!WindowShouldClose()) {
+        UpdateMusicStream(*music);
+        
         BeginDrawing();
         ClearBackground(BLACK);
 
@@ -21,6 +23,8 @@ GameScreen ShowEndGameScreen(void) {
         EndDrawing();
 
         if (IsKeyPressed(KEY_BACKSPACE)) {
+            StopMusicStream(*music);
+            UnloadMusicStream(*music);
             break;
         }
     }
