@@ -1,0 +1,33 @@
+{
+    "sprite": "Skeleton_Red",
+    "enemy_walk": {
+        "right": [
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk1.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk2.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk3.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk4.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk5.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk6.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk7.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk8.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk9.png",
+            "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk10.png"
+        ]
+    },
+    "enemy_attack": {
+        "right": [
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack1.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack2.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack3.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack4.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack5.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack6.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack7.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack8.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack9.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack10.png",
+            "assets/sprites/enemy/dhuron/dhuron_attack/dhuron_attack11.png"
+        ]
+    },
+    "frame_change": 0.10
+}

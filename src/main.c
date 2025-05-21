@@ -184,8 +184,8 @@ int main() {
                     ClearAllMapCollisions();
                     InitMap1();
                     enemyCount = 8;
-                    InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
-                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
+                    InitEnemy(&enemies[0], (Vector2){580, 480}, 0.30f, 15, 5, 70);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
 
                     InitEnemy(&enemies[1], (Vector2){680, 505}, 0.35f, 25, 10, 100);
                     enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
