@@ -11,11 +11,11 @@
 #include "player.h"
 #include <stdio.h>
 #include <math.h>
+#include "map_original.h"
 
-#define PLATFORM_COUNT 0
-#define ORIGINAL_MAP_ROWS 0
-#define ORIGINAL_MAP_COLS 0
-#define MAX_ENEMIES 2
+#define MAX_ENEMIES 10
+Enemy enemies[MAX_ENEMIES];
+int enemyCount = 0;
 
 int main() {
     InitWindow(800, 600, "Metroid Souls");
@@ -48,13 +48,7 @@ int main() {
         SetSoundVolume(hitPlayerSound[i], 0.3f);
     } 
 
-    Rectangle originalMapMatrix[ORIGINAL_MAP_ROWS][ORIGINAL_MAP_COLS] = {
-        {{200, 450, 150, 20}},
-        {{450, 350, 150, 20}},
-        {{300, 250, 100, 20}},
-        {{685, 250, 100, 20}}
-    };
-
+    static bool mapOriginalLoaded = false;
     static bool map1Loaded = false;
     static bool map2Loaded = false;
     static bool map3Loaded = false;
@@ -82,11 +76,7 @@ int main() {
             GroundGrassSprites groundSprites = LoadGroundSprites("assets/sprites/map/ground.json");
             Rectangle ground = { 0, 550, 2000, 500 };
             Rectangle platforms[10];
-            int platformcount = PLATFORM_COUNT;
-
-            for (int i = 0; i < PLATFORM_COUNT; i++) {
-                platforms[i] = originalMapMatrix[i][0];
-            }
+            int platformcount = 0;
 
             InitMap1();
             MapType currentMap = MAP_ORIGINAL;
@@ -155,8 +145,20 @@ int main() {
                 DrawTexture(background, 0, -490, WHITE);
 
                 if (currentMap == MAP_1 && !map1Loaded) {
+                    for (int i = 0; i < enemyCount; i++) {
+                        UnloadEnemySprites(enemies[i].sprites);
+                    }
+                    enemyCount = 0;
+
                     ClearAllMapCollisions();
                     InitMap1();
+                    enemyCount = 2;
+                    InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
+
+                    InitEnemy(&enemies[1], (Vector2){680, 505}, 0.35f, 25, 10, 100);
+                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+
                     Rectangle* map1Plats = GetMap1Platforms();
                     platformcount = GetMap1PlatformCount();
 
@@ -169,6 +171,7 @@ int main() {
 
                     ground = GetMap1Ground();
 
+                    mapOriginalLoaded = false;
                     map1Loaded = true;
                     map2Loaded = false;
                     map3Loaded = false;
@@ -187,28 +190,33 @@ int main() {
                     }
 
                     ground = GetMap2Ground();
-
+                    
+                    mapOriginalLoaded = false;
                     map2Loaded = true;
                     map1Loaded = false;
                     map3Loaded = false;
 
-                } else if (currentMap == MAP_ORIGINAL) {
-                    for (int i = 0; i < PLATFORM_COUNT; i++) {
-                        platforms[i] = originalMapMatrix[i][0];
-                    }
-                    for (int i = PLATFORM_COUNT; i < 10; i++) {
-                        platforms[i] = (Rectangle){0, 0, 0, 0};
-                    }
-                    platformcount = PLATFORM_COUNT;
-                    ground = (Rectangle){0, 550, 2000, 500};
-
+                }else if (currentMap == MAP_ORIGINAL && !mapOriginalLoaded) {
                     ClearAllMapCollisions();
+                    InitMapOriginal();
 
-                    map1Loaded = false;
-                    map2Loaded = false;
-                    map3Loaded = false;
+                    // Inimigos para o MAP_ORIGINAL
+                    enemyCount = 1;
+                    InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-                }  else if (currentMap == MAP_3 && !map3Loaded) {
+                    // Plataformas e terreno
+                    Rectangle* mapOriginalPlats = GetMapOriginalPlatforms();
+                    platformcount = GetMapOriginalPlatformCount();
+                    for (int i = 0; i < platformcount; i++) platforms[i] = mapOriginalPlats[i];
+                    for (int i = platformcount; i < 10; i++) platforms[i] = (Rectangle){0, 0, 0, 0};
+                    ground = GetMapOriginalGround();
+
+                    // Flags de controle
+                    mapOriginalLoaded = true;
+                    map1Loaded = map2Loaded = map3Loaded = false;
+
+                    }else if (currentMap == MAP_3 && !map3Loaded) {
                     ClearAllMapCollisions();
                     InitMap3();
                     Rectangle* map3Plats = GetMap3Platforms();
@@ -223,23 +231,13 @@ int main() {
 
                     ground = GetMap3Ground();
 
+                    mapOriginalLoaded = false;
                     map3Loaded = true;
                     map1Loaded = false;
                     map2Loaded = false;
                 }
 
-                if (currentMap == MAP_ORIGINAL) {
-                    int tileWidth = groundSprites.frames[0].width;
-                    int tiles = ground.width / tileWidth;
-                    for (int i = 0; i < tiles + 1; i++) {
-                        DrawTexture(groundSprites.frames[0], ground.x + i * tileWidth, ground.y, WHITE);
-                    }
-
-                    for (int i = 0; i < platformcount; i++) {
-                        DrawRectangleRec(platforms[i], GRAY);
-                    }
-                }
-
+                if (currentMap == MAP_ORIGINAL) DrawMapOriginal();
                 if (currentMap == MAP_1) DrawMap1();
                 if (currentMap == MAP_2) DrawMap2();
                 if (currentMap == MAP_3) DrawMap3();
