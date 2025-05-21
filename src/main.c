@@ -13,6 +13,9 @@
 #include "map_original.h"
 #include <math.h>
 
+
+//aaaa
+
 #define MAX_ENEMIES 10
 Enemy enemies[MAX_ENEMIES];
 int enemyCount = 0;
