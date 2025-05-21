@@ -44,6 +44,19 @@ void DrawMap2() {
     DrawSpikes();
     CreateSpike(0, 500, 2000, 500);
 
+    CreateInvisibleComColisao(520, 200, 200);
+    CreateInvisibleComColisao(700, 200, 200);
+    CreateInvisibleComColisao(1350, 200, 200);
+    CreateInvisibleComColisao(1400, 300, 150);
+    CreateInvisibleComColisao(1630, 300, 150);
+    CreateInvisibleComColisao(1600, 400, 90);
+    CreateInvisibleComColisao(1820, 400, 90);
+    CreateInvisibleComColisao(1300, 450, 90);
+    CreateInvisibleComColisao(1520, 450, 90);
+    CreateInvisibleComColisao(1500, 100, 100);
+    CreateInvisibleComColisao(1680, 100, 100);
+
+
     CreateCeilingComColisao(850 , 882,100 ,10);
 
     CreateWallComColisao(1150, 200, 200);
