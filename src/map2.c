@@ -14,10 +14,13 @@ void InitMap2() {
     background2 = LoadTexture("assets/backgroundMap/backgroundPorao.png");
     groundTile2 = LoadTexture("assets/sprites/map/ground/groundPorao.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallPorao.png");
+    Texture2D InvisibleTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundPorao.png");
 
     SetWallTile(wallTile);
+    SetInvisibleTile(InvisibleTile);
     SetCeilingTile(ceilingTile);
+
 }
 
 void DrawMap2() {
@@ -88,4 +91,5 @@ void UnloadMap2() {
     UnloadTexture(groundTile2);
     UnloadSpikeTexture();
     UnloadWallTile();
+    UnloadInvisibleTile();
 }
