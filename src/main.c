@@ -79,7 +79,7 @@ int main() {
         }
 
         if (currentScreen == SCREEN_SCORE) {
-            currentScreen = RunBestTimeScreen();
+            currentScreen = RunBestTimeScreen(menuMusic);
         }
 
         if (currentScreen == SCREEN_GAME) {

@@ -3,9 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define BEST_TIME_FILE "best_time.txt"
-
-GameScreen RunBestTimeScreen() {
+GameScreen RunBestTimeScreen(Music menuMusic) {
     float bestTime = 0.0f;
     FILE *file = fopen(BEST_TIME_FILE, "r");
     if (file) {
@@ -16,6 +14,7 @@ GameScreen RunBestTimeScreen() {
     bool exitScreen = false;
 
     while (!WindowShouldClose() && !exitScreen) {
+        UpdateMusicStream(menuMusic);
         if (IsKeyPressed(KEY_SPACE)) {
             exitScreen = true;
         }
