@@ -24,7 +24,7 @@ GameScreen ShowEndGameScreen(Music *music, float totalGameTime) {
         EndDrawing();
 
         if (IsKeyPressed(KEY_BACKSPACE)) {
-            SaveBestTime(totalGameTime);
+            UpdateBestTime(totalGameTime);
             StopMusicStream(*music);
             UnloadMusicStream(*music);
             break;
