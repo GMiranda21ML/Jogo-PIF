@@ -17,13 +17,20 @@
 Enemy enemies[MAX_ENEMIES];
 int enemyCount = 0;
 
+int UnloadEnemysMap(void){
+    for (int i = 0; i < enemyCount; i++) {
+        UnloadEnemySprites(enemies[i].sprites);
+    }
+    
+    return 0;
+}
+
 int main() {
     InitWindow(800, 600, "Metroid Souls");
     InitAudioDevice();
     SetTargetFPS(60);
 
     GameScreen currentScreen = RunCutscene();
-
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
     Sound levelUpSound = LoadSound("assets/sound/levelUp/levelUpSound.mp3");
     SetSoundVolume(levelUpSound, 1.5f); 
@@ -82,12 +89,9 @@ int main() {
             MapType currentMap = MAP_ORIGINAL;
 
             Enemy enemies[MAX_ENEMIES];
-            int enemyCount = 2;
+            int enemyCount = 1;
             InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
             enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
-
-            InitEnemy(&enemies[1], (Vector2){680, 505}, 0.35f, 25, 10, 100);
-            enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
             Camera2D camera = InitCamera(player.position, (Vector2){400, 300});
             Texture2D background = LoadTexture("assets/backgroundMap/backgroundForest.png");
@@ -150,10 +154,7 @@ int main() {
                 DrawTexture(background, 0, -490, WHITE);
 
                 if (currentMap == MAP_1 && !map1Loaded) {
-                    for (int i = 0; i < enemyCount; i++) {
-                        UnloadEnemySprites(enemies[i].sprites);
-                    }
-                    enemyCount = 0;
+                    enemyCount = UnloadEnemysMap();
 
                     ClearAllMapCollisions();
                     InitMap1();
@@ -182,6 +183,7 @@ int main() {
                     map3Loaded = false;
 
                 } else if (currentMap == MAP_2 && !map2Loaded) {
+                    enemyCount = UnloadEnemysMap();
                     ClearAllMapCollisions();
                     InitMap2();
                     Rectangle* map2Plats = GetMap2Platforms();
@@ -202,6 +204,7 @@ int main() {
                     map3Loaded = false;
 
                 }else if (currentMap == MAP_ORIGINAL && !mapOriginalLoaded) {
+                    enemyCount = UnloadEnemysMap();
                     ClearAllMapCollisions();
                     InitMapOriginal();
 
@@ -222,6 +225,7 @@ int main() {
                     map1Loaded = map2Loaded = map3Loaded = false;
 
                     }else if (currentMap == MAP_3 && !map3Loaded) {
+                    enemyCount = UnloadEnemysMap();
                     ClearAllMapCollisions();
                     InitMap3();
                     Rectangle* map3Plats = GetMap3Platforms();
