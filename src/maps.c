@@ -94,7 +94,7 @@ void CheckSpikeDamage(Rectangle playerRect, int *playerHealth) {
 
 void DrawInvisible(int x, int baseY, int heightInPixels) { //vai ser removido posteriormente
     int InvisibleTileHeight = InvisibleTile.height;
-    int blocks = heightInPixels / InvisibleTileHeight;
+    int blocks = heightInPixels / InvisibleTileHeight;  
     
     for (int i = 0; i < blocks; i++) {
         DrawTexture(InvisibleTile, x, baseY - (i + 1) * InvisibleTileHeight, WHITE);

@@ -14,12 +14,12 @@ void InitMap1() {
     background1 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
-    Texture2D invisibleTile = LoadTexture("assets/sprites/map/wall/wallRed.png");
+    Texture2D InvisibleTile = LoadTexture("assets/sprites/map/wall/wallPorao.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");;
     LoadSpikeTexture();
 
     SetWallTile(wallTile); // novo: informa o maps.c sobre a textura da parede
-    SetInvisibleTile(invisibleTile);
+    SetInvisibleTile(InvisibleTile);
     SetCeilingTile(ceilingTile);
 
 }
