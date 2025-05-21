@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "screens.h"
 
-GameScreen RunEpilogueCutscene() {
+GameScreen RunEpilogueCutscene(float totalGameTime) {
     const char *imagePaths[NUM_IMAGES] = {
         "assets/backgroundsEpilogueCutScene/epilogueImage1.png",
         "assets/backgroundsEpilogueCutScene/epilogueImage3.png",
@@ -138,5 +138,5 @@ GameScreen RunEpilogueCutscene() {
         UnloadTexture(images[i]);
     }
 
-    return ShowEndGameScreen(&music);
+    return ShowEndGameScreen(&music, totalGameTime);
 }

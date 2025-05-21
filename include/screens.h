@@ -27,7 +27,7 @@ GameScreen RunMenu();
 GameScreen RunGameOver();
 GameScreen RunKeyboardScreen();
 GameScreen RunCutscene();
-GameScreen RunEpilogueCutscene();
-GameScreen ShowEndGameScreen(Music *music);
+GameScreen RunEpilogueCutscene(float totalGameTime);
+GameScreen ShowEndGameScreen(Music *music, float totalGameTime);
 
 #endif

@@ -1,7 +1,8 @@
 #include "raylib.h"
+#include "score.h"
 #include "screens.h"
 
-GameScreen ShowEndGameScreen(Music *music) {
+GameScreen ShowEndGameScreen(Music *music, float totalGameTime) {
     while (!WindowShouldClose()) {
         UpdateMusicStream(*music);
         
@@ -23,6 +24,7 @@ GameScreen ShowEndGameScreen(Music *music) {
         EndDrawing();
 
         if (IsKeyPressed(KEY_BACKSPACE)) {
+            SaveBestTime(totalGameTime);
             StopMusicStream(*music);
             UnloadMusicStream(*music);
             break;

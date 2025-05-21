@@ -61,6 +61,8 @@ int main() {
     static bool map3Loaded = false;
 
     while (currentScreen != SCREEN_EXIT && !WindowShouldClose()) {
+        float totalGameTime = 0.0f;
+
 
         if (currentScreen == SCREEN_GAME || currentScreen == SCREEN_EXIT) {
             StopMusicStream(menuMusic);
@@ -99,6 +101,10 @@ int main() {
             while (!WindowShouldClose()) {
                 float dt = GetFrameTime();
 
+                if (currentScreen == SCREEN_GAME) {
+                    totalGameTime += dt;
+                }
+
                 if (currentMap != lastMap) {
                     Music* newMapMusic = NULL;
                 
@@ -136,7 +142,7 @@ int main() {
 
                 // OBS: TIRAR DEPOIS
                 if (IsKeyPressed(KEY_T)) {
-                    currentMap = RunEpilogueCutscene();
+                    currentMap = RunEpilogueCutscene(totalGameTime);
                 }
 
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
