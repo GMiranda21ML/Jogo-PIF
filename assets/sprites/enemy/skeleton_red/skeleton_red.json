@@ -1,0 +1,27 @@
+{
+    "sprite": "Blade_Master",
+    "enemy_walk": {
+        "right": [
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk1.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk2.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk3.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk4.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk5.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk6.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk7.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk8.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk9.png"
+        ]
+    },
+    "enemy_attack": {
+        "right": [
+            "assets/sprites/enemy/skeleton_red/skeleton_red_attack/skeleton_red_attack1.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_attack/skeleton_red_attack2.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_attack/skeleton_red_attack3.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_attack/skeleton_red_attack4.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_attack/skeleton_red_attack5.png",
+            "assets/sprites/enemy/skeleton_red/skeleton_red_attack/skeleton_red_attack6.png"
+        ]
+    },
+    "frame_change": 0.10
+}
