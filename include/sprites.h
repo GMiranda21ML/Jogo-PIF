@@ -31,20 +31,6 @@ typedef struct {
     float frame_change;
 } EnemySprites;
 
-typedef struct {
-    Animation walk_right;
-    Animation walk_left;
-    Animation attack_right1;
-    Animation attack_left1;
-    Animation attack_right2;
-    Animation attack_left2;
-    Animation attack_right3;
-    Animation attack_left3;
-    Animation attack_right4;
-    Animation attack_left4;
-    float frame_change;
-} BossSprites;
-
 PlayerSprites LoadPlayerSprites(const char *jsonPath);
 void UnloadPlayerSprites(PlayerSprites sprites);
 
@@ -56,11 +42,6 @@ void UnloadEnemysSprites(EnemySprites sprites);
 
 EnemySprites LoadEnemySprites(const char *jsonPath);
 void UnloadEnemySprites(EnemySprites sprites);
-
-BossSprites BossLoadSprites(const char *jsonPath);
-void BossUnloadSprites(BossSprites s);
-BossSprites LoadBossSprites(const char *jsonPath);
-void UnloadBossSprites(BossSprites s);
 
 Texture2D FlipTextureHorizontally(Texture2D original);
 

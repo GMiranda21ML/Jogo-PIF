@@ -1,5 +1,5 @@
 {
-    "sprite": "Blade_Master",
+    "sprite": "Skeleton_Red",
     "enemy_walk": {
         "right": [
             "assets/sprites/enemy/skeleton_red/skeleton_red_walk/skeleton_red_walk1.png",
