@@ -144,7 +144,7 @@ int main() {
                 Rectangle playerRect = GetPlayerRect(&player);
 
                 for (int i = 0; i < enemyCount; i++) {
-                    UpdateEnemy(&enemies[i], player.position, dt, enemies[i].sprites, playerRect, ground);
+                    UpdateEnemy(&enemies[i], player.position, dt, enemies[i].sprites, playerRect);
                 }
 
                 UpdateCameraToFollowPlayer(&camera, player.position, 800, 600, ground.width, ground.y + ground.height);
