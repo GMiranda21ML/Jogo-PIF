@@ -13,9 +13,6 @@
 #include "map_original.h"
 #include <math.h>
 
-
-//aaaa
-
 #define MAX_ENEMIES 10
 Enemy enemies[MAX_ENEMIES];
 int enemyCount = 0;
@@ -41,6 +38,8 @@ int main() {
     Music originalMapMusic = LoadMusicStream("assets/sound/gameMusic/forestMap/forestMusic.mp3");
     Music map1and3Music = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
     Music caveMusic = LoadMusicStream("assets/sound/gameMusic/caveMusic/caveMusic.mp3");
+
+    Chave chave;
 
     Music* currentMapMusic = NULL;
     MapType lastMap = -1;
@@ -156,7 +155,7 @@ int main() {
                 }
                 
 
-                UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
+                UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound, &chave);
                 Rectangle playerRect = GetPlayerRect(&player);
 
                 for (int i = 0; i < enemyCount; i++) {
