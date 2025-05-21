@@ -1,25 +1,31 @@
 #include "raylib.h"
 #include "screens.h"
 
-GameScreen RunMenu(Music menuMusic) {  
-    // PlayMusicStream(menuMusic);
-    const char *options[] = {"Jogar", "Teclas", "Score", "Sair"};
+GameScreen RunMenu(Music menuMusic) {
+    const char options[4][10] = {
+        "jogar",
+        "Teclas",
+        "Score",
+        "Sair"
+    };
+
     int selected = 0;
     int optionCount = sizeof(options) / sizeof(options[0]);
 
     Texture2D logo = LoadTexture("assets/sprites/menu/menu2.png");
-    Vector2 logoPosition = {
-        (float)(GetScreenWidth() - logo.width) / 2,
-        (float)(GetScreenHeight() - logo.height) / 2
-    };
+    Vector2 logoPosition;
+
+    logoPosition.x = (float)(GetScreenWidth() - logo.width) / 2;
+    logoPosition.y = (float)(GetScreenHeight() - logo.height) / 2;
 
     while (!WindowShouldClose()) {
         UpdateMusicStream(menuMusic);
+
         if (IsKeyPressed(KEY_UP)) {
-            selected--;
+            selected = selected - 1;
         }
         if (IsKeyPressed(KEY_DOWN)) {
-            selected++;
+            selected = selected + 1;
         }
         if (selected < 0) {
             selected = optionCount - 1;
@@ -50,13 +56,16 @@ GameScreen RunMenu(Music menuMusic) {
 
         const char *title = "Metroid Souls";
         int titleFontSize = 60;
-        int titleX = GetScreenWidth() / 2 - MeasureText(title, titleFontSize) / 2;
-        int titleY = 100;
+        int titleX;
+        int titleY;
+
+        titleX = GetScreenWidth() / 2 - MeasureText(title, titleFontSize) / 2;
+        titleY = 100;
 
         DrawText(title, titleX + 3, titleY + 3, titleFontSize + 2, BLACK);
         DrawText(title, titleX, titleY, titleFontSize, WHITE);
 
-        for (int i = 0; i < optionCount; i++) {
+        for (int i = 0; i < 4; i++) {
             const char *text = options[i];
             int fontSize = 30;
             int spacing = 50;
