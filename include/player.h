@@ -6,6 +6,7 @@
 #include "levelUp.h"
 #include "enemy.h"
 #include "maps.h"
+#include "chave.h"
 
 typedef struct Player {
     Vector2 position;
@@ -24,10 +25,11 @@ typedef struct Player {
     PlayerSprites sprites;
     Animation previousAnim;
     PlayerLevel level;
+    bool PossuiKey;
 } Player;
 
 void InitPlayer(Player *player);
-void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]);
+void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6], Chave *chave);
 void DrawPlayer(Player *player);
 void FreePlayer(Player *player);
 Rectangle GetPlayerRect(Player *player);
