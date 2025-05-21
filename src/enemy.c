@@ -64,8 +64,32 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
         }
     }
 
-    if (!colidiuComParede) {
-        enemy->position.x = proposedPosition.x;
+    // Verifica colisão com as paredes INVISIVEIS
+    bool colidiuComInvisible = false;
+    Rectangle *invisibles = GetInvisible();
+    int InvisibleCount = GetInvisibleCount();
+
+    Vector2 proposedPositionINV = enemy->position;
+    proposedPositionINV.x += enemy->velocity.x * dt;
+
+    Texture2D currentTexInv = GetEnemyTexture(enemy, enemySprites);
+
+    Rectangle proposedRectInvisible = {
+        proposedPositionINV.x,
+        enemy->position.y,
+        (float)currentTex.width,
+        (float)currentTex.height
+    };
+
+    for (int i = 0; i < InvisibleCount; i++) {
+        if (CheckCollisionRecs(proposedRectInvisible, invisibles[i])) {
+            colidiuComInvisible = true;
+            break;
+        }
+    }
+
+    if (!colidiuComInvisible) {
+        enemy->position.x = proposedPositionINV.x;
     }
 
     // Verifica colisão com os tetos

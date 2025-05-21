@@ -4,6 +4,7 @@
 #include "player.h"
 
 #define MAX_WALLS 1000
+#define MAX_INVISIBLE 1000
 #define MAX_CEILINGS 1000
 #define MAX_SPIKES 100
 
@@ -15,6 +16,9 @@ typedef struct Spike {
 static Rectangle walls[MAX_WALLS];
 static int wallCount = 0;
 
+static Rectangle Invisibles[MAX_INVISIBLE];
+static int InvisibleCount = 0;
+
 static Rectangle ceilings[MAX_CEILINGS];
 static int ceilingCount = 0;
 
@@ -23,6 +27,7 @@ static int spikeCount = 0;
 
 static Texture2D spikeTexture;
 static Texture2D wallTile;
+static Texture2D InvisibleTile;
 static Texture2D ceilingTile;
 
 
@@ -87,6 +92,37 @@ void CheckSpikeDamage(Rectangle playerRect, int *playerHealth) {
     }
 }
 
+void DrawInvisible(int x, int baseY, int heightInPixels) { //vai ser removido posteriormente
+    int InvisibleTileHeight = InvisibleTile.height;
+    int blocks = heightInPixels / InvisibleTileHeight;
+    
+    for (int i = 0; i < blocks; i++) {
+        DrawTexture(InvisibleTile, x, baseY - (i + 1) * InvisibleTileHeight, WHITE);
+    }
+
+    int remainder = heightInPixels % InvisibleTileHeight;
+    if (remainder > 0) {
+        Rectangle srcInv = {0, InvisibleTileHeight - remainder, InvisibleTile.width, remainder};
+        Rectangle destInv = {x, baseY - blocks * InvisibleTileHeight - remainder, InvisibleTile.width, remainder};
+        DrawTexturePro(InvisibleTile, srcInv, destInv, (Vector2){0, 0}, 0, WHITE);
+    }
+}
+
+void CreateInvisibleComColisao(int x, int baseY, int altura) {
+    if (InvisibleTile.id != 0) {
+    DrawInvisible(x, baseY, altura);
+    }
+
+    if (InvisibleCount < MAX_INVISIBLE) {
+        Rectangle InvisibleRec = {
+            x,
+            baseY - altura,
+            InvisibleTile.width,
+            altura
+        };
+        Invisibles[InvisibleCount++] = InvisibleRec;
+    }
+}
 
 void DrawWall(int x, int baseY, int heightInPixels) {
     int wallTileHeight = wallTile.height;
@@ -176,12 +212,23 @@ void SetWallTile(Texture2D texture) {
     wallTile = texture;
 }
 
+void SetInvisibleTile(Texture2D texture){
+    InvisibleTile = texture;
+}
+
 void SetCeilingTile(Texture2D texture) {
     ceilingTile = texture;
 }
 
+Rectangle *GetInvisible(void){
+    return Invisibles;
+}
 Rectangle *GetWalls(void) {
     return walls;
+}
+
+int GetInvisibleCount(void){
+    return InvisibleCount;
 }
 
 int GetWallCount(void) {
@@ -190,6 +237,10 @@ int GetWallCount(void) {
 
 void UnloadSpikeTexture() {
     UnloadTexture(spikeTexture);
+}
+
+void UnloadInvisibleTile(void){
+    UnloadTexture(InvisibleTile);
 }
 
 void UnloadWallTile(void) {
@@ -208,6 +259,10 @@ int GetCeilingCount(void) {
     return ceilingCount;
 }
 
+void ClearInvisibleCollision(){
+    InvisibleCount = 0;
+}
+
 void ClearWallCollision() {
     wallCount = 0;
 }
@@ -224,4 +279,5 @@ void ClearAllMapCollisions() {
     ClearWallCollision();
     ClearCeilingCollision();
     ClearSpikeCollision();
+    ClearInvisibleCollision();
 }

@@ -2,7 +2,8 @@
     "files.associations": {
         "camera.h": "c",
         "raylib.h": "c",
-        "powerup.h": "c"
+        "powerup.h": "c",
+        "map1.h": "c"
     },
     "makefile.configureOnOpen": false
 }
