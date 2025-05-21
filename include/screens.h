@@ -1,6 +1,8 @@
 #ifndef SCREENS_H
 #define SCREENS_H
 
+#include <raylib.h>
+
 typedef enum GameScreen {
     SCREEN_GAME,
     SCREEN_MENU,
@@ -9,7 +11,8 @@ typedef enum GameScreen {
     SCREEN_KEYBOARD,
     SCREEN_CUTSCENE,
     SCREEN_EPILOGUE,
-    SCREEN_ENDGAME
+    SCREEN_ENDGAME,
+    SCREEN_SCORE
 } GameScreen;
 
 typedef struct {
@@ -22,6 +25,7 @@ typedef struct {
 #define TRANSITION_TIME 3.0f
 #define IMAGE_DISPLAY_TIME 6.0f
 #define FADE_OUT_TIME 3.0f
+#define BEST_TIME_FILE "best_time.txt"
 
 GameScreen RunMenu();
 GameScreen RunGameOver();
@@ -29,5 +33,6 @@ GameScreen RunKeyboardScreen();
 GameScreen RunCutscene();
 GameScreen RunEpilogueCutscene(float totalGameTime);
 GameScreen ShowEndGameScreen(Music *music, float totalGameTime);
+GameScreen RunBestTimeScreen();
 
 #endif

@@ -17,7 +17,7 @@ GameScreen RunKeyboardScreen(Music menuMusic) {
         int titleY = 50;
 
         DrawText(title, titleX + 2, titleY + 2, titleFontSize, DARKGRAY);
-        DrawText(title, titleX, titleY, titleFontSize, WHITE);
+        DrawText(title, titleX, titleY, titleFontSize, GOLD);
 
         int fontSize = 30;
         int y = 150;

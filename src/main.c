@@ -10,8 +10,8 @@
 #include "maps.h"
 #include "player.h"
 #include <stdio.h>
-#include <math.h>
 #include "map_original.h"
+#include <math.h>
 
 #define MAX_ENEMIES 10
 Enemy enemies[MAX_ENEMIES];
@@ -76,6 +76,10 @@ int main() {
 
         if (currentScreen == SCREEN_KEYBOARD) {
             currentScreen = RunKeyboardScreen(menuMusic);
+        }
+
+        if (currentScreen == SCREEN_SCORE) {
+            currentScreen = RunBestTimeScreen();
         }
 
         if (currentScreen == SCREEN_GAME) {

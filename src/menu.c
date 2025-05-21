@@ -3,7 +3,7 @@
 
 GameScreen RunMenu(Music menuMusic) {  
     // PlayMusicStream(menuMusic);
-    const char *options[] = {"Jogar", "Teclas", "Sair"};
+    const char *options[] = {"Jogar", "Teclas", "Score", "Sair"};
     int selected = 0;
     int optionCount = sizeof(options) / sizeof(options[0]);
 
@@ -36,6 +36,9 @@ GameScreen RunMenu(Music menuMusic) {
                 return SCREEN_KEYBOARD;
             }
             if (selected == 2) {
+                return SCREEN_SCORE;
+            }
+            if (selected == 3) {
                 return SCREEN_EXIT;
             }
         }
