@@ -130,6 +130,11 @@ int main() {
                     break;
                 }
 
+                // OBS: TIRAR DEPOIS
+                if (IsKeyPressed(KEY_T)) {
+                    currentMap = RunEpilogueCutscene();
+                }
+
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
                 Rectangle playerRect = GetPlayerRect(&player);
 

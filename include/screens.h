@@ -7,12 +7,16 @@ typedef enum GameScreen {
     SCREEN_EXIT,
     SCREEN_GAMEOVER, 
     SCREEN_KEYBOARD,
-    SCREEN_CUTSCENE
+    SCREEN_CUTSCENE,
+    SCREEN_EPILOGUE,
+    SCREEN_ENDGAME
 } GameScreen;
 
 GameScreen RunMenu();
 GameScreen RunGameOver();
 GameScreen RunKeyboardScreen();
 GameScreen RunCutscene();
+GameScreen RunEpilogueCutscene();
+GameScreen ShowEndGameScreen();
 
 #endif
