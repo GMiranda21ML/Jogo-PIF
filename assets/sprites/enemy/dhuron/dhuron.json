@@ -1,5 +1,5 @@
 {
-    "sprite": "Skeleton_Red",
+    "sprite": "Dhuron",
     "enemy_walk": {
         "right": [
             "assets/sprites/enemy/dhuron/dhuron_walk/dhuron_walk1.png",

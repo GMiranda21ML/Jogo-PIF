@@ -32,7 +32,7 @@ void InitPlayerLevels(PlayerLevel* player) {
 void AddKill(PlayerLevel* playerLevel, Sound levelUpSound, Player *player) {
     playerLevel->currentKills++;
 
-    if (playerLevel->currentKills % 3 == 0 && playerLevel->currentLevel->next != NULL) {
+    if (playerLevel->currentKills % 6 == 0 && playerLevel->currentLevel->next != NULL) {
         playerLevel->currentLevel = playerLevel->currentLevel->next;
 
         player->playerHealth = 150;
