@@ -63,6 +63,11 @@ void DrawMap1() {
 
     CreateInvisibleComColisao(1500, 550, 244);
     CreateInvisibleComColisao(1505, 300, 200);
+    CreateInvisibleComColisao(0, 294, 500);
+    CreateInvisibleComColisao(1967, 550, 550);
+    CreateInvisibleComColisao(800, 300, 200);
+    CreateInvisibleComColisao(250, 200, 200);
+    
 
     CreateWallComColisao(1500, 550, 244);
     CreateWallComColisao(1505, 300, 200);
