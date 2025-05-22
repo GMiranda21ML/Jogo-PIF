@@ -20,7 +20,7 @@ void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health,
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect) {
     if (!enemy->alive) return;
 
-    enemy->position.y = 550 - enemySprites.walk_right.frames[0].height;
+    
 
     float deltaX = enemy->position.x - playerPos.x;
     float deltaY = enemy->position.y - playerPos.y;

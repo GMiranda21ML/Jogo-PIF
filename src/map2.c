@@ -42,7 +42,7 @@ void DrawMap2() {
     }
     
     DrawSpikes();
-    CreateSpike(0, 500, 2000, 500);
+    CreateSpike(0, 520, 2000, 520);
 
     CreateInvisibleComColisao(520, 200, 200);
     CreateInvisibleComColisao(700, 200, 200);
@@ -55,7 +55,7 @@ void DrawMap2() {
     CreateInvisibleComColisao(1520, 450, 90);
     CreateInvisibleComColisao(1500, 100, 100);
     CreateInvisibleComColisao(1680, 100, 100);
-
+    CreateInvisibleComColisao(1150, 200, 200);
 
     CreateCeilingComColisao(850 , 882,100 ,10);
 
