@@ -98,16 +98,16 @@ int main() {
 
             Enemy enemies[MAX_ENEMIES];
             int enemyCount = 4;
-            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
+            InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 10, 5, 70);
             enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-            InitEnemy(&enemies[1], (Vector2){1200, 500}, 1.0f, 15, 5, 70);
+            InitEnemy(&enemies[1], (Vector2){1200, 500}, 1.0f, 10, 5, 70);
             enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-            InitEnemy(&enemies[2], (Vector2){1700, 500}, 1.0f, 15, 5, 70);
+            InitEnemy(&enemies[2], (Vector2){1700, 500}, 1.0f, 10, 5, 70);
             enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-            InitEnemy(&enemies[3], (Vector2){1930, 500}, 1.0f, 15, 5, 70);
+            InitEnemy(&enemies[3], (Vector2){1930, 500}, 1.0f, 10, 5, 70);
             enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
             Camera2D camera = InitCamera(player.position, (Vector2){400, 300});
@@ -184,29 +184,29 @@ int main() {
                     ClearAllMapCollisions();
                     InitMap1();
                     enemyCount = 8;
-                    InitEnemy(&enemies[0], (Vector2){200, 500}, 0.30f, 15, 5, 70);
-                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
+                    InitEnemy(&enemies[0], (Vector2){200, 500}, 1.0f, 15, 8, 70);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[1], (Vector2){700, 500}, 0.35f, 25, 10, 100);
+                    InitEnemy(&enemies[1], (Vector2){700, 500}, 0.35f, 25, 15, 100);
                     enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
-                    InitEnemy(&enemies[2], (Vector2){960, 80}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[2], (Vector2){960, 80}, 1.0f, 15, 8, 70);
                     enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[3], (Vector2){1260, 80}, 0.35f, 25, 10, 100);
-                    enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[3], (Vector2){1260, 68}, 0.35f, 20, 10, 50);
+                    enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
 
-                    InitEnemy(&enemies[4], (Vector2){500, 155}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[4], (Vector2){500, 155}, 1.0f, 15, 8, 70);
                     enemies[4].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[5], (Vector2){250, 250}, 0.35f, 25, 10, 100);
+                    InitEnemy(&enemies[5], (Vector2){250, 245}, 0.35f, 25, 15, 100);
                     enemies[5].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
-                    InitEnemy(&enemies[6], (Vector2){1540, 250}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[6], (Vector2){1540, 250}, 1.0f, 15, 8, 70);
                     enemies[6].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[7], (Vector2){1920, 330}, 0.35f, 25, 10, 100);
-                    enemies[7].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[7], (Vector2){1920, 315}, 0.35f, 20, 10, 50);
+                    enemies[7].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
 
                     Rectangle* map1Plats = GetMap1Platforms();
                     platformcount = GetMap1PlatformCount();
@@ -231,17 +231,17 @@ int main() {
                     InitMap2();
 
                     enemyCount = 4;
-                    InitEnemy(&enemies[0], (Vector2){570, 150}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[0], (Vector2){570, 150}, 1.0f, 15, 8, 70);
                     enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[1], (Vector2){1460, 400}, 0.35f, 25, 10, 100);
-                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[1], (Vector2){1460, 400}, 0.35f, 20, 10, 50);
+                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
 
-                    InitEnemy(&enemies[2], (Vector2){1440, 250}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[2], (Vector2){1440, 250}, 1.0f, 15, 8, 70);
                     enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[3], (Vector2){1770, 350}, 0.35f, 25, 10, 100);
-                    enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[3], (Vector2){1770, 350}, 0.35f, 20, 10, 50);
+                    enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
 
                     Rectangle* map2Plats = GetMap2Platforms();
                     platformcount = GetMap2PlatformCount();
@@ -267,16 +267,16 @@ int main() {
 
                     // Inimigos para o MAP_ORIGINAL
                     enemyCount = 4;
-                    InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 10, 5, 70);
                     enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-                    InitEnemy(&enemies[1], (Vector2){1200, 500}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[1], (Vector2){1200, 500}, 1.0f, 10, 5, 70);
                     enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
         
-                    InitEnemy(&enemies[2], (Vector2){1700, 500}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[2], (Vector2){1700, 500}, 1.0f, 10, 5, 70);
                     enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
         
-                    InitEnemy(&enemies[3], (Vector2){1930, 500}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[3], (Vector2){1930, 500}, 1.0f, 10, 5, 70);
                     enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
                     // Plataformas e terreno
@@ -296,17 +296,17 @@ int main() {
                     InitMap3();
 
                     enemyCount = 4;
-                    InitEnemy(&enemies[0], (Vector2){500, 330}, 1.0f, 15, 5, 70);
-                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
+                    InitEnemy(&enemies[0], (Vector2){500, 330}, 0.35f, 25, 15, 120);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
-                    InitEnemy(&enemies[1], (Vector2){1200, 500}, 0.35f, 25, 10, 100);
+                    InitEnemy(&enemies[1], (Vector2){1200, 500}, 0.35f, 25, 15, 120);
                     enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
 
-                    InitEnemy(&enemies[2], (Vector2){820, 115}, 1.0f, 15, 5, 70);
+                    InitEnemy(&enemies[2], (Vector2){810, 115}, 1.0f, 15, 8, 70);
                     enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[3], (Vector2){1450, 115}, 0.35f, 25, 10, 100);
-                    enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[3], (Vector2){1450, 108}, 0.35f, 20, 10, 50);
+                    enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/dhuron/dhuron.json");
 
                     Rectangle* map3Plats = GetMap3Platforms();
                     platformcount = GetMap3PlatformCount();
