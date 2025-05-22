@@ -3,7 +3,6 @@
 #include "maps.h"
 #include "levelUp.h"
 #include <math.h>
-#include "chave.h"
 #include <stdlib.h>
 
 #define PLAYER_HIT_COOLDOWN 0.5f
@@ -60,7 +59,7 @@ Rectangle GetPlayerRectCeiling(Player *player) {
 }
 
 
-void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6], Chave *chave) {
+void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
 
     bool moving = false;
     if (player->playerHitTimer > 0.0f) player->playerHitTimer -= dt;
@@ -321,11 +320,6 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             player->frame = (player->frame + 1) % currentAnim.frame_count;
         }
     }
-
-    if (*currentMap == MAP_2 && !player->PossuiKey && CheckKeyCollected(&chave, GetPlayerRect(player))) {
-        player->PossuiKey = true;
-    }
-
 
     for (int i = 0; i < enemyCount; i++) {
         Enemy *enemy = &enemies[i];

@@ -1,15 +1,12 @@
 #include "map2.h"
 #include "maps.h"
 #include "raylib.h"
-#include "chave.h" // Adicionado
 
 Rectangle ground2;
 Rectangle platforms2[MAP2_PLATFORM_COUNT];
 
 static Texture2D background2;
 static Texture2D groundTile2;
-
-static Chave chaveMap2; // Adicionado
 
 void InitMap2() {
     ground2 = (Rectangle){0, 550, 2000, 500};
@@ -22,8 +19,6 @@ void InitMap2() {
     SetWallTile(wallTile);
     SetCeilingTile(ceilingTile);
 
-    // Inicializa a chave
-    InitChave(&chaveMap2, (Vector2){1500, 360}, "assets/objetos/chave.png");
 }
 
 void DrawMap2() {
@@ -88,8 +83,6 @@ void DrawMap2() {
     CreateCeilingComColisao(1150,1530,0,10);
     CreateCeilingComColisao(1680,2000,0,10);
 
-    // Desenha a chave
-    DrawChave(&chaveMap2);
 }
 
 Rectangle* GetMap2Platforms() {
@@ -104,10 +97,6 @@ int GetMap2PlatformCount(void) {
     return MAP2_PLATFORM_COUNT;
 }
 
-// Atualiza a lógica da chave (chamar no loop principal)
-void UpdateMap2Chave(Rectangle playerRect, bool *possuiKey) {
-    UpdateChave(&chaveMap2, playerRect, possuiKey);
-}
 
 void UnloadMap2() {
     UnloadTexture(background2);
@@ -116,6 +105,4 @@ void UnloadMap2() {
     UnloadWallTile();
     UnloadInvisibleTile();
 
-    // Libera textura da chave
-    UnloadChave(&chaveMap2);
 }

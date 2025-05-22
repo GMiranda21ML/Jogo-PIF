@@ -39,7 +39,6 @@ int main() {
     Music map1and3Music = LoadMusicStream("assets/sound/gameMusic/gameMusicTheme.mp3");
     Music caveMusic = LoadMusicStream("assets/sound/gameMusic/caveMusic/caveMusic.mp3");
 
-    Chave chave;
 
     Music* currentMapMusic = NULL;
     MapType lastMap = -1;
@@ -164,7 +163,7 @@ int main() {
                 }
                 
 
-                UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound, &chave);
+                UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
                 Rectangle playerRect = GetPlayerRect(&player);
 
                 for (int i = 0; i < enemyCount; i++) {
