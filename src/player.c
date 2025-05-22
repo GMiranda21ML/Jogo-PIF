@@ -347,6 +347,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             }
         }
     }
+    
 }
 
 void DrawPlayer(Player *player) {

@@ -155,15 +155,13 @@ int main() {
                     break;
                 }
 
-                // OBS: TIRAR DEPOIS
-                if (IsKeyPressed(KEY_T)) {
+                if (IsKeyPressed(KEY_E) && player.PossuiKey) {
                     currentScreen = RunEpilogueCutscene(totalGameTime);
                     if (currentScreen == SCREEN_MENU) {
                         break;
                     }
                 }
                 
-
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
                 Rectangle playerRect = GetPlayerRect(&player);
 
@@ -177,6 +175,7 @@ int main() {
                 ClearBackground(BLACK);
                 BeginMode2D(camera);
                 DrawTexture(background, 0, -490, WHITE);
+                
 
                 if (currentMap == MAP_1 && !map1Loaded) {
                     enemyCount = UnloadEnemysMap();
@@ -339,6 +338,10 @@ int main() {
                 }
 
                 EndMode2D();
+
+                if (player.PossuiKey) {
+                    DrawText("Possui chave", GetScreenWidth() - 180, 20, 20, YELLOW);
+                }
 
                 DrawRectangle(20, 20, 300, 20, DARKGRAY);
                 DrawRectangle(20, 20, 2 * player.playerHealth, 20, RED);

@@ -1,4 +1,5 @@
 #include "chave.h"
+#include <stdio.h>
 
 void InitChave(Chave *chave, Vector2 pos, Texture2D textura) {
     chave->pos = pos;

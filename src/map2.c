@@ -21,7 +21,7 @@ void InitMap2() {
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallPorao.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundPorao.png");
     chaveTextura = LoadTexture("assets/objetos/chave.png");
-    InitChave(&chaveMap2, (Vector2){1800, 450}, chaveTextura);
+    InitChave(&chaveMap2, (Vector2){1700, 350}, chaveTextura);
 
     SetWallTile(wallTile);
     SetCeilingTile(ceilingTile);
@@ -42,8 +42,6 @@ void DrawMap2() {
     }
 
     DrawChave(&chaveMap2);
-
-    
     
     DrawSpikes();
     CreateSpike(0, 520, 2000, 520);
