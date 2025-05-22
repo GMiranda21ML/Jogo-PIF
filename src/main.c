@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "map_original.h"
 #include <math.h>
+#include "chave.h"
 
 #define MAX_ENEMIES 10
 Enemy enemies[MAX_ENEMIES];

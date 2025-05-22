@@ -3,6 +3,8 @@
 #include "maps.h"
 #include "levelUp.h"
 #include <math.h>
+#include "chave.h"
+#include "map2.h"
 #include <stdlib.h>
 
 #define PLAYER_HIT_COOLDOWN 0.5f
@@ -236,6 +238,8 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         player->timer = 0;
         player->attackFacing = player->facing;
     }
+
+    UpdateChave(GetMap2Chave(), player);
 
     Animation currentAnim;
     if (player->attacking)
