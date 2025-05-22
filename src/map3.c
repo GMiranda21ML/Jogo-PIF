@@ -14,12 +14,10 @@ void InitMap3() {
     background3 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile3 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
-    Texture2D InvisibleTile = LoadTexture("assets/sprites/map/wall/wallPorao.png");
     Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     LoadSpikeTexture();
     
     SetWallTile(wallTile);
-    SetInvisibleTile(InvisibleTile);
     SetCeilingTile(ceilingTile);
 }
 
