@@ -21,9 +21,9 @@ void InitMap3() {
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
     Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D portaFechada = LoadTexture("assets/objetos/closedDoorStone.png");
-    Texture2D portaAberta = LoadTexture("assets/objetos/closedDoorStone.png");
+    Texture2D portaAberta = LoadTexture("assets/objetos/espinho.png");
 
-InitPorta(&portaDoCastelo, (Vector2){1800, 500}, portaFechada, portaAberta);
+    InitPorta(&portaDoCastelo, (Vector2){1990, 185}, portaFechada, portaAberta);
 
     LoadSpikeTexture();
     
@@ -50,44 +50,45 @@ void DrawMap3() {
 
 
 
-   CreateInvisibleComColisao(150, 550, 200);
-   CreateInvisibleComColisao(220, 550, 200);
-   CreateInvisibleComColisao(1837, 470, 200);
-   CreateInvisibleComColisao(1790, 390, 100);
-   CreateInvisibleComColisao(370, 390, 100);
-   CreateInvisibleComColisao(320, 250, 200);
-   CreateInvisibleComColisao(1740, 250, 200);
+    CreateInvisibleComColisao(150, 550, 200);
+    CreateInvisibleComColisao(220, 550, 200);
+    CreateInvisibleComColisao(1837, 470, 200);
+    CreateInvisibleComColisao(1790, 390, 100);
+    CreateInvisibleComColisao(370, 390, 100);
+    CreateInvisibleComColisao(320, 250, 200);
+    CreateInvisibleComColisao(1740, 250, 200);
 
 
-   CreateInvisibleComColisao(620, 160, 160);
-   CreateInvisibleComColisao(970, 180, 180);
-   CreateInvisibleComColisao(1320, 160, 160);
-   CreateInvisibleComColisao(1570, 180, 180);
+    CreateInvisibleComColisao(620, 160, 160);
+    CreateInvisibleComColisao(970, 180, 180);
+    CreateInvisibleComColisao(1320, 160, 160);
+    CreateInvisibleComColisao(1570, 180, 180);
 
 
-   CreateInvisibleComColisao(550, 180, 180);
-   CreateInvisibleComColisao(850, 160, 160);
-   CreateInvisibleComColisao(1200, 180, 180);
-   CreateInvisibleComColisao(1500, 160, 160);
-   CreateInvisibleComColisao(1700, 180, 180);
+    CreateInvisibleComColisao(550, 180, 180);
+    CreateInvisibleComColisao(850, 160, 160);
+    CreateInvisibleComColisao(1200, 180, 180);
+    CreateInvisibleComColisao(1500, 160, 160);
+    CreateInvisibleComColisao(1700, 180, 180);
 
 
-   CreateInvisibleComColisao(170, 350, 300);
-   CreateInvisibleComColisao(100, 350, 300);
-   CreateInvisibleComColisao(300, 350, 50);
+    CreateInvisibleComColisao(170, 350, 300);
+    CreateInvisibleComColisao(100, 350, 300);
+    CreateInvisibleComColisao(300, 350, 50);
 
 
 
     CreateWallComColisao(0, 550, 550);
-    CreateWallComColisao(1967, 550, 550);
+    CreateWallComColisao(1970, 550, 300);
+    CreateWallComColisao(1970, 190, 215);
 
     CreateFloorComColisao(0, 100, 320, 10);
     CreateFloorComColisao(200, 300, 350, 10);
     CreateFloorComColisao(1867, 1967, 470, 10);
 
-    CreateFloorComColisao(200, 1967, 250, 10);
+    CreateFloorComColisao(200, 2000, 250, 10);
     CreateFloorComColisao(400, 1797, 380, 10);
-    
+
     CreateFloorComColisao(350, 550, 180, 10);
     CreateFloorComColisao(650, 850, 160, 10);
     CreateFloorComColisao(1000, 1200, 180, 10);

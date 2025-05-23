@@ -107,7 +107,7 @@ int GetMap2PlatformCount(void) {
 }
 
 Chave* GetMap2Chave(void) {
-return &chaveMap2;
+    return &chaveMap2;
 }
 
 void UnloadMap2() {

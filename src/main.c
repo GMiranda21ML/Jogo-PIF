@@ -154,12 +154,12 @@ int main() {
                     break;
                 }
 
-                if (IsKeyPressed(KEY_E) && player.PossuiKey) {
-                    currentScreen = RunEpilogueCutscene(totalGameTime);
-                    if (currentScreen == SCREEN_MENU) {
-                        break;
-                    }
-                }
+                // if (IsKeyPressed(KEY_E) && player.PossuiKey) {
+                //     currentScreen = RunEpilogueCutscene(totalGameTime);
+                //     if (currentScreen == SCREEN_MENU) {
+                //         break;
+                //     }
+                // }
                 
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
                 Rectangle playerRect = GetPlayerRect(&player);
