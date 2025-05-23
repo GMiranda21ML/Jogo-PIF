@@ -31,6 +31,10 @@ int main() {
     InitAudioDevice();
     SetTargetFPS(60);
 
+    bool mensagemSemChave = false;
+    float mensagemTimer = 0.0f;
+    const float MENSAGEM_DURACAO = 3.0f;
+
     GameScreen currentScreen = RunCutscene();
     Sound hitSound = LoadSound("assets/sound/damageSound/hit.mp3"); 
     Sound levelUpSound = LoadSound("assets/sound/levelUp/levelUpSound.mp3");
@@ -118,6 +122,13 @@ int main() {
                     totalGameTime += dt;
                 }
 
+                 if (mensagemSemChave) {
+                    mensagemTimer -= dt;
+                    if (mensagemTimer <= 0.0f) {
+                        mensagemSemChave = false;
+                    }
+                }
+
                 if (currentMap != lastMap) {
                     Music* newMapMusic = NULL;
                 
@@ -160,6 +171,9 @@ int main() {
                     if (currentScreen == SCREEN_MENU) {
                         break;
                     }
+                }else if (IsKeyPressed(KEY_E) && !player.PossuiKey && CheckCollisionPointRec(player.position, areaPorta)) {
+                    mensagemSemChave = true;
+                    mensagemTimer = MENSAGEM_DURACAO;
                 }
                                 
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
@@ -346,6 +360,10 @@ int main() {
                 DrawRectangle(20, 20, 300, 20, DARKGRAY);
                 DrawRectangle(20, 20, 2 * player.playerHealth, 20, RED);
                 DrawRectangleLines(20, 20, 300, 20, WHITE);
+
+                if (mensagemSemChave) {
+                    DrawText("Você precisa da chave para abrir a porta!", 300, 550, 20, RED);
+                }
 
                 EndDrawing();
 
