@@ -1,10 +1,15 @@
 #include "map3.h"
 #include "maps.h"
 #include "raylib.h"
+#include "chave.h"
+#include "player.h"
+#include "porta.h"
+
 
 Rectangle ground3;
 Rectangle platforms3[MAP3_PLATFORM_COUNT];
 
+static Porta portaDoCastelo;
 static Texture2D background3;
 static Texture2D groundTile3;
 
@@ -15,6 +20,11 @@ void InitMap3() {
     groundTile3 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
     Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
+    Texture2D portaFechada = LoadTexture("assets/objetos/closedDoorStone.png");
+    Texture2D portaAberta = LoadTexture("assets/objetos/closedDoorStone.png");
+
+InitPorta(&portaDoCastelo, (Vector2){1800, 500}, portaFechada, portaAberta);
+
     LoadSpikeTexture();
     
     SetWallTile(wallTile);
@@ -34,6 +44,7 @@ void DrawMap3() {
         DrawRectangleRec(platforms3[i], GRAY);
     }
 
+    DrawPorta(&portaDoCastelo);
     DrawSpikes();
     CreateSpike(350, 215, 1750, 215);
 
@@ -102,6 +113,7 @@ int GetMap3PlatformCount(void) {
 void UnloadMap3() {
     UnloadTexture(background3);
     UnloadTexture(groundTile3);
+    UnloadPorta(&portaDoCastelo);
     UnloadSpikeTexture();
     UnloadWallTile();
     UnloadInvisibleTile();
