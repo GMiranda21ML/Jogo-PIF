@@ -8,5 +8,6 @@ Rectangle* GetMapOriginalPlatforms(void);
 int GetMapOriginalPlatformCount(void);
 Rectangle GetMapOriginalGround(void);
 void DrawMapOriginal(void);
+void UnloadMapOriginal(void);
 
 #endif // MAP_ORIGINAL_H
