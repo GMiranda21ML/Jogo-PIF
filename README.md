@@ -14,6 +14,49 @@ O jogo foi desenvolvido em **C** utilizando a biblioteca gráfica **Raylib**
 
  ## 🛠️ Compilando
 
+💻 **Instalação em Linux**
+
+1. Certifique-se de ter o GCC, make e git:
+   ```
+   sudo apt install build-essential git
+   ```
+
+2. Instale todas as bibliotecas necessárias:
+   ```
+   sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev
+   ```
+
+3. Baixe o código-fonte do Raylib diretamente do GitHub e entre na pasta:
+   ```
+   git clone --depth 1 https://github.com/raysan5/raylib.git raylib
+   cd raylib/src/
+   ```
+
+4. Compile a Raylib:
+   ```
+   make PLATFORM=PLATFORM_DESKTOP
+   ```
+
+5. Instale a Raylib:
+   ```
+   sudo make install
+   cd ~
+   ```
+
+6. Clone o repositório do jogo:
+   ```
+   git clone https://github.com/GMiranda21ML/Jogo-PIF.git
+   cd Jogo-PIF
+   ```
+
+7. Compile e rode o jogo:
+   ```
+   make run
+   ```
+
+
+
+Caso ocorra algum problema, consulte a documentação da Raylib para Linux: [Raylib para Linux](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux).
 
 
 ---
