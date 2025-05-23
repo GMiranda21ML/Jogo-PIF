@@ -182,11 +182,11 @@ int main() {
                     ClearAllMapCollisions();
                     InitMap1();
                     enemyCount = 8;
-                    InitEnemy(&enemies[0], (Vector2){200, 500}, 1.0f, 15, 8, 70);
-                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
+                    InitEnemy(&enemies[0], (Vector2){200, 500}, 1.0f, 10, 5, 70);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-                    InitEnemy(&enemies[1], (Vector2){700, 500}, 0.35f, 25, 15, 100);
-                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[1], (Vector2){700, 500}, 1.0f, 15, 8, 70);
+                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
                     InitEnemy(&enemies[2], (Vector2){960, 80}, 1.0f, 15, 8, 70);
                     enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
@@ -197,8 +197,8 @@ int main() {
                     InitEnemy(&enemies[4], (Vector2){500, 155}, 1.0f, 15, 8, 70);
                     enemies[4].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
 
-                    InitEnemy(&enemies[5], (Vector2){250, 245}, 0.35f, 25, 15, 100);
-                    enemies[5].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[5], (Vector2){250, 235}, 1.0f, 30, 15, 60);
+                    enemies[5].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_armor/skeleton_armor.json");
 
                     InitEnemy(&enemies[6], (Vector2){1540, 250}, 1.0f, 15, 8, 70);
                     enemies[6].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
@@ -294,11 +294,11 @@ int main() {
                     InitMap3();
 
                     enemyCount = 4;
-                    InitEnemy(&enemies[0], (Vector2){500, 330}, 0.35f, 25, 15, 120);
-                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[0], (Vector2){500, 320}, 1.0f, 30, 15, 60);
+                    enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_armor/skeleton_armor.json");
 
-                    InitEnemy(&enemies[1], (Vector2){1200, 500}, 0.35f, 25, 15, 120);
-                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/blade_master/blade_master.json");
+                    InitEnemy(&enemies[1], (Vector2){1200, 490}, 1.0f, 30, 15, 60);
+                    enemies[1].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_armor/skeleton_armor.json");
 
                     InitEnemy(&enemies[2], (Vector2){810, 115}, 1.0f, 15, 8, 70);
                     enemies[2].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_red/skeleton_red.json");
