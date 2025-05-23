@@ -32,7 +32,7 @@ static Animation LoadAnimationFromArray(cJSON *array) {
             frames[i] = LoadTexture(path);
         } else {
             printf("Sprite faltando: %s\n", path);
-            frames[i] = LoadTextureFromImage(GenImageColor(64, 64, BLANK)); // Invisível
+            frames[i] = LoadTextureFromImage(GenImageColor(64, 64, BLANK));
         }
     }
 
@@ -85,7 +85,11 @@ PlayerSprites LoadPlayerSprites(const char *jsonPath) {
     }
 
     cJSON *fc = cJSON_GetObjectItem(root, "frame_change");
-    sprites.frame_change = fc ? (float)fc->valuedouble : 0.15f;
+    if (fc) {
+        sprites.frame_change = (float)fc->valuedouble;
+    } else {
+        sprites.frame_change = 0.15f;
+    }    
 
     cJSON_Delete(root);
     free(data);
@@ -118,7 +122,11 @@ GroundGrassSprites LoadGroundSprites(const char *jsonPath) {
     ground.frames = malloc(sizeof(Texture2D) * ground.frame_count);
     for (int i = 0; i < ground.frame_count; i++) {
         const char *path = cJSON_GetArrayItem(groundArray, i)->valuestring;
-        ground.frames[i] = FileExists(path) ? LoadTexture(path) : LoadTextureFromImage(GenImageColor(64, 64, PINK));
+        if (FileExists(path)) {
+            ground.frames[i] = LoadTexture(path);
+        } else {
+            ground.frames[i] = LoadTextureFromImage(GenImageColor(64, 64, PINK));
+        }        
     }
 
     cJSON_Delete(root);

@@ -1,6 +1,5 @@
 #include <stdio.h>
-
-#define SCORE_FILENAME "best_time.txt"
+#include "score.h"
 
 float LoadBestTime() {
     FILE *file = fopen(SCORE_FILENAME, "r");

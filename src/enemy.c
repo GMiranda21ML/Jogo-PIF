@@ -41,9 +41,9 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
         return;
     }
 
-    if (tooClose)
+    if (tooClose) {
         enemy->velocity.x = 0;
-    // Verifica colisão com as paredes
+    }
     bool colidiuComParede = false;
     Rectangle *walls = GetWalls();
     int wallCount = GetWallCount();
@@ -67,7 +67,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
         }
     }
 
-    // Verifica colisão com as paredes INVISIVEIS
     bool colidiuComInvisible = false;
     Rectangle *invisibles = GetInvisible();
     int InvisibleCount = GetInvisibleCount();
@@ -95,7 +94,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
         enemy->position.x = proposedPositionINV.x;
     }
 
-    // Verifica colisão com os tetos
     bool colidiuComTeto = false;
     Rectangle *floors = GetFloors();
     int floorCount = GetFloorCount();
@@ -163,14 +161,19 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
 
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites enemySprites) {
     if (enemy->attacking) {
-        return (enemy->facing >= 0) ?
-            enemySprites.attack_right.frames[enemy->frame] :
-            enemySprites.attack_left.frames[enemy->frame];
+        if (enemy->facing >= 0) {
+            return enemySprites.attack_right.frames[enemy->frame];
+        } else {
+            return enemySprites.attack_left.frames[enemy->frame];
+        }
     } else {
-        return (enemy->facing >= 0) ?
-            enemySprites.walk_right.frames[enemy->frame] :
-            enemySprites.walk_left.frames[enemy->frame];
+        if (enemy->facing >= 0) {
+            return enemySprites.walk_right.frames[enemy->frame];
+        } else {
+            return enemySprites.walk_left.frames[enemy->frame];
+        }
     }
+    
 }
 
 Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture) {

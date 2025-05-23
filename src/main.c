@@ -14,7 +14,7 @@
 #include <math.h>
 #include "chave.h"
 
-#define MAX_ENEMIES 10
+#define MAX_ENEMIES 20
 Enemy enemies[MAX_ENEMIES];
 int enemyCount = 0;
 
@@ -133,13 +133,19 @@ int main() {
                     Music* newMapMusic = NULL;
                 
                     switch (currentMap) {
-                        case MAP_ORIGINAL: newMapMusic = &originalMapMusic; break;
+                        case MAP_ORIGINAL: 
+                            newMapMusic = &originalMapMusic; 
+                            break;
                         case MAP_1:
                         case MAP_3:
                             newMapMusic = &map1and3Music;
                             break;
-                        case MAP_2: newMapMusic = &caveMusic; break;
-                        default: newMapMusic = NULL; break;
+                        case MAP_2: 
+                            newMapMusic = &caveMusic; 
+                            break;
+                        default: 
+                            newMapMusic = NULL; 
+                            break;
                     }
                 
                     if (newMapMusic != currentMapMusic) {
@@ -278,7 +284,6 @@ int main() {
                     ClearAllMapCollisions();
                     InitMapOriginal();
 
-                    // Inimigos para o MAP_ORIGINAL
                     enemyCount = 4;
                     InitEnemy(&enemies[0], (Vector2){600, 500}, 1.0f, 10, 5, 70);
                     enemies[0].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
@@ -292,14 +297,12 @@ int main() {
                     InitEnemy(&enemies[3], (Vector2){1930, 500}, 1.0f, 10, 5, 70);
                     enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-                    // Plataformas e terreno
                     Rectangle* mapOriginalPlats = GetMapOriginalPlatforms();
                     platformcount = GetMapOriginalPlatformCount();
                     for (int i = 0; i < platformcount; i++) platforms[i] = mapOriginalPlats[i];
                     for (int i = platformcount; i < 10; i++) platforms[i] = (Rectangle){0, 0, 0, 0};
                     ground = GetMapOriginalGround();
 
-                    // Flags de controle
                     mapOriginalLoaded = true;
                     map1Loaded = map2Loaded = map3Loaded = false;
 

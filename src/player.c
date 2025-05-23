@@ -7,9 +7,6 @@
 #include "map2.h"
 #include <stdlib.h>
 
-#define PLAYER_HIT_COOLDOWN 0.5f
-#define MAP1_WIDTH 2000 
-
 void InitPlayer(Player *player) {
     player->position = (Vector2){400, 500};
     player->velocity = (Vector2){0, 0};
@@ -78,7 +75,6 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     Rectangle playerRectEspinho = GetPlayerRect(player);
 
-    // Invulnerabilidade temporária
     if (player->playerHitTimer > 0.0f) {
         player->playerHitTimer -= dt;
     } else {
@@ -106,29 +102,19 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
     if (player->position.x < 0) player->position.x = 0;
 
-    // MAP_ORIGINAL para MAP_1 (lado direito)
-    if (*currentMap == MAP_ORIGINAL &&
-        player->position.x + player->sprites.walk_right.frames[0].width >= ground.width) {
-        
+    if (*currentMap == MAP_ORIGINAL && player->position.x + player->sprites.walk_right.frames[0].width >= ground.width) {
         *currentMap = MAP_1;
         player->position = (Vector2){0, 500};
     }
-    // MAP_1 para MAP_ORIGINAL (lado esquerdo)
-    else if (*currentMap == MAP_1 &&
-            player->position.x <= 0) {
-
+    else if (*currentMap == MAP_1 && player->position.x <= 0) {
         *currentMap = MAP_ORIGINAL;
         player->position = (Vector2){ground.width - player->sprites.walk_right.frames[0].width, 500};
     }
-    // Evita sair da borda direita de MAP_1
-    else if (*currentMap == MAP_1 &&
-            player->position.x + player->sprites.walk_right.frames[0].width >= MAP1_WIDTH) {
+    else if (*currentMap == MAP_1 && player->position.x + player->sprites.walk_right.frames[0].width >= MAP1_WIDTH) {
 
         player->position.x = MAP1_WIDTH - player->sprites.walk_right.frames[0].width;
     }
-
-    // MAP_1 para MAP_2 (entrada inferior - faixa 1)
-    else if (*currentMap == MAP_1 &&
+    else if (*currentMap == MAP_1 && 
             player->position.y > 550 &&
             ((player->position.x >= 850 && player->position.x <= 1150) ||
             (player->position.x >= 1530 && player->position.x <= 1680))) {
@@ -136,7 +122,6 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         *currentMap = MAP_2;
         player->position = (Vector2){player->position.x, 0};
     }
-    // MAP_2 para MAP_1 (retorno superior - faixa 1)
     else if (*currentMap == MAP_2 &&
             player->position.y < 0 &&
             ((player->position.x >= 850 && player->position.x <= 1150) ||
@@ -145,20 +130,11 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         *currentMap = MAP_1;
         player->position = (Vector2){player->position.x, 520};
     }
-
-    // MAP_1 para MAP_3 (acima da tela - faixa central)
-    else if (*currentMap == MAP_1 &&
-            player->position.x >= 150 && player->position.x <= 250 &&
-            player->position.y < 0) {
-
+    else if (*currentMap == MAP_1 && player->position.x >= 150 && player->position.x <= 250 && player->position.y < 0) {
         *currentMap = MAP_3;
         player->position = (Vector2){player->position.x, 520};
     }
-    // MAP_3 para MAP_1 (descendo da tela)
-    else if (*currentMap == MAP_3 &&
-            player->position.x >= 150 && player->position.x <= 250 &&
-            player->position.y > 550) {
-
+    else if (*currentMap == MAP_3 && player->position.x >= 150 && player->position.x <= 250 && player->position.y > 550) {
         *currentMap = MAP_1;
         player->position = (Vector2){player->position.x, 0};
     }
@@ -176,9 +152,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     for (int i = 0; i < floorCount; i++) {
         Rectangle ceil = floors[i];
 
-        if (player->velocity.y < 0 &&
-            CheckCollisionRecs(playerRecFloor, ceil)) {
-
+        if (player->velocity.y < 0 && CheckCollisionRecs(playerRecFloor, ceil)) {
             player->position.y = ceil.y + ceil.height;
             player->velocity.y = 0;
             break;
@@ -242,12 +216,25 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     UpdateChave(GetMap2Chave(), player);
 
     Animation currentAnim;
-    if (player->attacking)
-        currentAnim = (player->attackFacing == 1) ? player->sprites.attack_right : player->sprites.attack_left;
-    else if (moving)
-        currentAnim = (player->facing == 1) ? player->sprites.walk_right : player->sprites.walk_left;
-    else
-        currentAnim = (player->facing == 1) ? player->sprites.idle_right : player->sprites.idle_left;
+    if (player->attacking) {
+        if (player->attackFacing == 1) {
+            currentAnim = player->sprites.attack_right;
+        } else {
+            currentAnim = player->sprites.attack_left;
+        }
+    } else if (moving) {
+        if (player->facing == 1) {
+            currentAnim = player->sprites.walk_right;
+        } else {
+            currentAnim = player->sprites.walk_left;
+        }
+    } else {
+        if (player->facing == 1) {
+            currentAnim = player->sprites.idle_right;
+        } else {
+            currentAnim = player->sprites.idle_left;
+        }
+    }    
 
     if (currentAnim.frames != player->previousAnim.frames) {
         player->frame = 0;
@@ -263,16 +250,18 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
             if (player->frame == 1) {
                 Rectangle attackRect;
-                Texture2D currentAttackFrame = (player->attackFacing == 1) 
-                    ? player->sprites.attack_right.frames[player->frame] 
-                    : player->sprites.attack_left.frames[player->frame];
+                Texture2D currentAttackFrame;
+                if (player->attackFacing == 1) {
+                    currentAttackFrame = player->sprites.attack_right.frames[player->frame];
+                } else {
+                    currentAttackFrame = player->sprites.attack_left.frames[player->frame];
+                }                
             
-                // Criar uma hitbox de ataque um pouco à frente do jogador
                 if (player->attackFacing == 1) {
                     attackRect = (Rectangle){
                         player->position.x + currentAttackFrame.width,
                         player->position.y,
-                        30,  // Largura do alcance do ataque
+                        30,
                         (float)currentAttackFrame.height
                     };
                 } else {
@@ -352,12 +341,25 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
 
 void DrawPlayer(Player *player) {
     Animation currentAnim;
-    if (player->attacking)
-        currentAnim = (player->attackFacing == 1) ? player->sprites.attack_right : player->sprites.attack_left;
-    else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
-        currentAnim = (player->facing == 1) ? player->sprites.walk_right : player->sprites.walk_left;
-    else
-        currentAnim = (player->facing == 1) ? player->sprites.idle_right : player->sprites.idle_left;
+    if (player->attacking) {
+        if (player->attackFacing == 1) {
+            currentAnim = player->sprites.attack_right;
+        } else {
+            currentAnim = player->sprites.attack_left;
+        }
+    } else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D)) {
+        if (player->facing == 1) {
+            currentAnim = player->sprites.walk_right;
+        } else {
+            currentAnim = player->sprites.walk_left;
+        }
+    } else {
+        if (player->facing == 1) {
+            currentAnim = player->sprites.idle_right;
+        } else {
+            currentAnim = player->sprites.idle_left;
+        }
+    }    
 
     DrawTexture(currentAnim.frames[player->frame], (int)player->position.x, (int)player->position.y, WHITE);
 }

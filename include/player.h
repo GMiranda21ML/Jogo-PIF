@@ -8,6 +8,9 @@
 #include "maps.h"
 #include "chave.h"
 
+#define PLAYER_HIT_COOLDOWN 0.5f
+#define MAP1_WIDTH 2000 
+
 typedef struct Player {
     Vector2 position;
     Vector2 velocity;
