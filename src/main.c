@@ -183,10 +183,9 @@ int main() {
                 }
                                 
                 UpdatePlayer(&player, dt, platforms, platformcount, ground, enemies, enemyCount, hitSound, levelUpSound, &currentMap, hitPlayerSound);
-                Rectangle playerRect = GetPlayerRect(&player);
 
                 for (int i = 0; i < enemyCount; i++) {
-                    UpdateEnemy(&enemies[i], player.position, dt, enemies[i].sprites, playerRect);
+                    UpdateEnemy(&enemies[i], player.position, dt, enemies[i].sprites);
                 }
 
                 UpdateCameraToFollowPlayer(&camera, player.position, 800, 600, ground.width, ground.y + ground.height);
@@ -302,7 +301,7 @@ int main() {
                     mapOriginalLoaded = true;
                     map1Loaded = map2Loaded = map3Loaded = false;
 
-                    }else if (currentMap == MAP_3 && !map3Loaded) {
+                    } else if (currentMap == MAP_3 && !map3Loaded) {
                     enemyCount = UnloadEnemysMap();
                     ClearAllMapCollisions();
                     InitMap3();
@@ -361,7 +360,7 @@ int main() {
                 DrawRectangleLines(20, 20, 300, 20, WHITE);
 
                 if (mensagemSemChave) {
-                    DrawText("Você precisa da chave para abrir a porta!", 300, 550, 20, RED);
+                    DrawText("Você precisa da chave para abrir a porta!", 350, 20, 20, RED);
                 }
 
                 EndDrawing();

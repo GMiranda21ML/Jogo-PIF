@@ -34,14 +34,13 @@ void DrawSpikes(void);
 void CheckSpikeDamage(Rectangle playerRect, int *playerHealth);
 void LoadSpikeTexture(void);
 void UnloadSpikeTexture(void);
-
 Rectangle *GetWalls(void);
 int GetWallCount(void);
-
 Rectangle *GetInvisible(void);
 int GetInvisibleCount(void);
-
 Rectangle *GetFloors(void);
 int GetFloorCount(void);
+void SetWallTile(Texture2D texture);
+void SetFloorTile(Texture2D texture);
 
 #endif

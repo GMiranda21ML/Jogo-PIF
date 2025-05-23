@@ -32,7 +32,7 @@ typedef struct Player {
 } Player;
 
 void InitPlayer(Player *player);
-void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]);
+void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[4]);
 void DrawPlayer(Player *player);
 void FreePlayer(Player *player);
 Rectangle GetPlayerRect(Player *player);

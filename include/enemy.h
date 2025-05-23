@@ -27,7 +27,7 @@ typedef struct {
 #define LINE_ALIGNMENT_TOLERANCE 30.0f
 
 void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health, int damage, int walkVelocity);
-void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect);
+void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites);
 Texture2D GetEnemyTexture(Enemy *enemy, EnemySprites enemySprites);
 Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture);
 void DrawEnemy(Enemy *enemy, Texture2D texture);

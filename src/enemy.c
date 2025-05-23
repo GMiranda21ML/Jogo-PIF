@@ -17,7 +17,7 @@ void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health,
     enemy->walkVelocity = walkVelocity;
 }
 
-void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect) {
+void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites) {
     if (!enemy->alive) return;
 
     float deltaX = enemy->position.x - playerPos.x;
@@ -44,7 +44,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
     if (tooClose) {
         enemy->velocity.x = 0;
     }
-    bool colidiuComParede = false;
     Rectangle *walls = GetWalls();
     int wallCount = GetWallCount();
 
@@ -62,7 +61,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
 
     for (int i = 0; i < wallCount; i++) {
         if (CheckCollisionRecs(proposedRectWall, walls[i])) {
-            colidiuComParede = true;
             break;
         }
     }
@@ -73,8 +71,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
 
     Vector2 proposedPositionINV = enemy->position;
     proposedPositionINV.x += enemy->velocity.x * dt;
-
-    Texture2D currentTexInv = GetEnemyTexture(enemy, enemySprites);
 
     Rectangle proposedRectInvisible = {
         proposedPositionINV.x,
@@ -120,8 +116,6 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
     } else {
         if (enemy->velocity.y < 0) enemy->velocity.y = 0;
     }
-
-    Rectangle proposedRect = {proposedPosition.x, enemy->position.y, (float)currentTex.width, (float)currentTex.height};
 
     enemy->timer += dt;
     float frameTime;

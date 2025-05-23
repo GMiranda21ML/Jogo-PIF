@@ -58,7 +58,7 @@ Rectangle GetPlayerRectFloor(Player *player) {
 }
 
 
-void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[6]) {
+void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCount, Rectangle ground, Enemy *enemies, int enemyCount, Sound hitSound, Sound levelUpSound, MapType *currentMap, Sound hitPlayerSound[4]) {
 
     bool moving = false;
     if (player->playerHitTimer > 0.0f) player->playerHitTimer -= dt;
