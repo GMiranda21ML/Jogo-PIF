@@ -1,0 +1,26 @@
+{
+    "sprite": "skeleton_amor",
+    "enemy_walk": {
+        "right": [
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk1.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk2.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk3.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk4.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk5.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk6.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk7.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk8.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_walk/skeleton_armor_walk9.png"
+        ]
+    },
+    "enemy_attack": {
+        "right": [
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_attack/skeleton_armor_attack1.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_attack/skeleton_armor_attack2.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_attack/skeleton_armor_attack3.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_attack/skeleton_armor_attack4.png",
+            "assets/sprites/enemy/skeleton_attack/skeleton_armor_attack/skeleton_armor_attack5.png"
+        ]
+    },
+    "frame_change": 0.10
+}
