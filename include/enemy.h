@@ -20,10 +20,11 @@ typedef struct {
     EnemySprites sprites;
 } Enemy;
 
-#define DETECTION_RADIUS 200.0f
+#define DETECTION_RADIUS 205.0f
 #define ENEMY_HIT_DURATION 0.2f
 #define MIN_DISTANCE_TO_PLAYER 40
 #define ENEMY_VELOCITY 70
+#define LINE_ALIGNMENT_TOLERANCE 30.0f
 
 void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health, int damage, int walkVelocity);
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect);

@@ -44,16 +44,14 @@ int main() {
     Music* currentMapMusic = NULL;
     MapType lastMap = -1;
 
-    Sound hitPlayerSound[6] = {
-        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer1.wav"),
+    Sound hitPlayerSound[4] = {
         LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer2.wav"),
         LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer3.wav"),
-        LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer4.wav"),
         LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer5.wav"),
         LoadSound("assets/sound/damageSound/damagePlayer/damagePlayer6.wav")
     }; 
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 4; i++) {
         SetSoundVolume(hitPlayerSound[i], 0.3f);
     } 
 
@@ -391,7 +389,7 @@ int main() {
         }
     }
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 4; i++) {
         UnloadSound(hitPlayerSound[i]);
     }
     UnloadSound(levelUpSound);

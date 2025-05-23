@@ -339,7 +339,7 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
             }
     
             if (CheckCollisionRecs(GetPlayerRect(player), attackArea)) {
-                int randomIndex = rand() % 6;
+                int randomIndex = rand() % 4;
                 PlaySound(hitPlayerSound[randomIndex]);
                 player->playerHealth -= enemy->damage;
                 player->playerHitTimer = PLAYER_HIT_COOLDOWN;

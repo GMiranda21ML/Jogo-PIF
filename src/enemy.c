@@ -20,21 +20,24 @@ void InitEnemy(Enemy *enemy, Vector2 position, float attackVelocity, int health,
 void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySprites, Rectangle playerRect) {
     if (!enemy->alive) return;
 
-    
-
     float deltaX = enemy->position.x - playerPos.x;
     float deltaY = enemy->position.y - playerPos.y;
     float xDistance = sqrt(deltaX * deltaX + deltaY * deltaY);
     bool detected = xDistance < DETECTION_RADIUS;
     bool tooClose = xDistance < MIN_DISTANCE_TO_PLAYER;
+    bool alignedVertically = fabsf(enemy->position.y - playerPos.y) < LINE_ALIGNMENT_TOLERANCE;
 
-    if (detected){
+    if (detected && alignedVertically) {
         float sign = playerPos.x - enemy->position.x < 0 ? -1 : 1;
         enemy->velocity.x = sign * enemy->walkVelocity;
         enemy->facing = sign;
         enemy->attacking = tooClose;
+    } else {
+        enemy->velocity.x = 0;
+        enemy->attacking = false;
     }
-    if (fabsf(enemy->position.x - playerPos.x) > DETECTION_RADIUS){
+
+    if (fabsf(enemy->position.x - playerPos.x) > DETECTION_RADIUS) {
         return;
     }
 
