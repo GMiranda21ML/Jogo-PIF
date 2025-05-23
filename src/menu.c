@@ -3,7 +3,7 @@
 
 GameScreen RunMenu(Music menuMusic) {
     const char options[4][10] = {
-        "jogar",
+        "Jogar",
         "Teclas",
         "Score",
         "Sair"

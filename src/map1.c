@@ -14,11 +14,11 @@ void InitMap1() {
     background1 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile1 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
-    Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");;
+    Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");;
     LoadSpikeTexture();
 
     SetWallTile(wallTile); // novo: informa o maps.c sobre a textura da parede
-    SetCeilingTile(ceilingTile);
+    SetFloorTile(floorTile);
 
 }
 
@@ -76,27 +76,27 @@ void DrawMap1() {
     CreateWallComColisao(800, 300, 200);
     CreateWallComColisao(250, 200, 200);
 
-    CreateCeilingComColisao(250,620,200,10);
-    CreateCeilingComColisao(430,830,100,10);
-    CreateCeilingComColisao(250,2000,0,10);
+    CreateFloorComColisao(250,620,200,10);
+    CreateFloorComColisao(430,830,100,10);
+    CreateFloorComColisao(250,2000,0,10);
 
-    CreateCeilingComColisao(900,1100,450,10);
-    CreateCeilingComColisao(0,1530,294,10);
-    CreateCeilingComColisao(0,850,550,10);
-    CreateCeilingComColisao(1150,1530,550,10);
-    CreateCeilingComColisao(1680,1800,550,10);
-    CreateCeilingComColisao(1817,1967,198,10);
-    CreateCeilingComColisao(1505,1680,100,10);
-    CreateCeilingComColisao(1530,1680,295,10);
-    CreateCeilingComColisao(1530,1680,450,10);
-    CreateCeilingComColisao(1817,1967,370,10);
+    CreateFloorComColisao(900,1100,450,10);
+    CreateFloorComColisao(0,1530,294,10);
+    CreateFloorComColisao(0,850,550,10);
+    CreateFloorComColisao(1150,1530,550,10);
+    CreateFloorComColisao(1680,1800,550,10);
+    CreateFloorComColisao(1817,1967,198,10);
+    CreateFloorComColisao(1505,1680,100,10);
+    CreateFloorComColisao(1530,1680,295,10);
+    CreateFloorComColisao(1530,1680,450,10);
+    CreateFloorComColisao(1817,1967,370,10);
 
-    CreateCeilingComColisao(950,1105,125,10);
-    CreateCeilingComColisao(1245,1400,125,10);
+    CreateFloorComColisao(950,1105,125,10);
+    CreateFloorComColisao(1245,1400,125,10);
 
-    CreateCeilingComColisao(0,150,200,10);
-    CreateCeilingComColisao(0,150,0,10);
-    CreateCeilingComColisao(150,250,100,10);
+    CreateFloorComColisao(0,150,200,10);
+    CreateFloorComColisao(0,150,0,10);
+    CreateFloorComColisao(150,250,100,10);
     
 }
 
@@ -117,6 +117,6 @@ void UnloadMap1() {
     UnloadTexture(groundTile1);
     UnloadSpikeTexture();
     UnloadWallTile();
-    UnloadCeilingTile();
+    UnloadFloorTile();
     UnloadInvisibleTile();
 }

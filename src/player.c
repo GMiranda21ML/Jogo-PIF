@@ -51,7 +51,7 @@ Rectangle GetPlayerRectWall(Player *player) {
     };
 }
 
-Rectangle GetPlayerRectCeiling(Player *player) {
+Rectangle GetPlayerRectFloor(Player *player) {
     return (Rectangle){
         player->position.x,
         player->position.y,
@@ -169,15 +169,15 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     player->isOnGround = false;
     float playerHeight = (float)player->sprites.walk_right.frames[0].height;
     
-    int ceilingCount   = GetCeilingCount();
-    Rectangle *ceilings = GetCeilings();
-    Rectangle playerRecCeil = GetPlayerRectCeiling(player);
+    int floorCount   = GetFloorCount();
+    Rectangle *floors = GetFloors();
+    Rectangle playerRecFloor = GetPlayerRectFloor(player);
 
-    for (int i = 0; i < ceilingCount; i++) {
-        Rectangle ceil = ceilings[i];
+    for (int i = 0; i < floorCount; i++) {
+        Rectangle ceil = floors[i];
 
         if (player->velocity.y < 0 &&
-            CheckCollisionRecs(playerRecCeil, ceil)) {
+            CheckCollisionRecs(playerRecFloor, ceil)) {
 
             player->position.y = ceil.y + ceil.height;
             player->velocity.y = 0;
@@ -185,8 +185,8 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
         }
     }
     
-    for (int i = 0; i < ceilingCount; i++) {
-        Rectangle ceil = ceilings[i];
+    for (int i = 0; i < floorCount; i++) {
+        Rectangle ceil = floors[i];
 
         if (player->velocity.y >= 0 &&
             player->position.y + playerHeight >= ceil.y &&

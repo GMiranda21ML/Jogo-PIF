@@ -97,21 +97,21 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
 
     // Verifica colisão com os tetos
     bool colidiuComTeto = false;
-    Rectangle *ceilings = GetCeilings();
-    int ceilingCount = GetCeilingCount();
+    Rectangle *floors = GetFloors();
+    int floorCount = GetFloorCount();
 
     Vector2 proposedPositionY = enemy->position;
     proposedPositionY.y += enemy->velocity.y * dt;
 
-    Rectangle proposedRectCeiling = {
+    Rectangle proposedRectFloor = {
         enemy->position.x,
         proposedPositionY.y,
         (float)currentTex.width,
         (float)currentTex.height
     };
 
-    for (int i = 0; i < ceilingCount; i++) {
-        if (CheckCollisionRecs(proposedRectCeiling, ceilings[i])) {
+    for (int i = 0; i < floorCount; i++) {
+        if (CheckCollisionRecs(proposedRectFloor, floors[i])) {
             colidiuComTeto = true;
             break;
         }

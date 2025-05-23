@@ -19,12 +19,12 @@ void InitMap2() {
     background2 = LoadTexture("assets/backgroundMap/backgroundPorao.png");
     groundTile2 = LoadTexture("assets/sprites/map/ground/groundPorao.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallPorao.png");
-    Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundPorao.png");
+    Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundPorao.png");
     chaveTextura = LoadTexture("assets/objetos/chave.png");
     InitChave(&chaveMap2, (Vector2){1700, 350}, chaveTextura);
 
     SetWallTile(wallTile);
-    SetCeilingTile(ceilingTile);
+    SetFloorTile(floorTile);
 
 }
 
@@ -59,38 +59,38 @@ void DrawMap2() {
     CreateInvisibleComColisao(1680, 100, 100);
     CreateInvisibleComColisao(1150, 200, 200);
 
-    CreateCeilingComColisao(850 , 882,100 ,10);
+    CreateFloorComColisao(850 , 882,100 ,10);
     
     CreateWallComColisao(1150, 200, 200);
     CreateWallComColisao(850, 100, 100);
     
-    CreateCeilingComColisao(850 , 1183,200 ,10);
-    CreateCeilingComColisao(0 , 850,0 ,10);
+    CreateFloorComColisao(850 , 1183,200 ,10);
+    CreateFloorComColisao(0 , 850,0 ,10);
     
     CreateWallComColisao(0, 550, 550);
     CreateWallComColisao(1968, 550, 550);
     
-    CreateCeilingComColisao(0,100,430,10);
-    CreateCeilingComColisao(550,700,200,10);
-    CreateCeilingComColisao(250,400,200,10);
+    CreateFloorComColisao(0,100,430,10);
+    CreateFloorComColisao(550,700,200,10);
+    CreateFloorComColisao(250,400,200,10);
     
-    CreateCeilingComColisao(300,350,450,10);
-    CreateCeilingComColisao(550,600,480,10);
-    CreateCeilingComColisao(850,900,480,10);
-    CreateCeilingComColisao(650,700,465,10);
+    CreateFloorComColisao(300,350,450,10);
+    CreateFloorComColisao(550,600,480,10);
+    CreateFloorComColisao(850,900,480,10);
+    CreateFloorComColisao(650,700,465,10);
     
-    CreateCeilingComColisao(1050,1100,400,10);
-    CreateCeilingComColisao(1330,1530,450,10);
-    CreateCeilingComColisao(1630,1830,400,10);
-    CreateCeilingComColisao(1430,1630,300,10);
-    CreateCeilingComColisao(1730,1830,200,10);
-    CreateCeilingComColisao(1900,2000,100,10);
-    CreateCeilingComColisao(1183,1350,200,10);
-    CreateCeilingComColisao(1400,1450,100,10);
-    CreateCeilingComColisao(1530,1680,100,10);
+    CreateFloorComColisao(1050,1100,400,10);
+    CreateFloorComColisao(1330,1530,450,10);
+    CreateFloorComColisao(1630,1830,400,10);
+    CreateFloorComColisao(1430,1630,300,10);
+    CreateFloorComColisao(1730,1830,200,10);
+    CreateFloorComColisao(1900,2000,100,10);
+    CreateFloorComColisao(1183,1350,200,10);
+    CreateFloorComColisao(1400,1450,100,10);
+    CreateFloorComColisao(1530,1680,100,10);
     
-    CreateCeilingComColisao(1150,1530,0,10);
-    CreateCeilingComColisao(1680,2000,0,10);
+    CreateFloorComColisao(1150,1530,0,10);
+    CreateFloorComColisao(1680,2000,0,10);
 
 }
 

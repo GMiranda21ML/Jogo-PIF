@@ -14,11 +14,11 @@ void InitMap3() {
     background3 = LoadTexture("assets/backgroundMap/backgroundCastle2.png");
     groundTile3 = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallCastle.png");
-    Texture2D ceilingTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
+    Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");
     LoadSpikeTexture();
     
     SetWallTile(wallTile);
-    SetCeilingTile(ceilingTile);
+    SetFloorTile(floorTile);
 }
 
 void DrawMap3() {
@@ -70,21 +70,21 @@ void DrawMap3() {
     CreateWallComColisao(0, 550, 550);
     CreateWallComColisao(1967, 550, 550);
 
-    CreateCeilingComColisao(0, 100, 320, 10);
-    CreateCeilingComColisao(200, 300, 350, 10);
-    CreateCeilingComColisao(1867, 1967, 470, 10);
+    CreateFloorComColisao(0, 100, 320, 10);
+    CreateFloorComColisao(200, 300, 350, 10);
+    CreateFloorComColisao(1867, 1967, 470, 10);
 
-    CreateCeilingComColisao(200, 1967, 250, 10);
-    CreateCeilingComColisao(400, 1797, 380, 10);
+    CreateFloorComColisao(200, 1967, 250, 10);
+    CreateFloorComColisao(400, 1797, 380, 10);
     
-    CreateCeilingComColisao(350, 550, 180, 10);
-    CreateCeilingComColisao(650, 850, 160, 10);
-    CreateCeilingComColisao(1000, 1200, 180, 10);
-    CreateCeilingComColisao(1350, 1500, 160, 10);
-    CreateCeilingComColisao(1600, 1700, 180, 10);
+    CreateFloorComColisao(350, 550, 180, 10);
+    CreateFloorComColisao(650, 850, 160, 10);
+    CreateFloorComColisao(1000, 1200, 180, 10);
+    CreateFloorComColisao(1350, 1500, 160, 10);
+    CreateFloorComColisao(1600, 1700, 180, 10);
 
-    CreateCeilingComColisao(0, 2000, 0, 10);
-    CreateCeilingComColisao(0, 150, 550, 10);
+    CreateFloorComColisao(0, 2000, 0, 10);
+    CreateFloorComColisao(0, 150, 550, 10);
 }
 
 Rectangle* GetMap3Platforms() {

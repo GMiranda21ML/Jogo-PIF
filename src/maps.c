@@ -3,11 +3,6 @@
 #include "map1.h"
 #include "player.h"
 
-#define MAX_WALLS 1000
-#define MAX_INVISIBLE 1000
-#define MAX_CEILINGS 1000
-#define MAX_SPIKES 100
-
 typedef struct Spike {
     Rectangle hitbox;
     Texture2D texture;
@@ -19,8 +14,8 @@ static int wallCount = 0;
 static Rectangle Invisibles[MAX_INVISIBLE];
 static int InvisibleCount = 0;
 
-static Rectangle ceilings[MAX_CEILINGS];
-static int ceilingCount = 0;
+static Rectangle floors[MAX_FLOORS];
+static int floorCount = 0;
 
 static Spike spikes[MAX_SPIKES];
 static int spikeCount = 0;
@@ -28,7 +23,7 @@ static int spikeCount = 0;
 static Texture2D spikeTexture;
 static Texture2D wallTile;
 static Texture2D InvisibleTile;
-static Texture2D ceilingTile;
+static Texture2D floorTile;
 
 
 
@@ -154,16 +149,16 @@ void CreateWallComColisao(int x, int baseY, int altura) {
     }
 }
 
-void DrawCeiling(int xInicio, int xFim, int topY, int altura) {
-    int tileWidth = ceilingTile.width;
-    int tileHeight = ceilingTile.height;
+void DrawFloor(int xInicio, int xFim, int topY, int altura) {
+    int tileWidth = floorTile.width;
+    int tileHeight = floorTile.height;
 
     int blocosHorizontais = (xFim - xInicio) / tileWidth;
     int blocosVerticais = altura / tileHeight;
 
     for (int i = 0; i < blocosVerticais; i++) {
         for (int j = 0; j < blocosHorizontais; j++) {
-            DrawTexture(ceilingTile, xInicio + j * tileWidth, topY + i * tileHeight, WHITE);
+            DrawTexture(floorTile, xInicio + j * tileWidth, topY + i * tileHeight, WHITE);
         }
     }
 
@@ -172,7 +167,7 @@ void DrawCeiling(int xInicio, int xFim, int topY, int altura) {
         for (int j = 0; j < blocosHorizontais; j++) {
             Rectangle src = {0, 0, tileWidth, restoAltura};
             Rectangle dest = {xInicio + j * tileWidth, topY + blocosVerticais * tileHeight, tileWidth, restoAltura};
-            DrawTexturePro(ceilingTile, src, dest, (Vector2){0, 0}, 0, WHITE);
+            DrawTexturePro(floorTile, src, dest, (Vector2){0, 0}, 0, WHITE);
         }
     }
 
@@ -181,29 +176,29 @@ void DrawCeiling(int xInicio, int xFim, int topY, int altura) {
         for (int i = 0; i < blocosVerticais; i++) {
             Rectangle src = {0, 0, restoLargura, tileHeight};
             Rectangle dest = {xFim - restoLargura, topY + i * tileHeight, restoLargura, tileHeight};
-            DrawTexturePro(ceilingTile, src, dest, (Vector2){0, 0}, 0, WHITE);
+            DrawTexturePro(floorTile, src, dest, (Vector2){0, 0}, 0, WHITE);
         }
     }
 
     if (restoAltura > 0 && restoLargura > 0) {
         Rectangle src = {0, 0, restoLargura, restoAltura};
         Rectangle dest = {xFim - restoLargura, topY + blocosVerticais * tileHeight, restoLargura, restoAltura};
-        DrawTexturePro(ceilingTile, src, dest, (Vector2){0, 0}, 0, WHITE);
+        DrawTexturePro(floorTile, src, dest, (Vector2){0, 0}, 0, WHITE);
     }
 }
 
 
-void CreateCeilingComColisao(int xInicio, int xFim, int topY, int altura) {
-    DrawCeiling(xInicio, xFim, topY, altura);
+void CreateFloorComColisao(int xInicio, int xFim, int topY, int altura) {
+    DrawFloor(xInicio, xFim, topY, altura);
 
-    if (ceilingCount < MAX_CEILINGS) {
-        Rectangle ceilingRec = {
+    if (floorCount < MAX_FLOORS) {
+        Rectangle floorRec = {
             xInicio,
             topY,
             xFim - xInicio,
             altura
         };
-        ceilings[ceilingCount++] = ceilingRec;
+        floors[floorCount++] = floorRec;
     }
 }
 
@@ -216,8 +211,8 @@ void SetInvisibleTile(Texture2D texture){
     InvisibleTile = texture;
 }
 
-void SetCeilingTile(Texture2D texture) {
-    ceilingTile = texture;
+void SetFloorTile(Texture2D texture) {
+    floorTile = texture;
 }
 
 Rectangle *GetInvisible(void){
@@ -247,16 +242,16 @@ void UnloadWallTile(void) {
     UnloadTexture(wallTile);
 }
 
-void UnloadCeilingTile(void) {
-    UnloadTexture(ceilingTile);
+void UnloadFloorTile(void) {
+    UnloadTexture(floorTile);
 }
 
-Rectangle *GetCeilings(void) {
-    return ceilings;
+Rectangle *GetFloors(void) {
+    return floors;
 }
 
-int GetCeilingCount(void) {
-    return ceilingCount;
+int GetFloorCount(void) {
+    return floorCount;
 }
 
 void ClearInvisibleCollision(){
@@ -267,8 +262,8 @@ void ClearWallCollision() {
     wallCount = 0;
 }
 
-void ClearCeilingCollision() {
-    ceilingCount = 0;
+void ClearFloorCollision() {
+    floorCount = 0;
 }
 
 void ClearSpikeCollision() {
@@ -277,7 +272,7 @@ void ClearSpikeCollision() {
 
 void ClearAllMapCollisions() {
     ClearWallCollision();
-    ClearCeilingCollision();
+    ClearFloorCollision();
     ClearSpikeCollision();
     ClearInvisibleCollision();
 }
