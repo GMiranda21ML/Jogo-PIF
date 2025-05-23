@@ -14,6 +14,7 @@ typedef struct {
 
 void InitChave(Chave *chave, Vector2 pos, Texture2D Texture);
 void UpdateChave(Chave *chave, Player *player);
+void ResetarChaveColetada();
 void DrawChave(Chave *chave);
 bool ChaveColetada(Chave *chave);
 void UnloadChave(Chave *chave);

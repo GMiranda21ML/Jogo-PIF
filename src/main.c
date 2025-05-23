@@ -143,6 +143,7 @@ int main() {
                 if (currentMapMusic != NULL) UpdateMusicStream(*currentMapMusic);
 
                 if (IsKeyPressed(KEY_R)) {
+                    ResetarChaveColetada();
                     if (currentMapMusic != NULL) {
                         StopMusicStream(*currentMapMusic);
                         currentMapMusic = NULL;
@@ -373,6 +374,7 @@ int main() {
         }
 
         if (currentScreen == SCREEN_GAMEOVER) {
+            ResetarChaveColetada();
             if (currentMapMusic != NULL) {
                 StopMusicStream(*currentMapMusic);
                 currentMapMusic = NULL;

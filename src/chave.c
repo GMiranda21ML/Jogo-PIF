@@ -1,10 +1,14 @@
 #include "chave.h"
 #include <stdio.h>
 
+// global.c ou game_state.c
+bool chaveFoiColetada = false;
+
+// no seu código onde carrega o mapa:
 void InitChave(Chave *chave, Vector2 pos, Texture2D textura) {
     chave->pos = pos;
     chave->tamanho = (float)textura.width;
-    chave->ativa = true;
+    chave->ativa = !chaveFoiColetada;
     chave->textura = textura;
 }
 
@@ -15,9 +19,14 @@ void UpdateChave(Chave *chave, Player *player) {
 
         if (CheckCollisionRecs(playerRec, chaveRec)) {
             chave->ativa = false;
+            chaveFoiColetada = true; // <- Salva o estado da coleta
             player->PossuiKey = true;
         }
     }
+}
+
+void ResetarChaveColetada() {
+    chaveFoiColetada = false;
 }
 
 void DrawChave(Chave *chave) {
