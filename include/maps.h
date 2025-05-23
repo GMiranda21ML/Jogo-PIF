@@ -15,7 +15,7 @@ typedef enum {
 #define MAX_FLOORS 1000
 #define MAX_SPIKES 100
 
-void DrawInvisible(int x, int baseY, int heightInPixels); //vai ser removido posteriormente
+void DrawInvisible(int x, int baseY, int heightInPixels);
 void CreateInvisibleComColisao(int x, int baseY, int altura);
 void DrawWall(int x, int baseY, int heightInPixels);
 void CreateWallComColisao(int x, int baseY, int altura);

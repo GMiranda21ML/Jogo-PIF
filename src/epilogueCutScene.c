@@ -42,7 +42,9 @@ GameScreen RunEpilogueCutscene(float totalGameTime) {
 
         UpdateMusicStream(music);
 
-        if (IsKeyPressed(KEY_SPACE)) skip = true;
+        if (IsKeyPressed(KEY_SPACE)) {
+            skip = true;
+        } 
 
         if (!transitioning && !fadingOut && imageTimer >= IMAGE_DISPLAY_TIME && currentImage < NUM_IMAGES - 1) {
             transitioning = true;
@@ -101,7 +103,6 @@ GameScreen RunEpilogueCutscene(float totalGameTime) {
                 DrawText(line, textX, textY, 28, WHITE);
             }
 
-            // Desenha retângulo preto com transparência crescente para o fade out
             float fadeAlpha = (fadeTimer / FADE_OUT_TIME) * 255.0f;
             DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), (Color){ 0, 0, 0, (unsigned char)fadeAlpha });
         }

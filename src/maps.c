@@ -33,18 +33,17 @@ void LoadSpikeTexture() {
 }
 
 void CreateSpike(int xInicio, int yInicio, int xFim, int yFim) {
-    if (spikeTexture.id == 0) return; // Garante que a textura foi carregada
+    if (spikeTexture.id == 0) return;
 
     int dx = xFim - xInicio;
     int dy = yFim - yInicio;
 
-    // Apenas linhas horizontais ou verticais são suportadas
     if (dx != 0 && dy != 0) return;
 
     int spikeWidth = spikeTexture.width;
     int spikeHeight = spikeTexture.height;
 
-    if (dx != 0) { // Horizontal
+    if (dx != 0) {
         int step = (dx > 0) ? spikeWidth : -spikeWidth;
         for (int x = xInicio; (step > 0) ? (x <= xFim) : (x >= xFim); x += step) {
             if (spikeCount >= MAX_SPIKES) break;
@@ -53,7 +52,7 @@ void CreateSpike(int xInicio, int yInicio, int xFim, int yFim) {
                 .texture = spikeTexture
             };
         }
-    } else if (dy != 0) { // Vertical
+    } else if (dy != 0) {
         int step = (dy > 0) ? spikeHeight : -spikeHeight;
         for (int y = yInicio; (step > 0) ? (y <= yFim) : (y >= yFim); y += step) {
             if (spikeCount >= MAX_SPIKES) break;
@@ -63,7 +62,6 @@ void CreateSpike(int xInicio, int yInicio, int xFim, int yFim) {
             };
         }
     } else {
-        // Se for apenas um ponto, cria um espinho único
         if (spikeCount < MAX_SPIKES) {
             spikes[spikeCount++] = (Spike){
                 .hitbox = { xInicio, yInicio, spikeWidth, spikeHeight },
@@ -82,12 +80,12 @@ void DrawSpikes() {
 void CheckSpikeDamage(Rectangle playerRect, int *playerHealth) {
     for (int i = 0; i < spikeCount; i++) {
         if (CheckCollisionRecs(playerRect, spikes[i].hitbox)) {
-            *playerHealth -= 10; // Aplica 1 de dano, ou o que quiser
+            *playerHealth -= 10;
         }
     }
 }
 
-void DrawInvisible(int x, int baseY, int heightInPixels) { //vai ser removido posteriormente
+void DrawInvisible(int x, int baseY, int heightInPixels) { 
     int InvisibleTileHeight = InvisibleTile.height;
     int blocks = heightInPixels / InvisibleTileHeight;  
     
@@ -105,7 +103,7 @@ void DrawInvisible(int x, int baseY, int heightInPixels) { //vai ser removido po
 
 void CreateInvisibleComColisao(int x, int baseY, int altura) {
     if (InvisibleTile.id != 0) {
-    DrawInvisible(x, baseY, altura);
+        DrawInvisible(x, baseY, altura);
     }
 
     if (InvisibleCount < MAX_INVISIBLE) {

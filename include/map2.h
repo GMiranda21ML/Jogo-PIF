@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "chave.h"
 
-#define MAP2_PLATFORM_COUNT 10  // ajuste conforme seu mapa
+#define MAP2_PLATFORM_COUNT 10
 
 void InitMap2(void);
 void DrawMap2(void);

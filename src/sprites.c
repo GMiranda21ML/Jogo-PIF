@@ -150,7 +150,11 @@ EnemySprites LoadEnemysSprites(const char *jsonPath) {
     }
 
     cJSON *fc = cJSON_GetObjectItem(root, "frame_change");
-    sprites.frame_change = fc ? (float)fc->valuedouble : 0.15f;
+    if (fc) {
+        sprites.frame_change = (float)fc->valuedouble;
+    } else {
+        sprites.frame_change = 0.15f;
+    }    
 
     cJSON_Delete(root);
     free(data);

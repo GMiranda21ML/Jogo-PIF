@@ -17,7 +17,7 @@ void InitMap1() {
     Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundCastle.png");;
     LoadSpikeTexture();
 
-    SetWallTile(wallTile); // novo: informa o maps.c sobre a textura da parede
+    SetWallTile(wallTile);
     SetFloorTile(floorTile);
 
 }
