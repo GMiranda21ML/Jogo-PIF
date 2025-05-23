@@ -24,7 +24,7 @@ void InitPlayer(Player *player) {
     player->isOnGround = false;
     player->playerHitTimer = 0.0f;
     player->playerHealth = 150;
-    player->PossuiKey = true;
+    player->PossuiKey = false;
 
     InitPlayerLevels(&player->level);
     player->sprites = LoadPlayerSprites(player->level.currentLevel->spritePath);

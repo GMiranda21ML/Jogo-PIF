@@ -21,7 +21,7 @@ void InitMap2() {
     Texture2D wallTile = LoadTexture("assets/sprites/map/wall/wallPorao.png");
     Texture2D floorTile = LoadTexture("assets/sprites/map/ground/groundPorao.png");
     chaveTextura = LoadTexture("assets/objetos/chave.png");
-    InitChave(&chaveMap2, (Vector2){1700, 350}, chaveTextura);
+    InitChave(&chaveMap2, (Vector2){1950, 80}, chaveTextura);
 
     SetWallTile(wallTile);
     SetFloorTile(floorTile);
