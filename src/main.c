@@ -297,10 +297,6 @@ int main() {
                     InitEnemy(&enemies[3], (Vector2){1930, 500}, 1.0f, 10, 5, 70);
                     enemies[3].sprites = LoadEnemySprites("assets/sprites/enemy/skeleton_green/skeleton_green.json");
 
-                    Rectangle* mapOriginalPlats = GetMapOriginalPlatforms();
-                    platformcount = GetMapOriginalPlatformCount();
-                    for (int i = 0; i < platformcount; i++) platforms[i] = mapOriginalPlats[i];
-                    for (int i = platformcount; i < 10; i++) platforms[i] = (Rectangle){0, 0, 0, 0};
                     ground = GetMapOriginalGround();
 
                     mapOriginalLoaded = true;
