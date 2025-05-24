@@ -8,7 +8,7 @@ static Texture2D groundTexture;
 void InitMapOriginal(void) {
     ground = (Rectangle){0, 550, 2000, 500};
 
-    groundTexture = LoadTexture("assets/sprites/map/ground/ground1.png");
+    groundTexture = LoadTexture("assets/sprites/map/ground/ground2.png");
 
 }
 void DrawMapOriginal(void) {
