@@ -65,7 +65,7 @@ Caso ocorra algum problema, consulte a documentação da Raylib para Linux: [Ray
 
 A tela de menu oferece as seguintes opções:
 
-![Menu Principal]()
+![Menu](assets\img\menujogo.png)
 
 - 🟡 **Jogar**: Inicia o jogo.
 - ⌨️ **Teclas**: Mostra os comandos e controles.
@@ -90,6 +90,7 @@ A tela de menu oferece as seguintes opções:
 
 ## 🎬 Vídeo demostrativo
 
+[![Assista ao vídeo no YouTube](https://img.youtube.com/vi/CFFP_qnYuyY/maxresdefault.jpg)](https://youtu.be/CFFP_qnYuyY)
 
 ## 🗺️ Estrutura dos Mapas e Progressão
 
@@ -142,6 +143,7 @@ A tela de menu oferece as seguintes opções:
 
 ## 📊 Slides de apresentação
 
+[Veja os slides no Canva.](https://www.canva.com/design/DAGoTto-qis/6Rn61_Hm-M_6Z0kySZ2rDg/view?utm_content=DAGoTto-qis&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 
 ## 👥 Equipe de Desenvolvimento
