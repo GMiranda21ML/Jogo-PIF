@@ -28,7 +28,14 @@ void UpdateEnemy(Enemy *enemy, Vector2 playerPos, float dt, EnemySprites enemySp
     bool alignedVertically = fabsf(enemy->position.y - playerPos.y) < LINE_ALIGNMENT_TOLERANCE;
 
     if (detected && alignedVertically) {
-        float sign = playerPos.x - enemy->position.x < 0 ? -1 : 1;
+        float sign;
+
+        if (playerPos.x - enemy->position.x < 0) {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
+
         enemy->velocity.x = sign * enemy->walkVelocity;
         enemy->facing = sign;
         enemy->attacking = tooClose;
@@ -176,7 +183,14 @@ Rectangle GetEnemyRect(Enemy *enemy, Texture2D texture) {
 
 void DrawEnemy(Enemy *enemy, Texture2D texture) {
     if (!enemy->alive) return;
-    Color tint = (enemy->hitTimer > 0) ? RED : WHITE;
+    Color tint;
+
+    if (enemy->hitTimer > 0) {
+        tint = RED;
+    } else {
+        tint = WHITE;
+    }
+
     DrawTexture(texture, (int)enemy->position.x, (int)enemy->position.y, tint);
 }
 

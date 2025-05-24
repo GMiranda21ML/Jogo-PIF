@@ -32,9 +32,21 @@ void InitPlayer(Player *player) {
 }
 
 Rectangle GetPlayerRect(Player *player) {
-    Texture2D current = player->attacking ?
-        ((player->attackFacing == 1) ? player->sprites.attack_right.frames[player->frame] : player->sprites.attack_left.frames[player->frame]) :
-        ((player->facing == 1) ? player->sprites.walk_right.frames[player->frame] : player->sprites.walk_left.frames[player->frame]);
+    Texture2D current;
+
+    if (player->attacking) {
+        if (player->attackFacing == 1) {
+            current = player->sprites.attack_right.frames[player->frame];
+        } else {
+            current = player->sprites.attack_left.frames[player->frame];
+        }
+    } else {
+        if (player->facing == 1) {
+            current = player->sprites.walk_right.frames[player->frame];
+        } else {
+            current = player->sprites.walk_left.frames[player->frame];
+        }
+    }    
 
     return (Rectangle){player->position.x, player->position.y, (float)current.width, (float)current.height};
 }
@@ -93,11 +105,14 @@ void UpdatePlayer(Player *player, float dt, Rectangle *platforms, int platformCo
     Rectangle playerRecWall = GetPlayerRectWall(player);
     for (int i = 0; i < count; i++) {
         if (CheckCollisionRecs(playerRecWall, wallsArray[i])) {
-            if (IsKeyDown(KEY_D)) player->position.x -= player->speed * dt;
-            else if (IsKeyDown(KEY_A)) player->position.x += player->speed * dt;
+            if (IsKeyDown(KEY_D)) {
+                player->position.x -= player->speed * dt;
+            } else if (IsKeyDown(KEY_A)) {
+                player->position.x += player->speed * dt;
+            }
             break;
         }
-    }
+    }    
 
 
     if (player->position.x < 0) player->position.x = 0;

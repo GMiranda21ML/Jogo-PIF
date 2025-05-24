@@ -44,18 +44,34 @@ void CreateSpike(int xInicio, int yInicio, int xFim, int yFim) {
     int spikeHeight = spikeTexture.height;
 
     if (dx != 0) {
-        int step = (dx > 0) ? spikeWidth : -spikeWidth;
-        for (int x = xInicio; (step > 0) ? (x <= xFim) : (x >= xFim); x += step) {
+        int step;
+        if (dx > 0) {
+            step = spikeWidth;
+        } else {
+            step = -spikeWidth;
+        }
+    
+        for (int x = xInicio; ; x += step) {
+            if ((step > 0 && x > xFim) || (step < 0 && x < xFim)) break;
             if (spikeCount >= MAX_SPIKES) break;
+    
             spikes[spikeCount++] = (Spike){
                 .hitbox = { x, yInicio, spikeWidth, spikeHeight },
                 .texture = spikeTexture
             };
         }
     } else if (dy != 0) {
-        int step = (dy > 0) ? spikeHeight : -spikeHeight;
-        for (int y = yInicio; (step > 0) ? (y <= yFim) : (y >= yFim); y += step) {
+        int step;
+        if (dy > 0) {
+            step = spikeHeight;
+        } else {
+            step = -spikeHeight;
+        }
+    
+        for (int y = yInicio; ; y += step) {
+            if ((step > 0 && y > yFim) || (step < 0 && y < yFim)) break;
             if (spikeCount >= MAX_SPIKES) break;
+    
             spikes[spikeCount++] = (Spike){
                 .hitbox = { xInicio, y, spikeWidth, spikeHeight },
                 .texture = spikeTexture
@@ -69,6 +85,7 @@ void CreateSpike(int xInicio, int yInicio, int xFim, int yFim) {
             };
         }
     }
+    
 }
 
 void DrawSpikes() {
