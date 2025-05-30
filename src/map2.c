@@ -64,7 +64,7 @@ void DrawMap2() {
     CreateWallComColisao(1150, 200, 200);
     CreateWallComColisao(820, 100, 100);
     
-    CreateFloorComColisao(850 , 1183,200 ,10);
+    CreateFloorComColisao(820 , 1183,200 ,10);
     CreateFloorComColisao(0 , 850,0 ,10);
     
     CreateWallComColisao(0, 550, 550);
