@@ -59,10 +59,10 @@ void DrawMap2() {
     CreateInvisibleComColisao(1680, 100, 100);
     CreateInvisibleComColisao(1150, 200, 200);
 
-    CreateFloorComColisao(850 , 882,100 ,10);
+    CreateFloorComColisao(820 , 850,100 ,10);
     
     CreateWallComColisao(1150, 200, 200);
-    CreateWallComColisao(850, 100, 100);
+    CreateWallComColisao(820, 100, 100);
     
     CreateFloorComColisao(850 , 1183,200 ,10);
     CreateFloorComColisao(0 , 850,0 ,10);
